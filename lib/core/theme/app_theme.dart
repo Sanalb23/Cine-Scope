@@ -1,7 +1,10 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract final class AppTheme {
+  static TextTheme textTheme = GoogleFonts.robotoTextTheme();
+
   static ThemeData light = FlexThemeData.light(
     scheme: FlexScheme.deepBlue,
     subThemesData: const FlexSubThemesData(
@@ -14,6 +17,7 @@ abstract final class AppTheme {
       navigationRailUseIndicator: true,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    textTheme: textTheme,
   );
 
   static ThemeData dark = FlexThemeData.dark(
@@ -31,5 +35,6 @@ abstract final class AppTheme {
       cardBackgroundSchemeColor: .secondaryContainer,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    textTheme: textTheme,
   );
 }

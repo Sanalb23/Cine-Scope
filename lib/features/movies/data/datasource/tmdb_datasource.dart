@@ -1,16 +1,13 @@
 import 'dart:convert';
-
 import 'package:cine_scope/features/movies/data/datasource/movie_datasource.dart';
 import 'package:cine_scope/features/movies/data/models/movie_model.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class TmdbDatasource implements MovieDatasource {
   final http.Client httpClient;
+  final String apiKey;
 
-  TmdbDatasource({required this.httpClient});
-
-  final String apiKey = dotenv.env['TMDB_API_KEY']!;
+  TmdbDatasource({required this.httpClient, required this.apiKey});
 
   final String baseUrl = 'https://api.themoviedb.org/3';
 

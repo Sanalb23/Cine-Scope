@@ -1,14 +1,16 @@
 import 'dart:convert';
 
+import 'package:cine_scope/features/movies/data/datasource/movie_datasource.dart';
 import 'package:cine_scope/features/movies/data/models/movie_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-class TmdbDatasource {
+class TmdbDatasource implements MovieDatasource {
   final String apiKey = dotenv.env['TMDB_API_KEY']!;
 
   final String baseUrl = 'https://api.themoviedb.org/3';
 
+  @override
   Future<List<MovieModel>> getPopularMovies() async {
     final response = await http.get(
       Uri.parse('$baseUrl/movie/popular?api_key=$apiKey'),
@@ -23,6 +25,7 @@ class TmdbDatasource {
     }
   }
 
+  @override
   Future<List<MovieModel>> getTopRatedMovies() async {
     final response = await http.get(
       Uri.parse('$baseUrl/movie/top_rated?api_key=$apiKey'),
@@ -37,6 +40,7 @@ class TmdbDatasource {
     }
   }
 
+  @override
   Future<List<MovieModel>> searchMovie({required String query}) async {
     final response = await http.get(
       Uri.parse('$baseUrl/search/movie?api_key=$apiKey&query=$query'),
@@ -51,6 +55,7 @@ class TmdbDatasource {
     }
   }
 
+  @override
   Future<MovieModel> getMovieById({required int id}) async {
     final response = await http.get(
       Uri.parse('$baseUrl/movie/$id?api_key=$apiKey'),
@@ -63,6 +68,7 @@ class TmdbDatasource {
     }
   }
 
+  @override
   Future<List<MovieModel>> getSimilarMovies({required int id}) async {
     final response = await http.get(
       Uri.parse('$baseUrl/movie/$id/similar?api_key=$apiKey'),

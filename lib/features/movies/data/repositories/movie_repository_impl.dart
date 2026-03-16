@@ -1,9 +1,9 @@
-import 'package:cine_scope/features/movies/data/datasource/tmdb_datasource.dart';
+import 'package:cine_scope/features/movies/data/datasource/movie_datasource.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_entity.dart';
 import 'package:cine_scope/features/movies/domain/repositories/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
-  final TmdbDatasource datasource;
+  final MovieDatasource datasource;
 
   MovieRepositoryImpl({required this.datasource});
 

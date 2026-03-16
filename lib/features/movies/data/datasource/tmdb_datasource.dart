@@ -6,13 +6,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class TmdbDatasource implements MovieDatasource {
+  final http.Client httpClient;
+
+  TmdbDatasource({required this.httpClient});
+
   final String apiKey = dotenv.env['TMDB_API_KEY']!;
 
   final String baseUrl = 'https://api.themoviedb.org/3';
 
   @override
   Future<List<MovieModel>> getPopularMovies() async {
-    final response = await http.get(
+    final response = await httpClient.get(
       Uri.parse('$baseUrl/movie/popular?api_key=$apiKey'),
     );
     if (response.statusCode == 200) {
@@ -27,7 +31,7 @@ class TmdbDatasource implements MovieDatasource {
 
   @override
   Future<List<MovieModel>> getTopRatedMovies() async {
-    final response = await http.get(
+    final response = await httpClient.get(
       Uri.parse('$baseUrl/movie/top_rated?api_key=$apiKey'),
     );
     if (response.statusCode == 200) {
@@ -42,7 +46,7 @@ class TmdbDatasource implements MovieDatasource {
 
   @override
   Future<List<MovieModel>> searchMovie({required String query}) async {
-    final response = await http.get(
+    final response = await httpClient.get(
       Uri.parse('$baseUrl/search/movie?api_key=$apiKey&query=$query'),
     );
     if (response.statusCode == 200) {
@@ -57,7 +61,7 @@ class TmdbDatasource implements MovieDatasource {
 
   @override
   Future<MovieModel> getMovieById({required int id}) async {
-    final response = await http.get(
+    final response = await httpClient.get(
       Uri.parse('$baseUrl/movie/$id?api_key=$apiKey'),
     );
     if (response.statusCode == 200) {
@@ -70,7 +74,7 @@ class TmdbDatasource implements MovieDatasource {
 
   @override
   Future<List<MovieModel>> getSimilarMovies({required int id}) async {
-    final response = await http.get(
+    final response = await httpClient.get(
       Uri.parse('$baseUrl/movie/$id/similar?api_key=$apiKey'),
     );
     if (response.statusCode == 200) {

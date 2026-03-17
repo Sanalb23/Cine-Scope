@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cine_scope/features/movies/data/datasource/movie_datasource.dart';
 import 'package:cine_scope/features/movies/data/models/movie_model.dart';
+import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 import 'package:http/http.dart' as http;
 
 class TmdbDatasource implements MovieDatasource {
@@ -12,14 +13,14 @@ class TmdbDatasource implements MovieDatasource {
   final String baseUrl = 'https://api.themoviedb.org/3';
 
   @override
-  Future<List<MovieModel>> getPopularMovies({int page = 1}) async {
+  Future<List<MovieSummaryModel>> getPopularMovies({int page = 1}) async {
     final response = await httpClient.get(
       Uri.parse('$baseUrl/movie/popular?api_key=$apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       return (data['results'] as List)
-          .map((x) => MovieModel.fromJson(x))
+          .map((x) => MovieSummaryModel.fromJson(x))
           .toList();
     } else {
       throw Exception('Failed to load movies');
@@ -27,14 +28,14 @@ class TmdbDatasource implements MovieDatasource {
   }
 
   @override
-  Future<List<MovieModel>> getTopRatedMovies({int page = 1}) async {
+  Future<List<MovieSummaryModel>> getTopRatedMovies({int page = 1}) async {
     final response = await httpClient.get(
       Uri.parse('$baseUrl/movie/top_rated?api_key=$apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       return (data['results'] as List)
-          .map((x) => MovieModel.fromJson(x))
+          .map((x) => MovieSummaryModel.fromJson(x))
           .toList();
     } else {
       throw Exception('Failed to load movies');
@@ -42,7 +43,7 @@ class TmdbDatasource implements MovieDatasource {
   }
 
   @override
-  Future<List<MovieModel>> searchMovie({
+  Future<List<MovieSummaryModel>> searchMovie({
     required String query,
     int page = 1,
   }) async {
@@ -54,7 +55,7 @@ class TmdbDatasource implements MovieDatasource {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       return (data['results'] as List)
-          .map((x) => MovieModel.fromJson(x))
+          .map((x) => MovieSummaryModel.fromJson(x))
           .toList();
     } else {
       throw Exception('Failed to load movies');
@@ -75,7 +76,7 @@ class TmdbDatasource implements MovieDatasource {
   }
 
   @override
-  Future<List<MovieModel>> getSimilarMovies({
+  Future<List<MovieSummaryModel>> getSimilarMovies({
     required int id,
     int page = 1,
   }) async {
@@ -85,7 +86,7 @@ class TmdbDatasource implements MovieDatasource {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       return (data['results'] as List)
-          .map((x) => MovieModel.fromJson(x))
+          .map((x) => MovieSummaryModel.fromJson(x))
           .toList();
     } else {
       throw Exception('Failed to load movies');

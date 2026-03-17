@@ -1,9 +1,10 @@
-import 'package:cine_scope/features/movies/domain/entities/movie_entity.dart';
+import 'package:cine_scope/features/movies/domain/entities/movie.dart';
+import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 
 abstract class MovieRepository {
-  Future<List<Movie>> getPopularMovies({int page = 1});
-  Future<List<Movie>> getTopRatedMovies({int page = 1});
-  Future<List<Movie>> searchMovie({required String query, int page = 1});
+  Future<List<MovieSummary>> getPopularMovies({int page = 1});
+  Future<List<MovieSummary>> getTopRatedMovies({int page = 1});
+  Future<List<MovieSummary>> searchMovie({required String query, int page = 1});
   Future<Movie> getMovieById({required int id});
-  Future<List<Movie>> getSimilarMovies({required int id, int page = 1});
+  Future<List<MovieSummary>> getSimilarMovies({required int id, int page = 1});
 }

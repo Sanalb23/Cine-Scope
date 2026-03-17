@@ -39,7 +39,7 @@ class MovieModel {
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
       releaseDate: json['release_date'],
-      genreIds: json['genre_ids'],
+      genreIds: List<int>.from(json['genre_ids']),
       originalLanguage: json['original_language'],
       popularity: json['popularity'],
       adult: json['adult'],

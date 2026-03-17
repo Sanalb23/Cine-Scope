@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:cine_scope/features/movies/data/datasource/movie_datasource.dart';
+import 'package:cine_scope/features/movies/data/datasource/movie_remote_datasource.dart';
 import 'package:cine_scope/features/movies/data/models/movie_model.dart';
 import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 import 'package:http/http.dart' as http;
 
-class TmdbDatasource implements MovieDatasource {
+class TmdbDatasource implements MovieRemoteDatasource {
   final http.Client httpClient;
   final String apiKey;
 

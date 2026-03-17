@@ -8,20 +8,23 @@ class MovieRepositoryImpl implements MovieRepository {
   MovieRepositoryImpl({required this.datasource});
 
   @override
-  Future<List<MovieEntity>> getPopularMovies() async {
-    final movies = await datasource.getPopularMovies();
+  Future<List<MovieEntity>> getPopularMovies({int page = 1}) async {
+    final movies = await datasource.getPopularMovies(page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieEntity>> getTopRatedMovies() async {
-    final movies = await datasource.getTopRatedMovies();
+  Future<List<MovieEntity>> getTopRatedMovies({int page = 1}) async {
+    final movies = await datasource.getTopRatedMovies(page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieEntity>> searchMovie({required String query}) async {
-    final movies = await datasource.searchMovie(query: query);
+  Future<List<MovieEntity>> searchMovie({
+    required String query,
+    int page = 1,
+  }) async {
+    final movies = await datasource.searchMovie(query: query, page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
@@ -32,8 +35,11 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieEntity>> getSimilarMovies({required int id}) async {
-    final movies = await datasource.getSimilarMovies(id: id);
+  Future<List<MovieEntity>> getSimilarMovies({
+    required int id,
+    int page = 1,
+  }) async {
+    final movies = await datasource.getSimilarMovies(id: id, page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 }

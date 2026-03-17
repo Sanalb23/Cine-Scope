@@ -12,9 +12,9 @@ class TmdbDatasource implements MovieDatasource {
   final String baseUrl = 'https://api.themoviedb.org/3';
 
   @override
-  Future<List<MovieModel>> getPopularMovies() async {
+  Future<List<MovieModel>> getPopularMovies({int page = 1}) async {
     final response = await httpClient.get(
-      Uri.parse('$baseUrl/movie/popular?api_key=$apiKey'),
+      Uri.parse('$baseUrl/movie/popular?api_key=$apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -27,9 +27,9 @@ class TmdbDatasource implements MovieDatasource {
   }
 
   @override
-  Future<List<MovieModel>> getTopRatedMovies() async {
+  Future<List<MovieModel>> getTopRatedMovies({int page = 1}) async {
     final response = await httpClient.get(
-      Uri.parse('$baseUrl/movie/top_rated?api_key=$apiKey'),
+      Uri.parse('$baseUrl/movie/top_rated?api_key=$apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -42,9 +42,14 @@ class TmdbDatasource implements MovieDatasource {
   }
 
   @override
-  Future<List<MovieModel>> searchMovie({required String query}) async {
+  Future<List<MovieModel>> searchMovie({
+    required String query,
+    int page = 1,
+  }) async {
     final response = await httpClient.get(
-      Uri.parse('$baseUrl/search/movie?api_key=$apiKey&query=$query'),
+      Uri.parse(
+        '$baseUrl/search/movie?api_key=$apiKey&query=$query&page=$page',
+      ),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -70,9 +75,12 @@ class TmdbDatasource implements MovieDatasource {
   }
 
   @override
-  Future<List<MovieModel>> getSimilarMovies({required int id}) async {
+  Future<List<MovieModel>> getSimilarMovies({
+    required int id,
+    int page = 1,
+  }) async {
     final response = await httpClient.get(
-      Uri.parse('$baseUrl/movie/$id/similar?api_key=$apiKey'),
+      Uri.parse('$baseUrl/movie/$id/similar?api_key=$apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);

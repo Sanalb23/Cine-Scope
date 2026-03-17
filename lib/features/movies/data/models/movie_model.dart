@@ -9,7 +9,7 @@ class MovieModel {
   final double voteAverage;
   final int voteCount;
   final String releaseDate;
-  final List<int> genreIds;
+  final List<(int, String)> genres;
   final String originalLanguage;
   final double popularity;
   final bool adult;
@@ -23,7 +23,7 @@ class MovieModel {
     required this.voteAverage,
     required this.voteCount,
     required this.releaseDate,
-    required this.genreIds,
+    required this.genres,
     required this.originalLanguage,
     required this.popularity,
     required this.adult,
@@ -39,7 +39,9 @@ class MovieModel {
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
       releaseDate: json['release_date'],
-      genreIds: List<int>.from(json['genre_ids']),
+      genres: List<(int, String)>.from(
+        json['genres'].map((x) => (x['id'], x['name'])),
+      ),
       originalLanguage: json['original_language'],
       popularity: json['popularity'],
       adult: json['adult'],
@@ -56,7 +58,7 @@ class MovieModel {
       voteAverage: entity.voteAverage,
       voteCount: entity.voteCount,
       releaseDate: entity.releaseDate,
-      genreIds: entity.genreIds,
+      genres: entity.genres,
       originalLanguage: entity.originalLanguage,
       popularity: entity.popularity,
       adult: entity.adult,
@@ -73,7 +75,7 @@ class MovieModel {
       voteAverage: voteAverage,
       voteCount: voteCount,
       releaseDate: releaseDate.isEmpty ? 'No release date' : releaseDate,
-      genreIds: genreIds,
+      genres: genres,
       originalLanguage: originalLanguage,
       popularity: popularity,
       adult: adult,

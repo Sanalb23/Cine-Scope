@@ -1,4 +1,4 @@
-import 'package:cine_scope/features/movies/domain/entities/movie_entity.dart';
+import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 
 class MovieModel {
   final int id;
@@ -48,7 +48,7 @@ class MovieModel {
     );
   }
 
-  factory MovieModel.fromDomain(MovieEntity entity) {
+  factory MovieModel.fromDomain(Movie entity) {
     return MovieModel(
       id: entity.id,
       title: entity.title,
@@ -65,8 +65,8 @@ class MovieModel {
     );
   }
 
-  MovieEntity toDomain() {
-    return MovieEntity(
+  Movie toDomain() {
+    return Movie(
       id: id,
       title: title,
       overview: overview.isEmpty ? 'No overview' : overview,

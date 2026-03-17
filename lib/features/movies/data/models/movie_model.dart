@@ -48,23 +48,6 @@ class MovieModel {
     );
   }
 
-  factory MovieModel.fromDomain(Movie entity) {
-    return MovieModel(
-      id: entity.id,
-      title: entity.title,
-      overview: entity.overview,
-      posterPath: entity.posterPath,
-      backdropPath: entity.backdropPath,
-      voteAverage: entity.voteAverage,
-      voteCount: entity.voteCount,
-      releaseDate: entity.releaseDate,
-      genres: entity.genres,
-      originalLanguage: entity.originalLanguage,
-      popularity: entity.popularity,
-      adult: entity.adult,
-    );
-  }
-
   Movie toDomain() {
     return Movie(
       id: id,

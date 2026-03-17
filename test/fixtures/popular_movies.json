@@ -1,0 +1,38 @@
+{
+    "results": [
+        {
+            "id": 1,
+            "title": "Movie 1",
+            "overview": "This is a test overview for movie 1.",
+            "poster_path": "/poster1.jpg",
+            "backdrop_path": "/backdrop1.jpg",
+            "vote_average": 7.5,
+            "vote_count": 120,
+            "release_date": "2026-01-01",
+            "genre_ids": [
+                28,
+                12
+            ],
+            "original_language": "en",
+            "popularity": 150.3,
+            "adult": false
+        },
+        {
+            "id": 2,
+            "title": "Movie 2",
+            "overview": "This is a test overview for movie 2.",
+            "poster_path": "/poster2.jpg",
+            "backdrop_path": "/backdrop2.jpg",
+            "vote_average": 6.8,
+            "vote_count": 85,
+            "release_date": "2025-12-15",
+            "genre_ids": [
+                18,
+                53
+            ],
+            "original_language": "en",
+            "popularity": 98.7,
+            "adult": false
+        }
+    ]
+}

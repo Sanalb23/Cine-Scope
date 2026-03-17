@@ -1,0 +1,76 @@
+import 'dart:io';
+import 'package:cine_scope/features/movies/data/datasource/tmdb_datasource.dart';
+import 'package:cine_scope/features/movies/data/models/movie_model.dart';
+import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:mocktail/mocktail.dart';
+
+class MockHttpClient extends Mock implements http.Client {}
+
+String fixture(String name) =>
+    File('test/fixtures/$name.json').readAsStringSync();
+
+void main() {
+  late MockHttpClient mockHttpClient;
+  late TmdbDatasource tmdbDatasource;
+
+  setUpAll(() {
+    registerFallbackValue(Uri());
+  });
+
+  setUp(() {
+    mockHttpClient = MockHttpClient();
+    tmdbDatasource = TmdbDatasource(
+      httpClient: mockHttpClient,
+      apiKey: 'fake_api_key',
+    );
+  });
+
+  group('movie list tests', () {
+    test('should return a list of movies when status code is 200', () async {
+      final fakeResponse = fixture('popular_movies');
+
+      when(
+        () => mockHttpClient.get(any()),
+      ).thenAnswer((_) async => http.Response(fakeResponse, 200));
+
+      final result = await tmdbDatasource.getPopularMovies();
+
+      expect(result, isA<List<MovieSummaryModel>>());
+      expect(result.length, 2);
+    });
+
+    test('should return exception when status code is not 200', () async {
+      when(
+        () => mockHttpClient.get(any()),
+      ).thenAnswer((_) async => http.Response('error', 400));
+
+      expect(() => tmdbDatasource.getPopularMovies(), throwsException);
+    });
+  });
+
+  group('movie details tests', () {
+    test('should return a movie when status code is 200', () async {
+      final fakeResponse = fixture('movie_details');
+
+      when(
+        () => mockHttpClient.get(any()),
+      ).thenAnswer((_) async => http.Response(fakeResponse, 200));
+
+      final result = await tmdbDatasource.getMovieById(id: 550);
+
+      expect(result, isA<MovieModel>());
+      expect(result.id, 550);
+      expect(result.title, 'Fight Club');
+    });
+
+    test('should return exception when status code is not 200', () async {
+      when(
+        () => mockHttpClient.get(any()),
+      ).thenAnswer((_) async => http.Response('error', 400));
+
+      expect(() => tmdbDatasource.getMovieById(id: 550), throwsException);
+    });
+  });
+}

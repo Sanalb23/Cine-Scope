@@ -4,11 +4,11 @@ import 'package:cine_scope/features/movies/data/models/movie_model.dart';
 import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 import 'package:http/http.dart' as http;
 
-class TmdbDatasource implements MovieRemoteDatasource {
+class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   final http.Client httpClient;
   final String apiKey;
 
-  TmdbDatasource({required this.httpClient, required this.apiKey});
+  MovieRemoteDatasourceImpl({required this.httpClient, required this.apiKey});
 
   final String baseUrl = 'https://api.themoviedb.org/3';
 

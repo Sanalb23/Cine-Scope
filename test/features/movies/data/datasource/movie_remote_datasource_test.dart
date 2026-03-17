@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:cine_scope/features/movies/data/datasource/tmdb_datasource.dart';
+import 'package:cine_scope/features/movies/data/datasource/movie_remote_datasource_impl.dart';
 import 'package:cine_scope/features/movies/data/models/movie_model.dart';
 import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +13,7 @@ String fixture(String name) =>
 
 void main() {
   late MockHttpClient mockHttpClient;
-  late TmdbDatasource tmdbDatasource;
+  late MovieRemoteDatasourceImpl movieRemoteDatasource;
 
   setUpAll(() {
     registerFallbackValue(Uri());
@@ -21,7 +21,7 @@ void main() {
 
   setUp(() {
     mockHttpClient = MockHttpClient();
-    tmdbDatasource = TmdbDatasource(
+    movieRemoteDatasource = MovieRemoteDatasourceImpl(
       httpClient: mockHttpClient,
       apiKey: 'fake_api_key',
     );
@@ -35,7 +35,7 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response(fakeResponse, 200));
 
-      final result = await tmdbDatasource.getPopularMovies();
+      final result = await movieRemoteDatasource.getPopularMovies();
 
       expect(result, isA<List<MovieSummaryModel>>());
       expect(result.length, 2);
@@ -46,7 +46,7 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response('error', 400));
 
-      expect(() => tmdbDatasource.getPopularMovies(), throwsException);
+      expect(() => movieRemoteDatasource.getPopularMovies(), throwsException);
     });
   });
 
@@ -58,7 +58,7 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response(fakeResponse, 200));
 
-      final result = await tmdbDatasource.getMovieById(id: 550);
+      final result = await movieRemoteDatasource.getMovieById(id: 550);
 
       expect(result, isA<MovieModel>());
       expect(result.id, 550);
@@ -70,7 +70,10 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response('error', 400));
 
-      expect(() => tmdbDatasource.getMovieById(id: 550), throwsException);
+      expect(
+        () => movieRemoteDatasource.getMovieById(id: 550),
+        throwsException,
+      );
     });
   });
 }

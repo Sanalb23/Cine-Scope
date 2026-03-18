@@ -41,8 +41,8 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<Movie> getMovieById({required int id}) async {
-    final movie = await _remoteDatasource.getMovieById(id: id);
-    return movie.toDomain();
+    return _localDatasource.getMovieById(id: id)?.toDomain() ??
+        await _remoteDatasource.getMovieById(id: id).then((x) => x.toDomain());
   }
 
   @override

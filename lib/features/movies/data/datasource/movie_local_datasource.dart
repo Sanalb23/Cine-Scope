@@ -10,4 +10,6 @@ abstract class MovieLocalDatasource {
   Future<void> removeWatchLater(int id);
   bool isInWatchLater(int id);
   List<MovieLocalModel> getWatchLater();
+
+  MovieLocalModel? getMovieById({required int id});
 }

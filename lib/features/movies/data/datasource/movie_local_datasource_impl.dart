@@ -51,4 +51,9 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   List<MovieLocalModel> getWatchLater() {
     return _watchLaterBox.values.toList();
   }
+
+  @override
+  MovieLocalModel? getMovieById({required int id}) {
+    return _favoritesBox.get(id) ?? _watchLaterBox.get(id);
+  }
 }

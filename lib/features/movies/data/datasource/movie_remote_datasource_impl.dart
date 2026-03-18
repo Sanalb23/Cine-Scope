@@ -5,17 +5,21 @@ import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart'
 import 'package:http/http.dart' as http;
 
 class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
-  final http.Client httpClient;
-  final String apiKey;
+  final http.Client _httpClient;
+  final String _apiKey;
 
-  MovieRemoteDatasourceImpl({required this.httpClient, required this.apiKey});
+  MovieRemoteDatasourceImpl({
+    required http.Client httpClient,
+    required String apiKey,
+  }) : _httpClient = httpClient,
+       _apiKey = apiKey;
 
-  final String baseUrl = 'https://api.themoviedb.org/3';
+  final String _baseUrl = 'https://api.themoviedb.org/3';
 
   @override
   Future<List<MovieSummaryModel>> getPopularMovies({int page = 1}) async {
-    final response = await httpClient.get(
-      Uri.parse('$baseUrl/movie/popular?api_key=$apiKey&page=$page'),
+    final response = await _httpClient.get(
+      Uri.parse('$_baseUrl/movie/popular?api_key=$_apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -29,8 +33,8 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
 
   @override
   Future<List<MovieSummaryModel>> getTopRatedMovies({int page = 1}) async {
-    final response = await httpClient.get(
-      Uri.parse('$baseUrl/movie/top_rated?api_key=$apiKey&page=$page'),
+    final response = await _httpClient.get(
+      Uri.parse('$_baseUrl/movie/top_rated?api_key=$_apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -47,9 +51,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     required String query,
     int page = 1,
   }) async {
-    final response = await httpClient.get(
+    final response = await _httpClient.get(
       Uri.parse(
-        '$baseUrl/search/movie?api_key=$apiKey&query=$query&page=$page',
+        '$_baseUrl/search/movie?api_key=$_apiKey&query=$query&page=$page',
       ),
     );
     if (response.statusCode == 200) {
@@ -64,8 +68,8 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
 
   @override
   Future<MovieModel> getMovieById({required int id}) async {
-    final response = await httpClient.get(
-      Uri.parse('$baseUrl/movie/$id?api_key=$apiKey'),
+    final response = await _httpClient.get(
+      Uri.parse('$_baseUrl/movie/$id?api_key=$_apiKey'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -80,8 +84,8 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     required int id,
     int page = 1,
   }) async {
-    final response = await httpClient.get(
-      Uri.parse('$baseUrl/movie/$id/similar?api_key=$apiKey&page=$page'),
+    final response = await _httpClient.get(
+      Uri.parse('$_baseUrl/movie/$id/similar?api_key=$_apiKey&page=$page'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);

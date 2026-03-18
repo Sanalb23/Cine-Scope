@@ -65,11 +65,6 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  bool isFavorite(int id) {
-    return _localDatasource.isFavorite(id);
-  }
-
-  @override
   List<Movie> getFavorites() {
     return _localDatasource.getFavorites().map((x) => x.toDomain()).toList();
   }
@@ -82,11 +77,6 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<void> removeWatchLater(int id) async {
     await _localDatasource.removeWatchLater(id);
-  }
-
-  @override
-  bool isInWatchLater(int id) {
-    return _localDatasource.isInWatchLater(id);
   }
 
   @override

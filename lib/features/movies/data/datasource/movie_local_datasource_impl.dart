@@ -23,11 +23,6 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   }
 
   @override
-  bool isFavorite(int id) {
-    return _favoritesBox.containsKey(id);
-  }
-
-  @override
   List<MovieLocalModel> getFavorites() {
     return _favoritesBox.values.toList();
   }
@@ -40,11 +35,6 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   @override
   Future<void> removeWatchLater(int id) async {
     await _watchLaterBox.delete(id);
-  }
-
-  @override
-  bool isInWatchLater(int id) {
-    return _watchLaterBox.containsKey(id);
   }
 
   @override

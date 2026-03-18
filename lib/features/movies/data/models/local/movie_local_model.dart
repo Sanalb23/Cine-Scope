@@ -1,4 +1,5 @@
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
+import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:hive_flutter/adapters.dart';
 
 part 'movie_local_model.g.dart';
@@ -97,6 +98,18 @@ class MovieLocalModel extends HiveObject {
       adult: adult,
       isFavorite: isFavorite,
       isInWatchLater: isInWatchLater,
+    );
+  }
+
+  MovieSummary toMovieSummary() {
+    return MovieSummary(
+      id: id,
+      title: title,
+      posterPath: posterPath,
+      voteAverage: voteAverage,
+      releaseDate: releaseDate,
+      genreIds: genres.map((x) => x.$1).toList(),
+      adult: adult,
     );
   }
 }

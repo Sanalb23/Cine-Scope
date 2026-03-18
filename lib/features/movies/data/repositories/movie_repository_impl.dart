@@ -65,8 +65,11 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  List<Movie> getFavorites() {
-    return _localDatasource.getFavorites().map((x) => x.toDomain()).toList();
+  List<MovieSummary> getFavorites() {
+    return _localDatasource
+        .getFavorites()
+        .map((x) => x.toMovieSummary())
+        .toList();
   }
 
   @override
@@ -80,7 +83,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  List<Movie> getWatchLater() {
-    return _localDatasource.getWatchLater().map((x) => x.toDomain()).toList();
+  List<MovieSummary> getWatchLater() {
+    return _localDatasource
+        .getWatchLater()
+        .map((x) => x.toMovieSummary())
+        .toList();
   }
 }

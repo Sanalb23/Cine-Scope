@@ -1,0 +1,28 @@
+import 'package:cine_scope/features/movies/domain/entities/movie.dart';
+import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
+import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final favoriteMoviesProvider =
+    NotifierProvider<FavoriteMoviesNotifier, List<MovieSummary>>(() {
+      return FavoriteMoviesNotifier();
+    });
+
+class FavoriteMoviesNotifier extends Notifier<List<MovieSummary>> {
+  @override
+  List<MovieSummary> build() {
+    return ref.watch(movieRepositoryProvider).getFavorites();
+  }
+
+  void addFavorite(Movie movie) async {
+    await ref.read(movieRepositoryProvider).addFavorite(movie);
+
+    state = ref.read(movieRepositoryProvider).getFavorites();
+  }
+
+  void removeFavorite(MovieSummary movie) async {
+    await ref.read(movieRepositoryProvider).removeFavorite(movie.id);
+
+    state = ref.read(movieRepositoryProvider).getFavorites();
+  }
+}

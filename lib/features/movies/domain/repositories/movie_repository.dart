@@ -10,9 +10,9 @@ abstract class MovieRepository {
 
   Future<void> addFavorite(Movie movie);
   Future<void> removeFavorite(int id);
-  List<Movie> getFavorites();
+  List<MovieSummary> getFavorites();
 
   Future<void> addWatchLater(Movie movie);
   Future<void> removeWatchLater(int id);
-  List<Movie> getWatchLater();
+  List<MovieSummary> getWatchLater();
 }

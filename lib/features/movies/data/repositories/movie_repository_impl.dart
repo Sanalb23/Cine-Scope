@@ -6,23 +6,24 @@ import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/repositories/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
-  final MovieRemoteDatasource remoteDatasource;
-  final MovieLocalDatasource localDatasource;
+  final MovieRemoteDatasource _remoteDatasource;
+  final MovieLocalDatasource _localDatasource;
 
   MovieRepositoryImpl({
-    required this.remoteDatasource,
-    required this.localDatasource,
-  });
+    required MovieRemoteDatasource remoteDatasource,
+    required MovieLocalDatasource localDatasource,
+  }) : _remoteDatasource = remoteDatasource,
+       _localDatasource = localDatasource;
 
   @override
   Future<List<MovieSummary>> getPopularMovies({int page = 1}) async {
-    final movies = await remoteDatasource.getPopularMovies(page: page);
+    final movies = await _remoteDatasource.getPopularMovies(page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
   Future<List<MovieSummary>> getTopRatedMovies({int page = 1}) async {
-    final movies = await remoteDatasource.getTopRatedMovies(page: page);
+    final movies = await _remoteDatasource.getTopRatedMovies(page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
@@ -31,13 +32,16 @@ class MovieRepositoryImpl implements MovieRepository {
     required String query,
     int page = 1,
   }) async {
-    final movies = await remoteDatasource.searchMovie(query: query, page: page);
+    final movies = await _remoteDatasource.searchMovie(
+      query: query,
+      page: page,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
   Future<Movie> getMovieById({required int id}) async {
-    final movie = await remoteDatasource.getMovieById(id: id);
+    final movie = await _remoteDatasource.getMovieById(id: id);
     return movie.toDomain();
   }
 
@@ -46,47 +50,47 @@ class MovieRepositoryImpl implements MovieRepository {
     required int id,
     int page = 1,
   }) async {
-    final movies = await remoteDatasource.getSimilarMovies(id: id, page: page);
+    final movies = await _remoteDatasource.getSimilarMovies(id: id, page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
   Future<void> addFavorite(Movie movie) async {
-    await localDatasource.addFavorite(MovieLocalModel.fromDomain(movie));
+    await _localDatasource.addFavorite(MovieLocalModel.fromDomain(movie));
   }
 
   @override
   Future<void> removeFavorite(int id) async {
-    await localDatasource.removeFavorite(id);
+    await _localDatasource.removeFavorite(id);
   }
 
   @override
   bool isFavorite(int id) {
-    return localDatasource.isFavorite(id);
+    return _localDatasource.isFavorite(id);
   }
 
   @override
   List<Movie> getFavorites() {
-    return localDatasource.getFavorites().map((x) => x.toDomain()).toList();
+    return _localDatasource.getFavorites().map((x) => x.toDomain()).toList();
   }
 
   @override
   Future<void> addWatchLater(Movie movie) async {
-    await localDatasource.addWatchLater(MovieLocalModel.fromDomain(movie));
+    await _localDatasource.addWatchLater(MovieLocalModel.fromDomain(movie));
   }
 
   @override
   Future<void> removeWatchLater(int id) async {
-    await localDatasource.removeWatchLater(id);
+    await _localDatasource.removeWatchLater(id);
   }
 
   @override
   bool isInWatchLater(int id) {
-    return localDatasource.isInWatchLater(id);
+    return _localDatasource.isInWatchLater(id);
   }
 
   @override
   List<Movie> getWatchLater() {
-    return localDatasource.getWatchLater().map((x) => x.toDomain()).toList();
+    return _localDatasource.getWatchLater().map((x) => x.toDomain()).toList();
   }
 }

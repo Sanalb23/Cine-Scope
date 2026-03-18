@@ -1,5 +1,5 @@
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
-import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search/search_movies_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:cine_scope/features/movies/domain/repositories/movie_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +27,8 @@ void main() {
 
   group('search movies provider test', () {
     test('should return empty list when query is empty', () async {
-      final result = await container.read(searchMoviesProvider('').future);
+      await container.read(searchMoviesProvider.notifier).searchMovies('');
+      final result = await container.read(searchMoviesProvider.future);
 
       expect(result, isEmpty);
 
@@ -55,11 +56,13 @@ void main() {
       ).thenAnswer((_) async => expectedMovies);
 
       final subscription = container.listen(
-        searchMoviesProvider(query),
+        searchMoviesProvider,
         (previous, next) {},
       );
 
-      final result = await container.read(searchMoviesProvider(query).future);
+      await container.read(searchMoviesProvider.notifier).searchMovies(query);
+
+      final result = await container.read(searchMoviesProvider.future);
       expect(result, expectedMovies);
 
       verify(() => mockMovieRepository.searchMovie(query: query)).called(1);

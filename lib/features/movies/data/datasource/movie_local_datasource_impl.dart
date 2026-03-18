@@ -14,12 +14,20 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
 
   @override
   Future<void> addFavorite(MovieLocalModel movie) async {
-    await _favoritesBox.put(movie.id, movie);
+    try {
+      await _favoritesBox.put(movie.id, movie);
+    } catch (e) {
+      throw Exception('Error adding movie to favorites');
+    }
   }
 
   @override
   Future<void> removeFavorite(int id) async {
-    await _favoritesBox.delete(id);
+    try {
+      await _favoritesBox.delete(id);
+    } catch (e) {
+      throw Exception('Error removing movie from favorites');
+    }
   }
 
   @override
@@ -29,12 +37,20 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
 
   @override
   Future<void> addWatchLater(MovieLocalModel movie) async {
-    await _watchLaterBox.put(movie.id, movie);
+    try {
+      await _watchLaterBox.put(movie.id, movie);
+    } catch (e) {
+      throw Exception('Error adding movie to watch later');
+    }
   }
 
   @override
   Future<void> removeWatchLater(int id) async {
-    await _watchLaterBox.delete(id);
+    try {
+      await _watchLaterBox.delete(id);
+    } catch (e) {
+      throw Exception('Error removing movie from watch later');
+    }
   }
 
   @override

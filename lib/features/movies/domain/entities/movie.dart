@@ -11,8 +11,6 @@ class Movie {
   final String originalLanguage;
   final double popularity;
   final bool adult;
-  final bool isFavorite;
-  final bool isInWatchLater;
 
   Movie({
     required this.id,
@@ -27,7 +25,5 @@ class Movie {
     required this.originalLanguage,
     required this.popularity,
     required this.adult,
-    this.isFavorite = false,
-    this.isInWatchLater = false,
   });
 }

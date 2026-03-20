@@ -29,15 +29,13 @@ class MovieLocalModelAdapter extends TypeAdapter<MovieLocalModel> {
       originalLanguage: fields[9] as String,
       popularity: fields[10] as double,
       adult: fields[11] as bool,
-      isFavorite: fields[12] as bool,
-      isInWatchLater: fields[13] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, MovieLocalModel obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -61,11 +59,7 @@ class MovieLocalModelAdapter extends TypeAdapter<MovieLocalModel> {
       ..writeByte(10)
       ..write(obj.popularity)
       ..writeByte(11)
-      ..write(obj.adult)
-      ..writeByte(12)
-      ..write(obj.isFavorite)
-      ..writeByte(13)
-      ..write(obj.isInWatchLater);
+      ..write(obj.adult);
   }
 
   @override

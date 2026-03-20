@@ -42,12 +42,6 @@ class MovieLocalModel extends HiveObject {
   @HiveField(11)
   final bool adult;
 
-  @HiveField(12)
-  final bool isFavorite;
-
-  @HiveField(13)
-  final bool isInWatchLater;
-
   MovieLocalModel({
     required this.id,
     required this.title,
@@ -61,8 +55,6 @@ class MovieLocalModel extends HiveObject {
     required this.originalLanguage,
     required this.popularity,
     required this.adult,
-    this.isFavorite = false,
-    this.isInWatchLater = false,
   });
 
   factory MovieLocalModel.fromDomain(Movie movie) {
@@ -96,8 +88,6 @@ class MovieLocalModel extends HiveObject {
       originalLanguage: originalLanguage,
       popularity: popularity,
       adult: adult,
-      isFavorite: isFavorite,
-      isInWatchLater: isInWatchLater,
     );
   }
 

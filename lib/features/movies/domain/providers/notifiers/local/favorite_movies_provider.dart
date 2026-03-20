@@ -8,6 +8,11 @@ final favoriteMoviesProvider =
       return FavoriteMoviesNotifier();
     });
 
+final isFavoriteProvider = Provider.family<bool, int>((ref, id) {
+  final favorites = ref.watch(favoriteMoviesProvider);
+  return favorites.any((m) => m.id == id);
+});
+
 class FavoriteMoviesNotifier extends Notifier<List<MovieSummary>> {
   @override
   List<MovieSummary> build() {

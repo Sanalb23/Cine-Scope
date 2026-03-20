@@ -8,6 +8,11 @@ final watchListProvider =
       return WatchListNotifier();
     });
 
+final isInWatchListProvider = Provider.family<bool, int>((ref, id) {
+  final watchList = ref.watch(watchListProvider);
+  return watchList.any((m) => m.id == id);
+});
+
 class WatchListNotifier extends Notifier<List<MovieSummary>> {
   @override
   List<MovieSummary> build() {

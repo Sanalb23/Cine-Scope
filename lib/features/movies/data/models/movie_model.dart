@@ -48,6 +48,36 @@ class MovieModel {
     );
   }
 
+  MovieModel copyWith({
+    int? id,
+    String? title,
+    String? overview,
+    String? posterPath,
+    String? backdropPath,
+    double? voteAverage,
+    int? voteCount,
+    String? releaseDate,
+    List<(int, String)>? genres,
+    String? originalLanguage,
+    double? popularity,
+    bool? adult,
+  }) {
+    return MovieModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      overview: overview ?? this.overview,
+      posterPath: posterPath ?? this.posterPath,
+      backdropPath: backdropPath ?? this.backdropPath,
+      voteAverage: voteAverage ?? this.voteAverage,
+      voteCount: voteCount ?? this.voteCount,
+      releaseDate: releaseDate ?? this.releaseDate,
+      genres: genres ?? this.genres,
+      originalLanguage: originalLanguage ?? this.originalLanguage,
+      popularity: popularity ?? this.popularity,
+      adult: adult ?? this.adult,
+    );
+  }
+
   Movie toDomain() {
     return Movie(
       id: id,

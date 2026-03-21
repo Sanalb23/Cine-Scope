@@ -16,6 +16,35 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
 
   final String _baseUrl = 'https://api.themoviedb.org/3';
 
+  final String _baseImageUrl = 'https://image.tmdb.org/t/p/';
+  final String _posterSize = 'w500';
+  final String _backdropSize = 'w1280';
+
+  String _buildImageUrl(String path, String size) {
+    return '$_baseImageUrl$size$path';
+  }
+
+  MovieSummaryModel _buildMovieSummaryModel(Map<String, dynamic> json) {
+    final movie = MovieSummaryModel.fromJson(json);
+    return movie.copyWith(
+      posterPath: movie.posterPath.isNotEmpty
+          ? _buildImageUrl(movie.posterPath, _posterSize)
+          : '',
+    );
+  }
+
+  MovieModel _buildMovieModel(Map<String, dynamic> json) {
+    final movie = MovieModel.fromJson(json);
+    return movie.copyWith(
+      posterPath: movie.posterPath.isNotEmpty
+          ? _buildImageUrl(movie.posterPath, _posterSize)
+          : '',
+      backdropPath: movie.backdropPath.isNotEmpty
+          ? _buildImageUrl(movie.backdropPath, _backdropSize)
+          : '',
+    );
+  }
+
   @override
   Future<List<MovieSummaryModel>> getPopularMovies({int page = 1}) async {
     final response = await _httpClient.get(
@@ -23,9 +52,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List)
-          .map((x) => MovieSummaryModel.fromJson(x))
-          .toList();
+      return (data['results'] as List).map((x) {
+        return _buildMovieSummaryModel(x);
+      }).toList();
     } else {
       throw Exception('Failed to load movies');
     }
@@ -38,9 +67,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List)
-          .map((x) => MovieSummaryModel.fromJson(x))
-          .toList();
+      return (data['results'] as List).map((x) {
+        return _buildMovieSummaryModel(x);
+      }).toList();
     } else {
       throw Exception('Failed to load movies');
     }
@@ -58,9 +87,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List)
-          .map((x) => MovieSummaryModel.fromJson(x))
-          .toList();
+      return (data['results'] as List).map((x) {
+        return _buildMovieSummaryModel(x);
+      }).toList();
     } else {
       throw Exception('Failed to load movies');
     }
@@ -73,7 +102,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return MovieModel.fromJson(data);
+      return _buildMovieModel(data);
     } else {
       throw Exception('Failed to load movie');
     }
@@ -89,9 +118,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List)
-          .map((x) => MovieSummaryModel.fromJson(x))
-          .toList();
+      return (data['results'] as List).map((x) {
+        return _buildMovieSummaryModel(x);
+      }).toList();
     } else {
       throw Exception('Failed to load movies');
     }

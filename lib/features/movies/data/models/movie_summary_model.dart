@@ -31,6 +31,26 @@ class MovieSummaryModel {
     );
   }
 
+  MovieSummaryModel copyWith({
+    int? id,
+    String? title,
+    String? posterPath,
+    double? voteAverage,
+    String? releaseDate,
+    List<int>? genreIds,
+    bool? adult,
+  }) {
+    return MovieSummaryModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      posterPath: posterPath ?? this.posterPath,
+      voteAverage: voteAverage ?? this.voteAverage,
+      releaseDate: releaseDate ?? this.releaseDate,
+      genreIds: genreIds ?? this.genreIds,
+      adult: adult ?? this.adult,
+    );
+  }
+
   MovieSummary toDomain() {
     return MovieSummary(
       id: id,

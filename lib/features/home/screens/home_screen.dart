@@ -1,8 +1,30 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late final PageController _pageController;
+  int _selectedPage = 0;
+
+  final _pages = [Center(child: Text('Home')), Center(child: Text('Search'))];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedPage);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +57,35 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+
+      body: PageView(
+        controller: _pageController,
+        children: _pages,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedPage = index;
+          });
+        },
+      ),
+
+      bottomNavigationBar: NavigationBar(
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+          NavigationDestination(icon: Icon(Icons.search), label: 'Search'),
+        ],
+        selectedIndex: _selectedPage,
+        onDestinationSelected: (index) {
+          setState(() {
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.ease,
+            );
+
+            _selectedPage = index;
+          });
+        },
       ),
     );
   }

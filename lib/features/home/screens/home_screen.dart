@@ -11,6 +11,31 @@ class HomeScreen extends StatelessWidget {
         title: Text('CineScope', style: context.textTheme.displaySmall),
         centerTitle: true,
       ),
+
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: Center(
+                child: Text(
+                  'CineScope',
+                  style: context.textTheme.headlineMedium,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.bookmark),
+              title: const Text('Favorites'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.watch_later),
+              title: const Text('Watch Later'),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

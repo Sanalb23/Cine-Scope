@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/features/home/screens/home_screen.dart';
 import 'package:cine_scope/features/movies/data/models/local/movie_local_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,7 +29,7 @@ class MainApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark,
-      home: Scaffold(body: Center(child: Text('Hello World!'))),
+      home: const HomeScreen(),
     );
   }
 }

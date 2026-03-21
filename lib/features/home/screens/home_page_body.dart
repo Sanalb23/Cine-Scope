@@ -1,9 +1,35 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
+import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/movie_list_category_enum.dart';
+import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/movie_list_category_enum_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class HomePageBody extends StatelessWidget {
+class HomePageBody extends StatefulWidget {
   const HomePageBody({super.key});
+
+  @override
+  State<HomePageBody> createState() => _HomePageBodyState();
+}
+
+class _HomePageBodyState extends State<HomePageBody> {
+  late MovieListCategory _movieListCategory;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _movieListCategory = MovieListCategory.popular;
+  }
+
+  PopupMenuItem _buildPopupMenuItem(MovieListCategory category) {
+    return PopupMenuItem(
+      value: category,
+      child: Row(
+        spacing: AppSpacing.sm,
+        children: [Icon(category.icon), Text(category.title)],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +37,31 @@ class HomePageBody extends StatelessWidget {
       spacing: AppSpacing.xl,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Popular Movies', style: context.textTheme.headlineSmall),
-        Expanded(child: Placeholder()),
+        Row(
+          children: [
+            Text(
+              '${_movieListCategory.title} Movies',
+              style: context.textTheme.headlineSmall,
+            ),
+            Spacer(),
+            PopupMenuButton(
+              tooltip: 'Explore movies',
+              icon: Icon(Icons.filter_list),
+              itemBuilder: (context) {
+                return [
+                  _buildPopupMenuItem(MovieListCategory.popular),
+                  _buildPopupMenuItem(MovieListCategory.topRated),
+                ];
+              },
+              onSelected: (value) {
+                setState(() {
+                  _movieListCategory = value;
+                });
+              },
+            ),
+          ],
+        ),
+        Expanded(child: Center(child: Text(_movieListCategory.title))),
       ],
     );
   }

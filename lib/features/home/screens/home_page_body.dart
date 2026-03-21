@@ -2,6 +2,7 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/movie_list_category_enum.dart';
 import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/movie_list_category_enum_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/features/movies/presentation/popular_movies_list.dart';
 import 'package:flutter/material.dart';
 
 class HomePageBody extends StatefulWidget {
@@ -61,7 +62,12 @@ class _HomePageBodyState extends State<HomePageBody> {
             ),
           ],
         ),
-        Expanded(child: Center(child: Text(_movieListCategory.title))),
+        Expanded(
+          child: switch (_movieListCategory) {
+            MovieListCategory.popular => const PopularMoviesList(),
+            _ => const Placeholder(),
+          },
+        ),
       ],
     );
   }

@@ -1,4 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
+import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/features/home/screens/home_page_body.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,7 +14,13 @@ class _HomeScreenState extends State<HomeScreen> {
   late final PageController _pageController;
   int _selectedPage = 0;
 
-  final _pages = [Center(child: Text('Home')), Center(child: Text('Search'))];
+  final _pages = [
+    Padding(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: const HomePageBody(),
+    ),
+    Center(child: Text('Search')),
+  ];
 
   @override
   void initState() {

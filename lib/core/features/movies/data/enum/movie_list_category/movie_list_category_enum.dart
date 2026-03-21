@@ -1,0 +1,1 @@
+enum MovieListCategory { popular, topRated }

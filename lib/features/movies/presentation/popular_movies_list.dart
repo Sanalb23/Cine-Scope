@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/features/movies/presentation/skeletons/movie_list_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +25,7 @@ class PopularMoviesList extends ConsumerWidget {
           },
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const MovieListSkeleton(),
       error: (error, stack) => Center(child: Text(error.toString())),
     );
   }

@@ -10,7 +10,7 @@ class GenreTagsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OverflowView(
+    return OverflowView.flexible(
       spacing: AppSpacing.sm,
       builder: (context, overflowCount) =>
           Text('+$overflowCount', style: context.textTheme.labelMedium),
@@ -18,7 +18,10 @@ class GenreTagsRow extends StatelessWidget {
           .map(
             (id) => Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm / 2,
+                ),
                 child: Text(
                   id.toString(),
                   style: context.textTheme.labelMedium,

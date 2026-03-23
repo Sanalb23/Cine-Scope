@@ -1,6 +1,7 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
+import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
@@ -32,11 +33,18 @@ class MovieCard extends StatelessWidget {
             ),
           ),
 
-          Text(
-            movie.title,
-            style: context.textTheme.titleLarge,
-            maxLines: 1,
-            overflow: .ellipsis,
+          Column(
+            spacing: AppSpacing.sm,
+            crossAxisAlignment: .start,
+            children: [
+              Text(
+                movie.title,
+                style: context.textTheme.titleLarge,
+                maxLines: 1,
+                overflow: .ellipsis,
+              ),
+              GenreTagsRow(genreIds: movie.genreIds),
+            ],
           ),
         ],
       ),

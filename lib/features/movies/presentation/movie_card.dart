@@ -9,24 +9,37 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: .start,
-      mainAxisSize: .min,
-      spacing: AppSpacing.sm,
-      children: [
-        Expanded(
-          child: Material(
-            child: Image.network(movie.posterPath, fit: BoxFit.cover),
-          ),
-        ),
+    void onTap() {
+      debugPrint('Movie tapped: ${movie.title}');
+    }
 
-        Text(
-          movie.title,
-          style: context.textTheme.titleLarge,
-          maxLines: 1,
-          overflow: .ellipsis,
-        ),
-      ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: .start,
+        mainAxisSize: .min,
+        spacing: AppSpacing.sm,
+        children: [
+          Expanded(
+            child: Material(
+              child: InkWell(
+                onTap: onTap,
+                child: Ink.image(
+                  image: NetworkImage(movie.posterPath),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+
+          Text(
+            movie.title,
+            style: context.textTheme.titleLarge,
+            maxLines: 1,
+            overflow: .ellipsis,
+          ),
+        ],
+      ),
     );
   }
 }

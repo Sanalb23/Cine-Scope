@@ -25,9 +25,39 @@ class MovieCard extends StatelessWidget {
             child: Material(
               child: InkWell(
                 onTap: onTap,
-                child: Ink.image(
-                  image: NetworkImage(movie.posterPath),
-                  fit: BoxFit.cover,
+                child: Stack(
+                  children: [
+                    Ink.image(
+                      image: NetworkImage(movie.posterPath),
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      bottom: AppSpacing.md,
+                      left: AppSpacing.md,
+                      child: _InfoBadge(
+                        label: movie.voteAverage.toStringAsFixed(1),
+                        icon: Icons.star,
+                      ),
+                    ),
+
+                    Positioned(
+                      bottom: AppSpacing.md,
+                      right: AppSpacing.md,
+                      child: _InfoBadge(
+                        label: movie.releaseDate.substring(0, 4),
+                      ),
+                    ),
+
+                    if (movie.adult)
+                      Positioned(
+                        top: AppSpacing.md,
+                        left: AppSpacing.md,
+                        child: _InfoBadge(
+                          label: '18+',
+                          labelColor: context.colors.error,
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -45,6 +75,39 @@ class MovieCard extends StatelessWidget {
               ),
               GenreTagsRow(genreIds: movie.genreIds),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InfoBadge extends StatelessWidget {
+  const _InfoBadge({required this.label, this.icon, this.labelColor});
+
+  final String label;
+  final Color? labelColor;
+  final IconData? icon;
+  @override
+  Widget build(BuildContext context) {
+    const backgroundAlpha = 0.85;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: context.colors.surface.withValues(alpha: backgroundAlpha),
+        borderRadius: BorderRadius.circular(AppSpacing.sm),
+      ),
+      child: Row(
+        spacing: AppSpacing.sm,
+        children: [
+          if (icon != null) Icon(icon, size: 16),
+          Text(
+            label,
+            style: context.textTheme.labelLarge?.copyWith(color: labelColor),
           ),
         ],
       ),

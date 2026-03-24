@@ -4,14 +4,49 @@ import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
 import 'package:flutter/material.dart';
 
-class MovieCard extends StatelessWidget {
+class MovieCard extends StatefulWidget {
   final MovieSummary movie;
   const MovieCard({super.key, required this.movie});
 
   @override
+  State<MovieCard> createState() => _MovieCardState();
+}
+
+class _MovieCardState extends State<MovieCard> {
+  late bool isInFavorites;
+  late bool isInWatchList;
+
+  @override
   Widget build(BuildContext context) {
+    final actions = <PopupMenuItem<String>>[
+      PopupMenuItem(
+        value: 'favorite',
+        child: Row(
+          spacing: AppSpacing.md,
+          children: [
+            Icon(isInFavorites ? Icons.bookmark : Icons.bookmark_add_outlined),
+            Text(isInFavorites ? 'Remove from favorites' : 'Add to favorites'),
+          ],
+        ),
+      ),
+      PopupMenuItem(
+        value: 'watchLater',
+        child: Row(
+          spacing: AppSpacing.md,
+          children: [
+            Icon(
+              isInWatchList ? Icons.watch_later : Icons.watch_later_outlined,
+            ),
+            Text(
+              isInWatchList ? 'Remove from watch list' : 'Add to watch list',
+            ),
+          ],
+        ),
+      ),
+    ];
+
     void onTap() {
-      debugPrint('Movie tapped: ${movie.title}');
+      debugPrint('Movie tapped: ${widget.movie.title}');
     }
 
     return GestureDetector(
@@ -28,14 +63,14 @@ class MovieCard extends StatelessWidget {
                 child: Stack(
                   children: [
                     Ink.image(
-                      image: NetworkImage(movie.posterPath),
+                      image: NetworkImage(widget.movie.posterPath),
                       fit: BoxFit.cover,
                     ),
                     Positioned(
                       bottom: AppSpacing.md,
                       left: AppSpacing.md,
                       child: _InfoBadge(
-                        label: movie.voteAverage.toStringAsFixed(1),
+                        label: widget.movie.voteAverage.toStringAsFixed(1),
                         icon: Icons.star,
                       ),
                     ),
@@ -44,11 +79,11 @@ class MovieCard extends StatelessWidget {
                       bottom: AppSpacing.md,
                       right: AppSpacing.md,
                       child: _InfoBadge(
-                        label: movie.releaseDate.substring(0, 4),
+                        label: widget.movie.releaseDate.substring(0, 4),
                       ),
                     ),
 
-                    if (movie.adult)
+                    if (widget.movie.adult)
                       Positioned(
                         top: AppSpacing.md,
                         left: AppSpacing.md,
@@ -57,6 +92,30 @@ class MovieCard extends StatelessWidget {
                           labelColor: context.colors.error,
                         ),
                       ),
+
+                    Positioned(
+                      top: AppSpacing.md,
+                      right: AppSpacing.md,
+                      child: PopupMenuButton(
+                        itemBuilder: (context) {
+                          return actions;
+                        },
+                        onSelected: (value) {
+                          switch (value) {
+                            case 'favorite':
+                              setState(() {
+                                isInFavorites = !isInFavorites;
+                              });
+                              break;
+                            case 'watchLater':
+                              setState(() {
+                                isInWatchList = !isInWatchList;
+                              });
+                              break;
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -68,12 +127,12 @@ class MovieCard extends StatelessWidget {
             crossAxisAlignment: .start,
             children: [
               Text(
-                movie.title,
+                widget.movie.title,
                 style: context.textTheme.titleLarge,
                 maxLines: 1,
                 overflow: .ellipsis,
               ),
-              GenreTagsRow(genreIds: movie.genreIds),
+              GenreTagsRow(genreIds: widget.movie.genreIds),
             ],
           ),
         ],

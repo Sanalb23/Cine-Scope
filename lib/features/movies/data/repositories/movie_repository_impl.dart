@@ -2,7 +2,7 @@ import 'package:cine_scope/features/movies/data/datasource/movie_local_datasourc
 import 'package:cine_scope/features/movies/data/datasource/movie_remote_datasource.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
-import 'package:cine_scope/features/movies/domain/repositories/movie_repository.dart';
+import 'package:cine_scope/features/movies/data/repositories/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieRemoteDatasource _remoteDatasource;

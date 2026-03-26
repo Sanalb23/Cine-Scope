@@ -30,4 +30,12 @@ class FavoriteMoviesNotifier extends Notifier<List<MovieSummary>> {
 
     state = ref.read(movieRepositoryProvider).getFavorites();
   }
+
+  Future<void> toggle(Movie movie) async {
+    if (ref.read(isFavoriteProvider(movie.id))) {
+      await removeFavorite(movie.id);
+    } else {
+      await addFavorite(movie);
+    }
+  }
 }

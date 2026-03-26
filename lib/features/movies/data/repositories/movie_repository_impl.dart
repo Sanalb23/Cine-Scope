@@ -73,19 +73,19 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<void> addWatchLater(Movie movie) async {
-    await _localDatasource.addWatchLater(MovieLocalModel.fromDomain(movie));
+  Future<void> addToWatchList(Movie movie) async {
+    await _localDatasource.addToWatchList(MovieLocalModel.fromDomain(movie));
   }
 
   @override
-  Future<void> removeWatchLater(int id) async {
-    await _localDatasource.removeWatchLater(id);
+  Future<void> removeFromWatchList(int id) async {
+    await _localDatasource.removeFromWatchList(id);
   }
 
   @override
-  List<MovieSummary> getWatchLater() {
+  List<MovieSummary> getWatchList() {
     return _localDatasource
-        .getWatchLater()
+        .getWatchList()
         .map((x) => x.toMovieSummary())
         .toList();
   }

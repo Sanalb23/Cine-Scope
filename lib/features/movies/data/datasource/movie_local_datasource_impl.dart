@@ -36,25 +36,25 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   }
 
   @override
-  Future<void> addWatchLater(MovieLocalModel movie) async {
+  Future<void> addToWatchList(MovieLocalModel movie) async {
     try {
       await _watchLaterBox.put(movie.id, movie);
     } catch (e) {
-      throw Exception('Error adding movie to watch later');
+      throw Exception('Error adding movie to watch list');
     }
   }
 
   @override
-  Future<void> removeWatchLater(int id) async {
+  Future<void> removeFromWatchList(int id) async {
     try {
       await _watchLaterBox.delete(id);
     } catch (e) {
-      throw Exception('Error removing movie from watch later');
+      throw Exception('Error removing movie from watch list');
     }
   }
 
   @override
-  List<MovieLocalModel> getWatchLater() {
+  List<MovieLocalModel> getWatchList() {
     return _watchLaterBox.values.toList();
   }
 

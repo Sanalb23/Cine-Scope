@@ -5,9 +5,9 @@ abstract class MovieLocalDatasource {
   Future<void> removeFavorite(int id);
   List<MovieLocalModel> getFavorites();
 
-  Future<void> addWatchLater(MovieLocalModel movie);
-  Future<void> removeWatchLater(int id);
-  List<MovieLocalModel> getWatchLater();
+  Future<void> addToWatchList(MovieLocalModel movie);
+  Future<void> removeFromWatchList(int id);
+  List<MovieLocalModel> getWatchList();
 
   MovieLocalModel? getMovieById({required int id});
 }

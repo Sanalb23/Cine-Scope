@@ -16,18 +16,18 @@ final isInWatchListProvider = Provider.family<bool, int>((ref, id) {
 class WatchListNotifier extends Notifier<List<MovieSummary>> {
   @override
   List<MovieSummary> build() {
-    return ref.watch(movieRepositoryProvider).getWatchLater();
+    return ref.watch(movieRepositoryProvider).getWatchList();
   }
 
-  Future<void> addWatchLater(Movie movie) async {
-    await ref.read(movieRepositoryProvider).addWatchLater(movie);
+  Future<void> addToWatchList(Movie movie) async {
+    await ref.read(movieRepositoryProvider).addToWatchList(movie);
 
-    state = ref.read(movieRepositoryProvider).getWatchLater();
+    state = ref.read(movieRepositoryProvider).getWatchList();
   }
 
-  Future<void> removeWatchLater(MovieSummary movie) async {
-    await ref.read(movieRepositoryProvider).removeWatchLater(movie.id);
+  Future<void> removeFromWatchList(int id) async {
+    await ref.read(movieRepositoryProvider).removeFromWatchList(id);
 
-    state = ref.read(movieRepositoryProvider).getWatchLater();
+    state = ref.read(movieRepositoryProvider).getWatchList();
   }
 }

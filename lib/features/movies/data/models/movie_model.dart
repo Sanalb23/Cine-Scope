@@ -1,3 +1,4 @@
+import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 
 class MovieModel {
@@ -91,6 +92,18 @@ class MovieModel {
       genres: genres,
       originalLanguage: originalLanguage,
       popularity: popularity,
+      adult: adult,
+    );
+  }
+
+  MovieSummaryModel toMovieSummaryModel() {
+    return MovieSummaryModel(
+      id: id,
+      title: title,
+      posterPath: posterPath,
+      voteAverage: voteAverage,
+      releaseDate: releaseDate,
+      genreIds: genres.map((x) => x.$1).toList(),
       adult: adult,
     );
   }

@@ -1,21 +1,21 @@
 import 'package:cine_scope/features/movies/data/datasource/movie_local_datasource.dart';
-import 'package:cine_scope/features/movies/data/models/local/movie_local_model.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MovieLocalDatasourceImpl implements MovieLocalDatasource {
-  final Box<MovieLocalModel> _favoritesBox;
-  final Box<MovieLocalModel> _watchLaterBox;
+  final SharedPreferences _prefs;
 
-  MovieLocalDatasourceImpl({
-    required Box<MovieLocalModel> favoritesBox,
-    required Box<MovieLocalModel> watchLaterBox,
-  }) : _favoritesBox = favoritesBox,
-       _watchLaterBox = watchLaterBox;
+  MovieLocalDatasourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   @override
-  Future<void> addFavorite(MovieLocalModel movie) async {
+  Future<void> addFavorite(int id) async {
     try {
-      await _favoritesBox.put(movie.id, movie);
+      final list = _prefs.getStringList('favorites') ?? [];
+      if (list.contains(id.toString())) {
+        return;
+      }
+      list.add(id.toString());
+
+      await _prefs.setStringList('favorites', list);
     } catch (e) {
       throw Exception('Error adding movie to favorites');
     }
@@ -24,21 +24,29 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   @override
   Future<void> removeFavorite(int id) async {
     try {
-      await _favoritesBox.delete(id);
+      final list = _prefs.getStringList('favorites') ?? [];
+      list.remove(id.toString());
+      await _prefs.setStringList('favorites', list);
     } catch (e) {
       throw Exception('Error removing movie from favorites');
     }
   }
 
   @override
-  List<MovieLocalModel> getFavorites() {
-    return _favoritesBox.values.toList();
+  List<int> getFavorites() {
+    final stringList = _prefs.getStringList('favorites') ?? [];
+    return stringList.map((e) => int.parse(e)).toList();
   }
 
   @override
-  Future<void> addToWatchList(MovieLocalModel movie) async {
+  Future<void> addToWatchList(int id) async {
     try {
-      await _watchLaterBox.put(movie.id, movie);
+      final list = _prefs.getStringList('watch_list') ?? [];
+      if (list.contains(id.toString())) {
+        return;
+      }
+      list.add(id.toString());
+      await _prefs.setStringList('watch_list', list);
     } catch (e) {
       throw Exception('Error adding movie to watch list');
     }
@@ -47,19 +55,17 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   @override
   Future<void> removeFromWatchList(int id) async {
     try {
-      await _watchLaterBox.delete(id);
+      final list = _prefs.getStringList('watch_list') ?? [];
+      list.remove(id.toString());
+      await _prefs.setStringList('watch_list', list);
     } catch (e) {
       throw Exception('Error removing movie from watch list');
     }
   }
 
   @override
-  List<MovieLocalModel> getWatchList() {
-    return _watchLaterBox.values.toList();
-  }
-
-  @override
-  MovieLocalModel? getMovieById({required int id}) {
-    return _favoritesBox.get(id) ?? _watchLaterBox.get(id);
+  List<int> getWatchList() {
+    final stringList = _prefs.getStringList('watch_list') ?? [];
+    return stringList.map((e) => int.parse(e)).toList();
   }
 }

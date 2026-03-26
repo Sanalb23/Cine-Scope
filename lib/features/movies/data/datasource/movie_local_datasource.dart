@@ -1,13 +1,9 @@
-import 'package:cine_scope/features/movies/data/models/local/movie_local_model.dart';
-
 abstract class MovieLocalDatasource {
-  Future<void> addFavorite(MovieLocalModel movie);
+  Future<void> addFavorite(int id);
   Future<void> removeFavorite(int id);
-  List<MovieLocalModel> getFavorites();
+  List<int> getFavorites();
 
-  Future<void> addToWatchList(MovieLocalModel movie);
+  Future<void> addToWatchList(int id);
   Future<void> removeFromWatchList(int id);
-  List<MovieLocalModel> getWatchList();
-
-  MovieLocalModel? getMovieById({required int id});
+  List<int> getWatchList();
 }

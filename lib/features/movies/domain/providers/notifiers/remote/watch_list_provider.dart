@@ -4,28 +4,30 @@ import 'package:cine_scope/features/movies/domain/providers/movie_repository_pro
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final watchListProvider =
-    NotifierProvider<WatchListNotifier, List<MovieSummary>>(() {
+    AsyncNotifierProvider<WatchListNotifier, List<MovieSummary>>(() {
       return WatchListNotifier();
     });
 
 final isInWatchListProvider = Provider.family<bool, int>((ref, id) {
   final watchList = ref.watch(watchListProvider);
-  return watchList.any((m) => m.id == id);
+  return watchList.value?.any((m) => m.id == id) ?? false;
 });
 
-class WatchListNotifier extends Notifier<List<MovieSummary>> {
+class WatchListNotifier extends AsyncNotifier<List<MovieSummary>> {
   @override
-  List<MovieSummary> build() {
-    return ref.watch(movieRepositoryProvider).getWatchList();
+  Future<List<MovieSummary>> build() async {
+    return await ref.watch(movieRepositoryProvider).getWatchList();
   }
 
   Future<void> toggleInWatchList(Movie movie) async {
-    if (ref.read(isInWatchListProvider(movie.id))) {
+    final isInWatchList = ref.read(isInWatchListProvider(movie.id));
+
+    if (isInWatchList) {
       await ref.read(movieRepositoryProvider).removeFromWatchList(movie.id);
     } else {
-      await ref.read(movieRepositoryProvider).addToWatchList(movie);
+      await ref.read(movieRepositoryProvider).addToWatchList(movie.id);
     }
 
-    state = ref.read(movieRepositoryProvider).getWatchList();
+    state = AsyncData(await ref.read(movieRepositoryProvider).getWatchList());
   }
 }

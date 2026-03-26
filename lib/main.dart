@@ -1,23 +1,23 @@
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/home/screens/home_screen.dart';
-import 'package:cine_scope/features/movies/data/models/local/movie_local_model.dart';
+import 'package:cine_scope/features/movies/domain/providers/prefs_instance_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "lib/.env");
 
-  await Hive.initFlutter();
+  final prefs = await SharedPreferences.getInstance();
 
-  Hive.registerAdapter(MovieLocalModelAdapter());
-
-  await Hive.openBox<MovieLocalModel>('favorites');
-  await Hive.openBox<MovieLocalModel>('watchLater');
-
-  runApp(ProviderScope(child: MainApp()));
+  runApp(
+    ProviderScope(
+      overrides: [prefsInstanceProvider.overrideWithValue(prefs)],
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

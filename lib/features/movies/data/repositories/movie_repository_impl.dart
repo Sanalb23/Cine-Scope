@@ -1,6 +1,5 @@
 import 'package:cine_scope/features/movies/data/datasource/movie_local_datasource.dart';
 import 'package:cine_scope/features/movies/data/datasource/movie_remote_datasource.dart';
-import 'package:cine_scope/features/movies/data/models/local/movie_local_model.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/repositories/movie_repository.dart';
@@ -41,8 +40,9 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<Movie> getMovieById({required int id}) async {
-    return _localDatasource.getMovieById(id: id)?.toDomain() ??
-        await _remoteDatasource.getMovieById(id: id).then((x) => x.toDomain());
+    return await _remoteDatasource
+        .getMovieById(id: id)
+        .then((x) => x.toDomain());
   }
 
   @override
@@ -55,8 +55,8 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<void> addFavorite(Movie movie) async {
-    await _localDatasource.addFavorite(MovieLocalModel.fromDomain(movie));
+  Future<void> addFavorite(int id) async {
+    await _localDatasource.addFavorite(id);
   }
 
   @override
@@ -65,16 +65,21 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  List<MovieSummary> getFavorites() {
-    return _localDatasource
-        .getFavorites()
-        .map((x) => x.toMovieSummary())
-        .toList();
+  Future<List<MovieSummary>> getFavorites() async {
+    final ids = _localDatasource.getFavorites();
+
+    final movies = ids.map((id) async {
+      return await _remoteDatasource
+          .getMovieById(id: id)
+          .then((x) => x.toMovieSummaryModel().toDomain());
+    }).toList();
+
+    return await Future.wait(movies);
   }
 
   @override
-  Future<void> addToWatchList(Movie movie) async {
-    await _localDatasource.addToWatchList(MovieLocalModel.fromDomain(movie));
+  Future<void> addToWatchList(int id) async {
+    await _localDatasource.addToWatchList(id);
   }
 
   @override
@@ -83,10 +88,15 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  List<MovieSummary> getWatchList() {
-    return _localDatasource
-        .getWatchList()
-        .map((x) => x.toMovieSummary())
-        .toList();
+  Future<List<MovieSummary>> getWatchList() async {
+    final ids = _localDatasource.getWatchList();
+
+    final movies = ids.map((id) async {
+      return await _remoteDatasource
+          .getMovieById(id: id)
+          .then((x) => x.toMovieSummaryModel().toDomain());
+    }).toList();
+
+    return await Future.wait(movies);
   }
 }

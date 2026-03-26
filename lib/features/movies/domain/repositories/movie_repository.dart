@@ -8,11 +8,11 @@ abstract class MovieRepository {
   Future<Movie> getMovieById({required int id});
   Future<List<MovieSummary>> getSimilarMovies({required int id, int page = 1});
 
-  Future<void> addFavorite(Movie movie);
+  Future<void> addFavorite(int id);
   Future<void> removeFavorite(int id);
-  List<MovieSummary> getFavorites();
+  Future<List<MovieSummary>> getFavorites();
 
-  Future<void> addToWatchList(Movie movie);
+  Future<void> addToWatchList(int id);
   Future<void> removeFromWatchList(int id);
-  List<MovieSummary> getWatchList();
+  Future<List<MovieSummary>> getWatchList();
 }

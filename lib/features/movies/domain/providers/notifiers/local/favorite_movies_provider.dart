@@ -25,8 +25,8 @@ class FavoriteMoviesNotifier extends Notifier<List<MovieSummary>> {
     state = ref.read(movieRepositoryProvider).getFavorites();
   }
 
-  Future<void> removeFavorite(MovieSummary movie) async {
-    await ref.read(movieRepositoryProvider).removeFavorite(movie.id);
+  Future<void> removeFavorite(int id) async {
+    await ref.read(movieRepositoryProvider).removeFavorite(id);
 
     state = ref.read(movieRepositoryProvider).getFavorites();
   }

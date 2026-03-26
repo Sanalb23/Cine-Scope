@@ -19,14 +19,12 @@ class WatchListNotifier extends Notifier<List<MovieSummary>> {
     return ref.watch(movieRepositoryProvider).getWatchList();
   }
 
-  Future<void> addToWatchList(Movie movie) async {
-    await ref.read(movieRepositoryProvider).addToWatchList(movie);
-
-    state = ref.read(movieRepositoryProvider).getWatchList();
-  }
-
-  Future<void> removeFromWatchList(int id) async {
-    await ref.read(movieRepositoryProvider).removeFromWatchList(id);
+  Future<void> toggleInWatchList(Movie movie) async {
+    if (ref.read(isInWatchListProvider(movie.id))) {
+      await ref.read(movieRepositoryProvider).removeFromWatchList(movie.id);
+    } else {
+      await ref.read(movieRepositoryProvider).addToWatchList(movie);
+    }
 
     state = ref.read(movieRepositoryProvider).getWatchList();
   }

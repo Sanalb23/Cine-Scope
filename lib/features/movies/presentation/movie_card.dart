@@ -1,23 +1,21 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/favorite_movies_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/watch_list_provider.dart';
 import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MovieCard extends StatefulWidget {
+class MovieCard extends ConsumerWidget {
   final MovieSummary movie;
   const MovieCard({super.key, required this.movie});
 
   @override
-  State<MovieCard> createState() => _MovieCardState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isInFavorites = ref.watch(isFavoriteProvider(movie.id));
+    final isInWatchList = ref.watch(isInWatchListProvider(movie.id));
 
-class _MovieCardState extends State<MovieCard> {
-  late bool isInFavorites;
-  late bool isInWatchList;
-
-  @override
-  Widget build(BuildContext context) {
     final actions = <PopupMenuItem<String>>[
       PopupMenuItem(
         value: 'favorite',
@@ -30,7 +28,7 @@ class _MovieCardState extends State<MovieCard> {
         ),
       ),
       PopupMenuItem(
-        value: 'watchLater',
+        value: 'watchList',
         child: Row(
           spacing: AppSpacing.md,
           children: [
@@ -46,7 +44,7 @@ class _MovieCardState extends State<MovieCard> {
     ];
 
     void onTap() {
-      debugPrint('Movie tapped: ${widget.movie.title}');
+      debugPrint('Movie tapped: ${movie.title}');
     }
 
     return GestureDetector(
@@ -63,14 +61,14 @@ class _MovieCardState extends State<MovieCard> {
                 child: Stack(
                   children: [
                     Ink.image(
-                      image: NetworkImage(widget.movie.posterPath),
+                      image: NetworkImage(movie.posterPath),
                       fit: BoxFit.cover,
                     ),
                     Positioned(
                       bottom: AppSpacing.md,
                       left: AppSpacing.md,
                       child: _InfoBadge(
-                        label: widget.movie.voteAverage.toStringAsFixed(1),
+                        label: movie.voteAverage.toStringAsFixed(1),
                         icon: Icons.star,
                       ),
                     ),
@@ -79,11 +77,11 @@ class _MovieCardState extends State<MovieCard> {
                       bottom: AppSpacing.md,
                       right: AppSpacing.md,
                       child: _InfoBadge(
-                        label: widget.movie.releaseDate.substring(0, 4),
+                        label: movie.releaseDate.substring(0, 4),
                       ),
                     ),
 
-                    if (widget.movie.adult)
+                    if (movie.adult)
                       Positioned(
                         top: AppSpacing.md,
                         left: AppSpacing.md,
@@ -103,14 +101,14 @@ class _MovieCardState extends State<MovieCard> {
                         onSelected: (value) {
                           switch (value) {
                             case 'favorite':
-                              setState(() {
-                                isInFavorites = !isInFavorites;
-                              });
+                              ref
+                                  .read(favoriteMoviesProvider.notifier)
+                                  .toggleFavorite(movie.id);
                               break;
-                            case 'watchLater':
-                              setState(() {
-                                isInWatchList = !isInWatchList;
-                              });
+                            case 'watchList':
+                              ref
+                                  .read(watchListProvider.notifier)
+                                  .toggleInWatchList(movie.id);
                               break;
                           }
                         },
@@ -127,12 +125,12 @@ class _MovieCardState extends State<MovieCard> {
             crossAxisAlignment: .start,
             children: [
               Text(
-                widget.movie.title,
+                movie.title,
                 style: context.textTheme.titleLarge,
                 maxLines: 1,
                 overflow: .ellipsis,
               ),
-              GenreTagsRow(genreIds: widget.movie.genreIds),
+              GenreTagsRow(genreIds: movie.genreIds),
             ],
           ),
         ],

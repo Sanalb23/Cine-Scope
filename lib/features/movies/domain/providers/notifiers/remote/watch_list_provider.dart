@@ -19,7 +19,7 @@ class WatchListNotifier extends AsyncNotifier<List<MovieSummary>> {
   }
 
   Future<void> toggleInWatchList(int id) async {
-    final isInWatchList = ref.read(isInWatchListProvider(id));
+    final isInWatchList = state.value?.any((m) => m.id == id) ?? false;
 
     if (isInWatchList) {
       await ref.read(movieRepositoryProvider).removeFromWatchList(id);

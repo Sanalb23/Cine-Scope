@@ -1,4 +1,3 @@
-import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,13 +18,13 @@ class WatchListNotifier extends AsyncNotifier<List<MovieSummary>> {
     return await ref.watch(movieRepositoryProvider).getWatchList();
   }
 
-  Future<void> toggleInWatchList(Movie movie) async {
-    final isInWatchList = ref.read(isInWatchListProvider(movie.id));
+  Future<void> toggleInWatchList(int id) async {
+    final isInWatchList = ref.read(isInWatchListProvider(id));
 
     if (isInWatchList) {
-      await ref.read(movieRepositoryProvider).removeFromWatchList(movie.id);
+      await ref.read(movieRepositoryProvider).removeFromWatchList(id);
     } else {
-      await ref.read(movieRepositoryProvider).addToWatchList(movie.id);
+      await ref.read(movieRepositoryProvider).addToWatchList(id);
     }
 
     state = AsyncData(await ref.read(movieRepositoryProvider).getWatchList());

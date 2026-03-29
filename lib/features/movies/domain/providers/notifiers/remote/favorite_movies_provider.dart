@@ -1,4 +1,3 @@
-import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,13 +18,13 @@ class FavoriteMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
     return await ref.watch(movieRepositoryProvider).getFavorites();
   }
 
-  Future<void> toggleFavorite(Movie movie) async {
-    final isFavorite = ref.read(isFavoriteProvider(movie.id));
+  Future<void> toggleFavorite(int id) async {
+    final isFavorite = ref.read(isFavoriteProvider(id));
 
     if (isFavorite) {
-      await ref.read(movieRepositoryProvider).removeFavorite(movie.id);
+      await ref.read(movieRepositoryProvider).removeFavorite(id);
     } else {
-      await ref.read(movieRepositoryProvider).addFavorite(movie.id);
+      await ref.read(movieRepositoryProvider).addFavorite(id);
     }
 
     state = AsyncData(await ref.read(movieRepositoryProvider).getFavorites());

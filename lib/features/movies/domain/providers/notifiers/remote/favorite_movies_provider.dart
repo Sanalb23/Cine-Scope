@@ -19,7 +19,7 @@ class FavoriteMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
   }
 
   Future<void> toggleFavorite(int id) async {
-    final isFavorite = ref.read(isFavoriteProvider(id));
+    final isFavorite = state.value?.any((m) => m.id == id) ?? false;
 
     if (isFavorite) {
       await ref.read(movieRepositoryProvider).removeFavorite(id);

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cine_scope/features/movies/data/utils/preload_posters.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +36,9 @@ class SearchMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
           .read(movieRepositoryProvider)
           .searchMovie(query: query);
       _cache[query] = results;
+
+      await preloadPosters(results);
+
       return results;
     });
   }

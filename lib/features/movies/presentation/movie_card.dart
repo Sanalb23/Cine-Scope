@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
@@ -55,68 +56,73 @@ class MovieCard extends ConsumerWidget {
         spacing: AppSpacing.sm,
         children: [
           Expanded(
-            child: Material(
-              child: InkWell(
-                onTap: onTap,
-                child: Stack(
-                  children: [
-                    Ink.image(
-                      image: NetworkImage(movie.posterPath),
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      bottom: AppSpacing.md,
-                      left: AppSpacing.md,
-                      child: _InfoBadge(
-                        label: movie.voteAverage.toStringAsFixed(1),
-                        icon: Icons.star,
-                      ),
-                    ),
-
-                    Positioned(
-                      bottom: AppSpacing.md,
-                      right: AppSpacing.md,
-                      child: _InfoBadge(
-                        label: movie.releaseDate.substring(0, 4),
-                      ),
-                    ),
-
-                    if (movie.adult)
-                      Positioned(
-                        top: AppSpacing.md,
-                        left: AppSpacing.md,
-                        child: _InfoBadge(
-                          label: '18+',
-                          labelColor: context.colors.error,
-                        ),
-                      ),
-
-                    Positioned(
-                      top: AppSpacing.md,
-                      right: AppSpacing.md,
-                      child: PopupMenuButton(
-                        itemBuilder: (context) {
-                          return actions;
-                        },
-                        onSelected: (value) {
-                          switch (value) {
-                            case 'favorite':
-                              ref
-                                  .read(favoriteMoviesProvider.notifier)
-                                  .toggleFavorite(movie.id);
-                              break;
-                            case 'watchList':
-                              ref
-                                  .read(watchListProvider.notifier)
-                                  .toggleInWatchList(movie.id);
-                              break;
-                          }
-                        },
-                      ),
-                    ),
-                  ],
+            child: Stack(
+              children: [
+                CachedNetworkImage(
+                  fadeInDuration: Duration.zero,
+                  fadeOutDuration: Duration.zero,
+                  imageUrl: movie.posterPath,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) =>
+                      const Center(child: Icon(Icons.error)),
                 ),
-              ),
+
+                Positioned(
+                  bottom: AppSpacing.md,
+                  left: AppSpacing.md,
+                  child: _InfoBadge(
+                    label: movie.voteAverage.toStringAsFixed(1),
+                    icon: Icons.star,
+                  ),
+                ),
+
+                Positioned(
+                  bottom: AppSpacing.md,
+                  right: AppSpacing.md,
+                  child: _InfoBadge(label: movie.releaseDate.substring(0, 4)),
+                ),
+
+                if (movie.adult)
+                  Positioned(
+                    top: AppSpacing.md,
+                    left: AppSpacing.md,
+                    child: _InfoBadge(
+                      label: '18+',
+                      labelColor: context.colors.error,
+                    ),
+                  ),
+
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(onTap: onTap),
+                  ),
+                ),
+
+                Positioned(
+                  top: AppSpacing.md,
+                  right: AppSpacing.md,
+                  child: PopupMenuButton(
+                    itemBuilder: (context) {
+                      return actions;
+                    },
+                    onSelected: (value) {
+                      switch (value) {
+                        case 'favorite':
+                          ref
+                              .read(favoriteMoviesProvider.notifier)
+                              .toggleFavorite(movie.id);
+                          break;
+                        case 'watchList':
+                          ref
+                              .read(watchListProvider.notifier)
+                              .toggleInWatchList(movie.id);
+                          break;
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
 

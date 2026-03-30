@@ -1,3 +1,4 @@
+import 'package:cine_scope/features/movies/data/utils/preload_posters.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,11 @@ class PopularMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
   Future<void> fetchPopularMovies() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      return ref.read(movieRepositoryProvider).getPopularMovies();
+      final movies = await ref.read(movieRepositoryProvider).getPopularMovies();
+
+      await preloadPosters(movies);
+
+      return movies;
     });
   }
 }

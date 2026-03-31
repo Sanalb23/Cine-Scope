@@ -5,6 +5,7 @@ import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/favorite_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/watch_list_provider.dart';
 import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,7 +46,12 @@ class MovieCard extends ConsumerWidget {
     ];
 
     void onTap() {
-      debugPrint('Movie tapped: ${movie.title}');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MovieDetailsScreen(id: movie.id),
+        ),
+      );
     }
 
     return GestureDetector(

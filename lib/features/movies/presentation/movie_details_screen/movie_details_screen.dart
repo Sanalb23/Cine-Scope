@@ -85,6 +85,9 @@ class MovieDetailsScreen extends StatelessWidget {
                     genreIds: mockMovie.genres.map((e) => e.$1).toList(),
                     spacing: AppSpacing.md,
                   ),
+
+                  const SizedBox(height: AppSpacing.xl),
+                  _MovieOverview(overview: mockMovie.overview),
                 ],
               ),
             ),
@@ -124,6 +127,24 @@ class _InfoRowSpacer extends StatelessWidget {
       Icons.circle,
       size: 8,
       color: context.colors.onSurface.withValues(alpha: 0.5),
+    );
+  }
+}
+
+class _MovieOverview extends StatelessWidget {
+  const _MovieOverview({required this.overview});
+
+  final String overview;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: AppSpacing.md,
+      children: [
+        Text('Overview', style: context.textTheme.headlineSmall),
+        Text(overview, style: context.textTheme.bodyMedium),
+      ],
     );
   }
 }

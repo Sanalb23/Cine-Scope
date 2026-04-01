@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
+import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +50,25 @@ class MovieDetailsScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xxl,
+              vertical: AppSpacing.md,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: AppSpacing.md,
+                children: [
+                  Text(
+                    mockMovie.title,
+                    style: context.textTheme.headlineMedium,
                   ),
                 ],
               ),

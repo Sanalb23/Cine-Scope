@@ -1,6 +1,7 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
+import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
@@ -80,6 +81,9 @@ class MovieDetailsScreen extends StatelessWidget {
                       Text(mockMovie.originalLanguage.toUpperCase()),
                     ],
                   ),
+                  GenreTagsRow(
+                    genreIds: mockMovie.genres.map((e) => e.$1).toList(),
+                  ),
                 ],
               ),
             ),
@@ -98,9 +102,9 @@ class _MovieRating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: AppSpacing.sm,
       children: [
         Icon(Icons.star, color: Colors.amber),
-        const SizedBox(width: AppSpacing.sm),
         Text(
           voteAverage.toStringAsFixed(1),
           style: context.textTheme.bodyMedium,

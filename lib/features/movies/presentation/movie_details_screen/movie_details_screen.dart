@@ -70,12 +70,55 @@ class MovieDetailsScreen extends StatelessWidget {
                     mockMovie.title,
                     style: context.textTheme.headlineMedium,
                   ),
+                  Row(
+                    spacing: AppSpacing.xxl,
+                    children: [
+                      _MovieRating(voteAverage: mockMovie.voteAverage),
+                      _InfoRowSpacer(),
+                      Text(mockMovie.releaseDate.substring(0, 4)),
+                      _InfoRowSpacer(),
+                      Text(mockMovie.originalLanguage.toUpperCase()),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _MovieRating extends StatelessWidget {
+  const _MovieRating({required this.voteAverage});
+
+  final double voteAverage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(Icons.star, color: Colors.amber),
+        const SizedBox(width: AppSpacing.sm),
+        Text(
+          voteAverage.toStringAsFixed(1),
+          style: context.textTheme.bodyMedium,
+        ),
+      ],
+    );
+  }
+}
+
+class _InfoRowSpacer extends StatelessWidget {
+  const _InfoRowSpacer();
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.circle,
+      size: 8,
+      color: context.colors.onSurface.withValues(alpha: 0.5),
     );
   }
 }

@@ -83,6 +83,7 @@ class MovieDetailsScreen extends StatelessWidget {
                   ),
                   GenreTagsRow(
                     genreIds: mockMovie.genres.map((e) => e.$1).toList(),
+                    spacing: AppSpacing.md,
                   ),
                 ],
               ),

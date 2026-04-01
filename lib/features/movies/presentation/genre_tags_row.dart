@@ -5,9 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:overflow_view/overflow_view.dart';
 
 class GenreTagsRow extends ConsumerWidget {
-  const GenreTagsRow({super.key, required this.genreIds});
+  const GenreTagsRow({
+    super.key,
+    required this.genreIds,
+    this.spacing = AppSpacing.sm,
+  });
 
   final List<int> genreIds;
+  final double spacing;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +41,7 @@ class GenreTagsRow extends ConsumerWidget {
 
     return mockGenresMap.when(
       data: (data) => OverflowView.flexible(
-        spacing: AppSpacing.sm,
+        spacing: spacing,
         builder: (context, overflowCount) =>
             Text('+$overflowCount', style: context.textTheme.labelMedium),
         children: genreIds

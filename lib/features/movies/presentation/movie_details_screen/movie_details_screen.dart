@@ -79,13 +79,9 @@ class MovieDetailsScreen extends StatelessWidget {
                     voteCount: mockMovie.voteCount,
                   ),
 
-                  Row(
-                    spacing: AppSpacing.xxl,
-                    children: [
-                      Text(mockMovie.releaseDate.substring(0, 4)),
-                      _InfoRowSpacer(),
-                      Text(mockMovie.originalLanguage.toUpperCase()),
-                    ],
+                  _MovieQuickInfo(
+                    releaseDate: mockMovie.releaseDate,
+                    originalLanguage: mockMovie.originalLanguage,
                   ),
 
                   GenreTagsRow(
@@ -101,6 +97,30 @@ class MovieDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _MovieQuickInfo extends StatelessWidget {
+  const _MovieQuickInfo({
+    required this.releaseDate,
+    required this.originalLanguage,
+  });
+
+  final String releaseDate;
+  final String originalLanguage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: AppSpacing.xl,
+      runSpacing: AppSpacing.md,
+      children: [
+        Text(releaseDate.substring(0, 4)),
+        const _InfoRowSpacer(),
+        Text(originalLanguage.toUpperCase()),
+      ],
     );
   }
 }

@@ -64,30 +64,49 @@ class MovieDetailsScreen extends StatelessWidget {
             ),
             sliver: SliverToBoxAdapter(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 spacing: AppSpacing.md,
                 children: [
-                  Text(
-                    mockMovie.title,
-                    style: context.textTheme.headlineMedium,
-                  ),
+                  Row(
+                    crossAxisAlignment: .start,
+                    spacing: AppSpacing.xl,
+                    children: [
+                      _MoviePoster(posterPath: mockMovie.posterPath),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: .start,
 
-                  _MoviePopularity(popularity: mockMovie.popularity),
+                          spacing: AppSpacing.md,
 
-                  _MovieRating(
-                    voteAverage: mockMovie.voteAverage,
-                    voteCount: mockMovie.voteCount,
-                  ),
+                          children: [
+                            Text(
+                              mockMovie.title,
+                              style: context.textTheme.headlineMedium,
+                            ),
 
-                  _MovieQuickInfo(
-                    releaseDate: mockMovie.releaseDate,
-                    originalLanguage: mockMovie.originalLanguage,
-                    adult: mockMovie.adult,
-                  ),
+                            _MoviePopularity(popularity: mockMovie.popularity),
 
-                  GenreTagsRow(
-                    genreIds: mockMovie.genres.map((e) => e.$1).toList(),
-                    spacing: AppSpacing.md,
+                            _MovieRating(
+                              voteAverage: mockMovie.voteAverage,
+                              voteCount: mockMovie.voteCount,
+                            ),
+
+                            _MovieQuickInfo(
+                              releaseDate: mockMovie.releaseDate,
+                              originalLanguage: mockMovie.originalLanguage,
+                              adult: mockMovie.adult,
+                            ),
+
+                            GenreTagsRow(
+                              genreIds: mockMovie.genres
+                                  .map((e) => e.$1)
+                                  .toList(),
+                              spacing: AppSpacing.md,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
 
                   const SizedBox(height: AppSpacing.xl),
@@ -244,6 +263,32 @@ class _MoviePopularity extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _MoviePoster extends StatelessWidget {
+  const _MoviePoster({required this.posterPath});
+
+  final String posterPath;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(color: Colors.black45, blurRadius: 8, offset: Offset(0, 4)),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.network(
+          posterPath,
+          width: 135,
+          height: 200,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

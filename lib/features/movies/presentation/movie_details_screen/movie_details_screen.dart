@@ -71,11 +71,13 @@ class MovieDetailsScreen extends StatelessWidget {
                     mockMovie.title,
                     style: context.textTheme.headlineMedium,
                   ),
+                  _MovieRating(
+                    voteAverage: mockMovie.voteAverage,
+                    voteCount: mockMovie.voteCount,
+                  ),
                   Row(
                     spacing: AppSpacing.xxl,
                     children: [
-                      _MovieRating(voteAverage: mockMovie.voteAverage),
-                      _InfoRowSpacer(),
                       Text(mockMovie.releaseDate.substring(0, 4)),
                       _InfoRowSpacer(),
                       Text(mockMovie.originalLanguage.toUpperCase()),
@@ -99,20 +101,23 @@ class MovieDetailsScreen extends StatelessWidget {
 }
 
 class _MovieRating extends StatelessWidget {
-  const _MovieRating({required this.voteAverage});
+  const _MovieRating({required this.voteAverage, required this.voteCount});
 
   final double voteAverage;
+  final int voteCount;
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       spacing: AppSpacing.sm,
       children: [
         Icon(Icons.star, color: Colors.amber),
         Text(
           voteAverage.toStringAsFixed(1),
-          style: context.textTheme.bodyMedium,
+          style: context.textTheme.bodyLarge,
         ),
+        Text('(${voteCount} votes)', style: context.textTheme.labelSmall),
       ],
     );
   }

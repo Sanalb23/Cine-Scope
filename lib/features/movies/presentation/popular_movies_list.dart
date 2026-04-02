@@ -1,7 +1,7 @@
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/presentation/movie_card.dart';
-import 'package:cine_scope/features/movies/presentation/skeletons/movie_list_skeleton.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

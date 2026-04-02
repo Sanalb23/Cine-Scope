@@ -71,10 +71,14 @@ class MovieDetailsScreen extends StatelessWidget {
                     mockMovie.title,
                     style: context.textTheme.headlineMedium,
                   ),
+
+                  _MoviePopularity(popularity: mockMovie.popularity),
+
                   _MovieRating(
                     voteAverage: mockMovie.voteAverage,
                     voteCount: mockMovie.voteCount,
                   ),
+
                   Row(
                     spacing: AppSpacing.xxl,
                     children: [
@@ -83,6 +87,7 @@ class MovieDetailsScreen extends StatelessWidget {
                       Text(mockMovie.originalLanguage.toUpperCase()),
                     ],
                   ),
+
                   GenreTagsRow(
                     genreIds: mockMovie.genres.map((e) => e.$1).toList(),
                     spacing: AppSpacing.md,
@@ -160,6 +165,44 @@ class _MovieOverview extends StatelessWidget {
         Text('Overview', style: context.textTheme.headlineSmall),
         Text(overview, style: context.textTheme.bodyMedium),
       ],
+    );
+  }
+}
+
+class _MoviePopularity extends StatelessWidget {
+  const _MoviePopularity({required this.popularity});
+
+  final double popularity;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: context.colors.error.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: .min,
+        spacing: AppSpacing.sm,
+        children: [
+          Icon(
+            Icons.local_fire_department_outlined,
+            size: 16,
+            color: context.colors.error,
+          ),
+          Text(
+            'POPULARITY: ${popularity.toStringAsFixed(1)}',
+            style: context.textTheme.labelLarge?.copyWith(
+              color: context.colors.error,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

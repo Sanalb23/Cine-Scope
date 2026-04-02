@@ -108,6 +108,13 @@ class _MovieRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedVoteCount = switch (voteCount) {
+      < 10000 => voteCount.toString(),
+      < 1000000 => '${(voteCount / 1000).truncate()}K',
+      < 1000000000 => '${(voteCount / 1000000).truncate()}M',
+      _ => voteCount.toString(),
+    };
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: AppSpacing.sm,
@@ -117,7 +124,10 @@ class _MovieRating extends StatelessWidget {
           voteAverage.toStringAsFixed(1),
           style: context.textTheme.bodyLarge,
         ),
-        Text('(${voteCount} votes)', style: context.textTheme.labelSmall),
+        Text(
+          '(${formattedVoteCount} votes)',
+          style: context.textTheme.labelSmall,
+        ),
       ],
     );
   }

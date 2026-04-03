@@ -52,7 +52,7 @@ class MovieDetailsScreen extends StatelessWidget {
               ),
             ),
             actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
-            actions: [FavoriteButton(onPressed: () {})],
+            actions: [FavoriteButton(movieId: id)],
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,

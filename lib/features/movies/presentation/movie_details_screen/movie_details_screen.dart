@@ -8,6 +8,7 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/loading_poster_image.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
@@ -52,7 +53,11 @@ class MovieDetailsScreen extends StatelessWidget {
               ),
             ),
             actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
-            actions: [FavoriteButton(movieId: id)],
+            actions: [
+              FavoriteButton(movieId: id),
+              const SizedBox(width: AppSpacing.md),
+              WatchListButton(movieId: id),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,

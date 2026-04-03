@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
+import 'package:cine_scope/features/movies/presentation/utils/loading_poster_image.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +42,27 @@ class MovieDetailsScreen extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(mockMovie.backdropPath, fit: BoxFit.cover),
+                  CachedNetworkImage(
+                    imageUrl: mockMovie.backdropPath,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const LoadingPosterImage(),
+                    errorWidget: (context, url, error) => Container(
+                      color: context.colors.surfaceContainerHighest,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: .center,
+                          spacing: AppSpacing.sm,
+                          children: [
+                            const Icon(Icons.error),
+                            Text(
+                              'No Image available',
+                              style: context.textTheme.labelSmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   DecoratedBox(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(

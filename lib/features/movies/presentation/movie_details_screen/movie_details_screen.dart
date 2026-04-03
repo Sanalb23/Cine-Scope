@@ -5,6 +5,7 @@ import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
 import 'package:cine_scope/features/movies/presentation/utils/loading_poster_image.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
+import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
@@ -48,19 +49,7 @@ class MovieDetailsScreen extends StatelessWidget {
                     placeholder: (context, url) => const LoadingPosterImage(),
                     errorWidget: (context, url, error) => Container(
                       color: context.colors.surfaceContainerHighest,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: .center,
-                          spacing: AppSpacing.sm,
-                          children: [
-                            const Icon(Icons.error),
-                            Text(
-                              'No Image available',
-                              style: context.textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                      ),
+                      child: const Center(child: NoImageAvaliable()),
                     ),
                   ),
                   DecoratedBox(

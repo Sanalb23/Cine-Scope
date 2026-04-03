@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
-import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/presentation/utils/loading_poster_image.dart';
+import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:flutter/material.dart';
 
 class MoviePoster extends StatelessWidget {
@@ -34,16 +34,7 @@ class MoviePoster extends StatelessWidget {
           color: context.colors.surfaceContainerHighest,
           boxShadow: shadowDecoration.boxShadow,
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: .center,
-            spacing: AppSpacing.sm,
-            children: [
-              const Icon(Icons.error),
-              Text('No Image available', style: context.textTheme.labelSmall),
-            ],
-          ),
-        ),
+        child: const Center(child: NoImageAvaliable()),
       ),
     );
   }

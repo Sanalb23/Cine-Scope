@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_overview.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
@@ -43,6 +44,12 @@ class MovieDetailsScreen extends StatelessWidget {
           SliverAppBar(
             expandedHeight: 200,
             pinned: true,
+            leading: Center(
+              child: AppBarButton(
+                icon: Icons.arrow_back,
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,

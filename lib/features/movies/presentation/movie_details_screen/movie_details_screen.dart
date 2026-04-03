@@ -2,6 +2,7 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/presentation/genre_tags_row.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
@@ -71,7 +72,11 @@ class MovieDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: .start,
                     spacing: AppSpacing.xl,
                     children: [
-                      _MoviePoster(posterPath: mockMovie.posterPath),
+                      SizedBox(
+                        width: 135,
+                        height: 200,
+                        child: MoviePoster(posterPath: mockMovie.posterPath),
+                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: .start,
@@ -263,32 +268,6 @@ class _MoviePopularity extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({required this.posterPath});
-
-  final String posterPath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(color: Colors.black45, blurRadius: 8, offset: Offset(0, 4)),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Image.network(
-          posterPath,
-          width: 135,
-          height: 200,
-          fit: BoxFit.cover,
-        ),
       ),
     );
   }

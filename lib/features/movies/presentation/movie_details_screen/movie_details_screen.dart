@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
-import 'package:cine_scope/features/movies/presentation/movie_card/genre_tags_row.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_overview.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
+import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/loading_poster_image.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
@@ -117,11 +117,12 @@ class MovieDetailsScreen extends StatelessWidget {
                               adult: mockMovie.adult,
                             ),
 
-                            GenreTagsRow(
-                              genreIds: mockMovie.genres
-                                  .map((e) => e.$1)
-                                  .toList(),
+                            Wrap(
                               spacing: AppSpacing.md,
+                              runSpacing: AppSpacing.md,
+                              children: mockMovie.genres
+                                  .map((e) => GenreTag(genre: e.$2))
+                                  .toList(),
                             ),
                           ],
                         ),

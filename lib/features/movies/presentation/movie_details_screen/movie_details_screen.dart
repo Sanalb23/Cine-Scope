@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
-import 'package:cine_scope/features/movies/presentation/utils/genre_tags_row.dart';
+import 'package:cine_scope/features/movies/presentation/movie_card/genre_tags_row.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_overview.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';

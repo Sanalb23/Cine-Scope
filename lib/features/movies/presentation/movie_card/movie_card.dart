@@ -3,7 +3,7 @@ import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/favorite_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/watch_list_provider.dart';
-import 'package:cine_scope/features/movies/presentation/utils/genre_tags_row.dart';
+import 'package:cine_scope/features/movies/presentation/movie_card/genre_tags_row.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_screen.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:flutter/material.dart';

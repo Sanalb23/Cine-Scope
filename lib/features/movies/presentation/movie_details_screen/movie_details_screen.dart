@@ -3,6 +3,7 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/favorite_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_overview.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
@@ -50,6 +51,8 @@ class MovieDetailsScreen extends StatelessWidget {
                 onPressed: () => Navigator.pop(context),
               ),
             ),
+            actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
+            actions: [FavoriteButton(onPressed: () {})],
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,

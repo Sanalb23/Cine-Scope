@@ -102,6 +102,11 @@ class MovieCard extends ConsumerWidget {
                   top: AppSpacing.md,
                   right: AppSpacing.md,
                   child: PopupMenuButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                        context.colors.surface.withValues(alpha: 0.85),
+                      ),
+                    ),
                     itemBuilder: (context) {
                       return actions;
                     },

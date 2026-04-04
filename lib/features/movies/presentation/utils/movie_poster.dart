@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
-import 'package:cine_scope/features/movies/presentation/utils/loading_image.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
+import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class MoviePoster extends StatelessWidget {
@@ -20,7 +20,7 @@ class MoviePoster extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: posterPath,
       fit: BoxFit.cover,
-      placeholder: (context, url) => const LoadingImage(),
+      placeholder: (context, url) => const SkeletonPlaceholder(),
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

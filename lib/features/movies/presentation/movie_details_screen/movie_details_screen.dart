@@ -10,9 +10,9 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
-import 'package:cine_scope/features/movies/presentation/utils/loading_image.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
+import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
@@ -65,7 +65,7 @@ class MovieDetailsScreen extends StatelessWidget {
                   CachedNetworkImage(
                     imageUrl: mockMovie.backdropPath,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => const LoadingImage(),
+                    placeholder: (context, url) => const SkeletonPlaceholder(),
                     errorWidget: (context, url, error) => Container(
                       color: context.colors.surfaceContainerHighest,
                       child: const Center(child: NoImageAvaliable()),

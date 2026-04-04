@@ -1,6 +1,5 @@
-import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
-import 'package:cine_scope/features/movies/presentation/utils/loading_image.dart';
+import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class MovieListSkeleton extends StatelessWidget {
@@ -21,18 +20,13 @@ class MovieListSkeleton extends StatelessWidget {
           spacing: AppSpacing.sm,
           crossAxisAlignment: .start,
           children: [
-            Expanded(flex: 12, child: const LoadingImage()),
+            Expanded(flex: 12, child: const SkeletonPlaceholder()),
 
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Padding(
-                padding: const EdgeInsets.only(right: AppSpacing.md),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: context.colors.inverseSurface.withValues(alpha: .1),
-                    borderRadius: BorderRadius.circular(AppSpacing.md),
-                  ),
-                ),
+                padding: const EdgeInsets.only(right: AppSpacing.xxl),
+                child: const SkeletonPlaceholder(),
               ),
             ),
 
@@ -40,12 +34,7 @@ class MovieListSkeleton extends StatelessWidget {
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.only(right: AppSpacing.lg),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: context.colors.inverseSurface.withValues(alpha: .1),
-                    borderRadius: BorderRadius.circular(AppSpacing.md),
-                  ),
-                ),
+                child: const SkeletonPlaceholder(),
               ),
             ),
           ],

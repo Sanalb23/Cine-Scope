@@ -51,7 +51,7 @@ void main() {
       ).thenAnswer((_) async => fakeMovie);
 
       //act
-      final result = await movieRepository.getFavorites();
+      final result = await movieRepository.getFavoriteMovies();
 
       //assert
       expect(result, isA<List<MovieSummary>>());
@@ -79,7 +79,7 @@ void main() {
     ).thenAnswer((_) async => fakeMovie);
 
     //act
-    final result = await movieRepository.getWatchList();
+    final result = await movieRepository.getWatchListMovies();
 
     //assert
     expect(result, isA<List<MovieSummary>>());

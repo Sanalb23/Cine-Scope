@@ -7,19 +7,18 @@ final favoriteMoviesProvider =
       return FavoriteMoviesNotifier();
     });
 
-final isFavoriteProvider = Provider.family<bool, int>((ref, id) {
-  final favorites = ref.watch(favoriteMoviesProvider);
-  return favorites.value?.any((m) => m.id == id) ?? false;
+final isFavoriteProvider = Provider.family.autoDispose<bool, int>((ref, id) {
+  return ref.watch(movieRepositoryProvider).isFavorite(id);
 });
 
 class FavoriteMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
   @override
   Future<List<MovieSummary>> build() async {
-    return await ref.watch(movieRepositoryProvider).getFavorites();
+    return await ref.watch(movieRepositoryProvider).getFavoriteMovies();
   }
 
   Future<void> toggleFavorite(int id) async {
-    final isFavorite = state.value?.any((m) => m.id == id) ?? false;
+    final isFavorite = ref.read(movieRepositoryProvider).isFavorite(id);
 
     if (isFavorite) {
       await ref.read(movieRepositoryProvider).removeFavorite(id);
@@ -27,6 +26,8 @@ class FavoriteMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
       await ref.read(movieRepositoryProvider).addFavorite(id);
     }
 
-    state = AsyncData(await ref.read(movieRepositoryProvider).getFavorites());
+    state = AsyncData(
+      await ref.read(movieRepositoryProvider).getFavoriteMovies(),
+    );
   }
 }

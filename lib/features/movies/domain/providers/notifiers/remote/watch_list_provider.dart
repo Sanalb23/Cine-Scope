@@ -7,19 +7,18 @@ final watchListProvider =
       return WatchListNotifier();
     });
 
-final isInWatchListProvider = Provider.family<bool, int>((ref, id) {
-  final watchList = ref.watch(watchListProvider);
-  return watchList.value?.any((m) => m.id == id) ?? false;
+final isInWatchListProvider = Provider.family.autoDispose<bool, int>((ref, id) {
+  return ref.watch(movieRepositoryProvider).isInWatchList(id);
 });
 
 class WatchListNotifier extends AsyncNotifier<List<MovieSummary>> {
   @override
   Future<List<MovieSummary>> build() async {
-    return await ref.watch(movieRepositoryProvider).getWatchList();
+    return await ref.watch(movieRepositoryProvider).getWatchListMovies();
   }
 
   Future<void> toggleInWatchList(int id) async {
-    final isInWatchList = state.value?.any((m) => m.id == id) ?? false;
+    final isInWatchList = ref.read(movieRepositoryProvider).isInWatchList(id);
 
     if (isInWatchList) {
       await ref.read(movieRepositoryProvider).removeFromWatchList(id);
@@ -27,6 +26,8 @@ class WatchListNotifier extends AsyncNotifier<List<MovieSummary>> {
       await ref.read(movieRepositoryProvider).addToWatchList(id);
     }
 
-    state = AsyncData(await ref.read(movieRepositoryProvider).getWatchList());
+    state = AsyncData(
+      await ref.read(movieRepositoryProvider).getWatchListMovies(),
+    );
   }
 }

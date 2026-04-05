@@ -28,9 +28,9 @@ class MovieDetailsScreen extends StatelessWidget {
       overview:
           'A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground "fight clubs" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.',
       posterPath:
-          'https://image.tmdb.org/t/p/w500/pB8BM7pSp6B6Ih7QZ4DrQ3PmJK.jpg',
+          'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
       backdropPath:
-          'https://image.tmdb.org/t/p/w500/hZkgoQYusvegHoetLkCJzb17zJ.jpg',
+          'https://image.tmdb.org/t/p/w500/hZkgoQYus5vegHoetLkCJzb17zJ.jpg',
       voteAverage: 8.433,
       voteCount: 26280,
       releaseDate: '1999-10-15',

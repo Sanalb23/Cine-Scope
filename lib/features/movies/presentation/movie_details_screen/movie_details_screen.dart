@@ -5,6 +5,7 @@ import 'package:cine_scope/core/widgets/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/movie_provider.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/favorite_button.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_overview.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
@@ -151,7 +152,7 @@ class MovieDetailsScreen extends ConsumerWidget {
           );
         },
         loading: () {
-          return const Center(child: CircularProgressIndicator());
+          return const MovieDetailsSkeleton();
         },
       ),
     );

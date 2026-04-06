@@ -2,17 +2,19 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/movie_list_category_enum.dart';
 import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/movie_list_category_enum_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
-import 'package:cine_scope/features/movies/presentation/movies_lists/popular_movies_list.dart';
+import 'package:cine_scope/features/movies/domain/providers/movies_by_category_provider.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePageBody extends StatefulWidget {
+class HomePageBody extends ConsumerStatefulWidget {
   const HomePageBody({super.key});
 
   @override
-  State<HomePageBody> createState() => _HomePageBodyState();
+  ConsumerState<HomePageBody> createState() => _HomePageBodyState();
 }
 
-class _HomePageBodyState extends State<HomePageBody> {
+class _HomePageBodyState extends ConsumerState<HomePageBody> {
   late MovieListCategory _movieListCategory;
 
   @override
@@ -34,6 +36,8 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   @override
   Widget build(BuildContext context) {
+    final listState = ref.watch(moviesByCategoryProvider(_movieListCategory));
+
     return Column(
       spacing: AppSpacing.xl,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,10 +67,10 @@ class _HomePageBodyState extends State<HomePageBody> {
           ],
         ),
         Expanded(
-          child: switch (_movieListCategory) {
-            MovieListCategory.popular => const PopularMoviesList(),
-            _ => const Placeholder(),
-          },
+          child: MoviesList(
+            movies: listState.movies,
+            onFetchMore: listState.fetchMore,
+          ),
         ),
       ],
     );

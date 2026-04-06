@@ -8,6 +8,11 @@ class PopularMoviesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MoviesList(movies: ref.watch(mockMoviesListProvider));
+    return MoviesList(
+      movies: ref.watch(mockMoviesListProvider),
+      onFetchMore: () {
+        //TODO: Implement fetch more
+      },
+    );
   }
 }

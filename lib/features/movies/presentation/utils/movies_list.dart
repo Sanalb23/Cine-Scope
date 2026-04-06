@@ -5,16 +5,46 @@ import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleto
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoviesList extends ConsumerWidget {
-  const MoviesList({super.key, required this.movies});
+class MoviesList extends ConsumerStatefulWidget {
+  const MoviesList({
+    super.key,
+    required this.movies,
+    required this.onFetchMore,
+  });
 
   final AsyncValue<List<MovieSummary>> movies;
+  final VoidCallback onFetchMore;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return movies.when(
+  ConsumerState<MoviesList> createState() => _MoviesListState();
+}
+
+class _MoviesListState extends ConsumerState<MoviesList> {
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent * 0.9) {
+        widget.onFetchMore();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.movies.when(
       data: (movies) {
         return GridView.builder(
+          controller: _scrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.6,

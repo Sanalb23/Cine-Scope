@@ -1,8 +1,8 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
-import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/favorite_movies_provider.dart';
-import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/watch_list_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_favorite_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_in_watch_list_provider.dart';
 import 'package:cine_scope/features/movies/presentation/movie_card/genre_tags_row.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_screen.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
@@ -114,13 +114,13 @@ class MovieCard extends ConsumerWidget {
                       switch (value) {
                         case 'favorite':
                           ref
-                              .read(favoriteMoviesProvider.notifier)
-                              .toggleFavorite(movie.id);
+                              .read(isFavoriteProvider(movie.id).notifier)
+                              .toggleFavorite();
                           break;
                         case 'watchList':
                           ref
-                              .read(watchListProvider.notifier)
-                              .toggleInWatchList(movie.id);
+                              .read(isInWatchListProvider(movie.id).notifier)
+                              .toggleWatchList();
                           break;
                       }
                     },

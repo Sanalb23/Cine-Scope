@@ -13,7 +13,7 @@ class SkeletonPlaceholder extends StatelessWidget {
         context.colors.inverseSurface,
         0.1,
       )!,
-      highlightColor: context.colors.inverseSurface.withValues(alpha: 0.1),
+      highlightColor: context.colors.inverseSurface.withValues(alpha: 0.5),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

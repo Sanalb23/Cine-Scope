@@ -65,7 +65,7 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> getFavorites() async {
+  Future<List<MovieSummary>> getFavoriteMovies() async {
     final ids = _localDatasource.getFavorites();
 
     final movies = ids.map((id) async {
@@ -75,6 +75,11 @@ class MovieRepositoryImpl implements MovieRepository {
     }).toList();
 
     return await Future.wait(movies);
+  }
+
+  @override
+  bool isFavorite(int id) {
+    return _localDatasource.getFavorites().contains(id);
   }
 
   @override
@@ -88,7 +93,7 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> getWatchList() async {
+  Future<List<MovieSummary>> getWatchListMovies() async {
     final ids = _localDatasource.getWatchList();
 
     final movies = ids.map((id) async {
@@ -98,5 +103,10 @@ class MovieRepositoryImpl implements MovieRepository {
     }).toList();
 
     return await Future.wait(movies);
+  }
+
+  @override
+  bool isInWatchList(int id) {
+    return _localDatasource.getWatchList().contains(id);
   }
 }

@@ -3,30 +3,22 @@ import 'package:cine_scope/features/movies/domain/providers/movie_repository_pro
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final favoriteMoviesProvider =
-    AsyncNotifierProvider<FavoriteMoviesNotifier, List<MovieSummary>>(() {
+    AsyncNotifierProvider.autoDispose<
+      FavoriteMoviesNotifier,
+      List<MovieSummary>
+    >(() {
       return FavoriteMoviesNotifier();
     });
-
-final isFavoriteProvider = Provider.family<bool, int>((ref, id) {
-  final favorites = ref.watch(favoriteMoviesProvider);
-  return favorites.value?.any((m) => m.id == id) ?? false;
-});
 
 class FavoriteMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
   @override
   Future<List<MovieSummary>> build() async {
-    return await ref.watch(movieRepositoryProvider).getFavorites();
+    return await ref.watch(movieRepositoryProvider).getFavoriteMovies();
   }
 
-  Future<void> toggleFavorite(int id) async {
-    final isFavorite = state.value?.any((m) => m.id == id) ?? false;
-
-    if (isFavorite) {
-      await ref.read(movieRepositoryProvider).removeFavorite(id);
-    } else {
-      await ref.read(movieRepositoryProvider).addFavorite(id);
-    }
-
-    state = AsyncData(await ref.read(movieRepositoryProvider).getFavorites());
+  Future<void> getFavoriteMovies() async {
+    state = AsyncData(
+      await ref.watch(movieRepositoryProvider).getFavoriteMovies(),
+    );
   }
 }

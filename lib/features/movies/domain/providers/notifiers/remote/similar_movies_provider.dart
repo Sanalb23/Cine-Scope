@@ -16,6 +16,21 @@ class SimilarMoviesNotifier extends BasePaginatedMoviesNotifier {
   SimilarMoviesNotifier(this.movieId);
 
   @override
+  Future<List<MovieSummary>> build() async {
+    final link = ref.keepAlive();
+
+    final timer = Timer(const Duration(minutes: 3), () {
+      link.close();
+    });
+
+    ref.onDispose(() {
+      timer.cancel();
+    });
+
+    return super.build();
+  }
+
+  @override
   Future<List<MovieSummary>> fetchMoviesFromRepository(int page) async {
     return await ref
         .read(movieRepositoryProvider)

@@ -3,6 +3,7 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/core/widgets/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/movie_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/temp/mock_movie_provider.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/favorite_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_skeleton.dart';
@@ -10,6 +11,7 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/similar_movies_section/similar_movies_section.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
@@ -24,7 +26,7 @@ class MovieDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final movie = ref.watch(movieProvider(id));
+    final movie = ref.watch(mockMovieProvider);
 
     return Scaffold(
       body: movie.when(
@@ -137,9 +139,19 @@ class MovieDetailsScreen extends ConsumerWidget {
 
                       const SizedBox(height: AppSpacing.xl),
                       MovieOverview(overview: data.overview),
+
+                      Divider(),
                     ],
                   ),
                 ),
+              ),
+
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.xxl,
+                  vertical: AppSpacing.md,
+                ),
+                sliver: SliverToBoxAdapter(child: SimilarMoviesSection()),
               ),
             ],
           );

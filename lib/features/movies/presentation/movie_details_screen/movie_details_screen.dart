@@ -10,9 +10,9 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
-import 'package:cine_scope/features/movies/presentation/movie_details_screen/similar_movies_section/similar_movies_section.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
@@ -150,7 +150,19 @@ class MovieDetailsScreen extends ConsumerWidget {
                   horizontal: AppSpacing.xxl,
                   vertical: AppSpacing.md,
                 ),
-                sliver: SliverToBoxAdapter(child: SimilarMoviesSection()),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    spacing: AppSpacing.lg,
+                    children: [
+                      Text(
+                        'Similar Movies',
+                        style: context.textTheme.headlineSmall,
+                      ),
+                      const MovieListSkeleton(isScrollable: false),
+                    ],
+                  ),
+                ),
               ),
             ],
           );

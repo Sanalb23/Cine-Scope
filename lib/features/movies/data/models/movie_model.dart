@@ -5,8 +5,8 @@ class MovieModel {
   final int id;
   final String title;
   final String overview;
-  final String posterPath;
-  final String backdropPath;
+  final String? posterPath;
+  final String? backdropPath;
   final double voteAverage;
   final int voteCount;
   final String releaseDate;
@@ -84,8 +84,8 @@ class MovieModel {
       id: id,
       title: title,
       overview: overview,
-      posterPath: posterPath,
-      backdropPath: backdropPath,
+      posterPath: posterPath ?? '',
+      backdropPath: backdropPath ?? '',
       voteAverage: voteAverage,
       voteCount: voteCount,
       releaseDate: releaseDate,
@@ -100,7 +100,7 @@ class MovieModel {
     return MovieSummaryModel(
       id: id,
       title: title,
-      posterPath: posterPath,
+      posterPath: posterPath ?? '',
       voteAverage: voteAverage,
       releaseDate: releaseDate,
       genreIds: genres.map((x) => x.$1).toList(),

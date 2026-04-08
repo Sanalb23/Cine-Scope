@@ -3,7 +3,7 @@ import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 class MovieSummaryModel {
   final int id;
   final String title;
-  final String posterPath;
+  final String? posterPath;
   final double voteAverage;
   final String releaseDate;
   final List<int> genreIds;

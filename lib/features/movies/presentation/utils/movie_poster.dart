@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class MoviePoster extends StatelessWidget {
   const MoviePoster({super.key, required this.posterPath});
 
-  final String posterPath;
+  final String? posterPath;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class MoviePoster extends StatelessWidget {
     );
 
     return CachedNetworkImage(
-      imageUrl: posterPath,
+      imageUrl: posterPath ?? '',
       fit: BoxFit.cover,
       placeholder: (context, url) => const SkeletonPlaceholder(),
       imageBuilder: (context, imageProvider) => Container(

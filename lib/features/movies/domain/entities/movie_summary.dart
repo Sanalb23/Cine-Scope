@@ -1,7 +1,7 @@
 class MovieSummary {
   final int id;
   final String title;
-  final String posterPath;
+  final String? posterPath;
   final double voteAverage;
   final String releaseDate;
   final List<int> genreIds;

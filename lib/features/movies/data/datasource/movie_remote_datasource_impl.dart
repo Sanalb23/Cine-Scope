@@ -27,21 +27,21 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   MovieSummaryModel _buildMovieSummaryModel(Map<String, dynamic> json) {
     final movie = MovieSummaryModel.fromJson(json);
     return movie.copyWith(
-      posterPath: movie.posterPath.isNotEmpty
-          ? _buildImageUrl(movie.posterPath, _posterSize)
-          : '',
+      posterPath: movie.posterPath != null
+          ? _buildImageUrl(movie.posterPath!, _posterSize)
+          : null,
     );
   }
 
   MovieModel _buildMovieModel(Map<String, dynamic> json) {
     final movie = MovieModel.fromJson(json);
     return movie.copyWith(
-      posterPath: movie.posterPath.isNotEmpty
-          ? _buildImageUrl(movie.posterPath, _posterSize)
-          : '',
-      backdropPath: movie.backdropPath.isNotEmpty
-          ? _buildImageUrl(movie.backdropPath, _backdropSize)
-          : '',
+      posterPath: movie.posterPath != null
+          ? _buildImageUrl(movie.posterPath!, _posterSize)
+          : null,
+      backdropPath: movie.backdropPath != null
+          ? _buildImageUrl(movie.backdropPath!, _backdropSize)
+          : null,
     );
   }
 

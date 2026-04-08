@@ -2,8 +2,8 @@ class Movie {
   final int id;
   final String title;
   final String overview;
-  final String posterPath;
-  final String backdropPath;
+  final String? posterPath;
+  final String? backdropPath;
   final double voteAverage;
   final int voteCount;
   final String releaseDate;

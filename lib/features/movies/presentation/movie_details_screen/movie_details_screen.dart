@@ -65,7 +65,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                       fit: StackFit.expand,
                       children: [
                         CachedNetworkImage(
-                          imageUrl: data.backdropPath,
+                          imageUrl: data.backdropPath ?? '',
                           fit: BoxFit.cover,
                           placeholder: (context, url) =>
                               const SkeletonPlaceholder(),

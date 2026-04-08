@@ -82,7 +82,7 @@ class MovieCard extends ConsumerWidget {
                     label:
                         movie.releaseDate.isEmpty || movie.releaseDate == 'null'
                         ? 'TBD'
-                        : movie.releaseDate.substring(0, 4),
+                        : movie.releaseDate.split('-').first,
                   ),
                 ),
 

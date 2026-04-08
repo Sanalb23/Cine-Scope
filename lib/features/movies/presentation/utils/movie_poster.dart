@@ -17,25 +17,39 @@ class MoviePoster extends StatelessWidget {
       ],
     );
 
-    return CachedNetworkImage(
-      imageUrl: posterPath ?? '',
-      fit: BoxFit.cover,
-      placeholder: (context, url) => const SkeletonPlaceholder(),
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: shadowDecoration.boxShadow,
-          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-        ),
+    return posterPath == null
+        ? _ErrorWidget(shadowDecoration: shadowDecoration)
+        : CachedNetworkImage(
+            imageUrl: posterPath!,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const SkeletonPlaceholder(),
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: shadowDecoration.boxShadow,
+                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+              ),
+            ),
+            errorWidget: (context, url, error) =>
+                _ErrorWidget(shadowDecoration: shadowDecoration),
+          );
+  }
+}
+
+class _ErrorWidget extends StatelessWidget {
+  const _ErrorWidget({required this.shadowDecoration});
+
+  final BoxDecoration shadowDecoration;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: context.colors.surfaceContainerHighest,
+        boxShadow: shadowDecoration.boxShadow,
       ),
-      errorWidget: (context, url, error) => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: context.colors.surfaceContainerHighest,
-          boxShadow: shadowDecoration.boxShadow,
-        ),
-        child: const Center(child: NoImageAvaliable()),
-      ),
+      child: const Center(child: NoImageAvaliable()),
     );
   }
 }

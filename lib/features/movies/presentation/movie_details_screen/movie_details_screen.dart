@@ -64,16 +64,16 @@ class MovieDetailsScreen extends ConsumerWidget {
                     background: Stack(
                       fit: StackFit.expand,
                       children: [
-                        CachedNetworkImage(
-                          imageUrl: data.backdropPath ?? '',
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) =>
-                              const SkeletonPlaceholder(),
-                          errorWidget: (context, url, error) => Container(
-                            color: context.colors.surfaceContainerHighest,
-                            child: const Center(child: NoImageAvaliable()),
-                          ),
-                        ),
+                        data.backdropPath != null
+                            ? CachedNetworkImage(
+                                imageUrl: data.backdropPath!,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    const SkeletonPlaceholder(),
+                                errorWidget: (context, url, error) =>
+                                    const _BackdropErrorWidget(),
+                              )
+                            : const _BackdropErrorWidget(),
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -222,6 +222,18 @@ class MovieDetailsScreen extends ConsumerWidget {
           return const MovieDetailsSkeleton();
         },
       ),
+    );
+  }
+}
+
+class _BackdropErrorWidget extends StatelessWidget {
+  const _BackdropErrorWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: context.colors.surfaceContainerHighest,
+      child: const Center(child: NoImageAvaliable()),
     );
   }
 }

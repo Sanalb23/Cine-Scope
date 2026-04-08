@@ -5,7 +5,7 @@ import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleto
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoviesList extends ConsumerStatefulWidget {
+class MoviesList extends ConsumerWidget {
   const MoviesList({
     super.key,
     required this.movies,
@@ -16,45 +16,29 @@ class MoviesList extends ConsumerStatefulWidget {
   final VoidCallback onFetchMore;
 
   @override
-  ConsumerState<MoviesList> createState() => _MoviesListState();
-}
-
-class _MoviesListState extends ConsumerState<MoviesList> {
-  final _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent * 0.9) {
-        widget.onFetchMore();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.movies.when(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return movies.when(
       data: (movies) {
-        return GridView.builder(
-          controller: _scrollController,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.6,
-            mainAxisSpacing: AppSpacing.lg,
-            crossAxisSpacing: AppSpacing.lg,
-          ),
-          itemCount: movies.length,
-          itemBuilder: (context, index) {
-            return MovieCard(movie: movies[index]);
+        return NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            if (notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent * 0.9) {
+              onFetchMore();
+            }
+            return false;
           },
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.6,
+              mainAxisSpacing: AppSpacing.lg,
+              crossAxisSpacing: AppSpacing.lg,
+            ),
+            itemCount: movies.length,
+            itemBuilder: (context, index) {
+              return MovieCard(movie: movies[index]);
+            },
+          ),
         );
       },
       loading: () => const MovieListSkeleton(),

@@ -11,10 +11,10 @@ abstract class MovieRepository {
   Future<void> addFavorite(int id);
   Future<void> removeFavorite(int id);
   bool isFavorite(int id);
-  Future<List<MovieSummary>> getFavoriteMovies();
+  Future<List<MovieSummary>> getFavoriteMovies({int page = 1});
 
   Future<void> addToWatchList(int id);
   Future<void> removeFromWatchList(int id);
   bool isInWatchList(int id);
-  Future<List<MovieSummary>> getWatchListMovies();
+  Future<List<MovieSummary>> getWatchListMovies({int page = 1});
 }

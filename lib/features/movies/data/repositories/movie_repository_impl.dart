@@ -65,10 +65,12 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> getFavoriteMovies() async {
+  Future<List<MovieSummary>> getFavoriteMovies({int page = 1}) async {
     final ids = _localDatasource.getFavorites();
 
-    final futures = ids.map((id) async {
+    final paginatedIds = _paginatedList(page, ids);
+
+    final futures = paginatedIds.map((id) async {
       try {
         final movie = await _remoteDatasource.getMovieById(id: id);
         return movie.toMovieSummaryModel().toDomain();
@@ -99,10 +101,12 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> getWatchListMovies() async {
+  Future<List<MovieSummary>> getWatchListMovies({int page = 1}) async {
     final ids = _localDatasource.getWatchList();
 
-    final futures = ids.map((id) async {
+    final paginatedIds = _paginatedList(page, ids);
+
+    final futures = paginatedIds.map((id) async {
       try {
         final movie = await _remoteDatasource.getMovieById(id: id);
         return movie.toMovieSummaryModel().toDomain();
@@ -120,5 +124,13 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   bool isInWatchList(int id) {
     return _localDatasource.getWatchList().contains(id);
+  }
+
+  List<int> _paginatedList(int page, List<int> list) {
+    const pageLimit = 20;
+
+    final pageStart = (page - 1) * pageLimit;
+
+    return list.skip(pageStart).take(pageLimit).toList();
   }
 }

@@ -35,6 +35,7 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   @override
   List<int> getFavorites() {
     final stringList = _prefs.getStringList('favorites') ?? [];
+
     return stringList.map((e) => int.parse(e)).toList();
   }
 
@@ -66,6 +67,7 @@ class MovieLocalDatasourceImpl implements MovieLocalDatasource {
   @override
   List<int> getWatchList() {
     final stringList = _prefs.getStringList('watch_list') ?? [];
+
     return stringList.map((e) => int.parse(e)).toList();
   }
 }

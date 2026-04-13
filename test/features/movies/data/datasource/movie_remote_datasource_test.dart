@@ -48,6 +48,19 @@ void main() {
 
       expect(() => movieRemoteDatasource.getPopularMovies(), throwsException);
     });
+
+    test('should return only valid movies when json is invalid', () async {
+      final fakeResponse = fixture('invalid_movies_list');
+
+      when(
+        () => mockHttpClient.get(any()),
+      ).thenAnswer((_) async => http.Response(fakeResponse, 200));
+
+      final result = await movieRemoteDatasource.getPopularMovies();
+
+      expect(result, isA<List<MovieSummaryModel>>());
+      expect(result.length, 2);
+    });
   });
 
   group('movie details tests', () {

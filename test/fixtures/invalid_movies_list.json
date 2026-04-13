@@ -1,0 +1,79 @@
+{
+    "results": [
+        {
+            "id": null,
+            "title": 123,
+            "overview": null,
+            "poster_path": "",
+            "backdrop_path": "/backdrop1.jpg",
+            "vote_average": "7.5",
+            "vote_count": -10,
+            "release_date": "invalid-date",
+            "genre_ids": [
+                "28",
+                null
+            ],
+            "original_language": 10,
+            "popularity": "high",
+            "adult": "false"
+        },
+        {
+            "id": 2,
+            "title": "Movie 2",
+            "overview": "Valid overview but missing fields",
+            "vote_average": 6.8,
+            "vote_count": 85
+        },
+        {
+            "id": 3,
+            "title": "Movie 3",
+            "overview": "This is a test overview for movie 3.",
+            "poster_path": "/poster3.jpg",
+            "backdrop_path": "/backdrop3.jpg",
+            "vote_average": 8.1,
+            "vote_count": 200,
+            "release_date": "2025-10-10",
+            "genre_ids": [
+                35
+            ],
+            "original_language": "en",
+            "popularity": 120.5,
+            "adult": false,
+            "unexpected_field": "???",
+            "another_one": {
+                "nested": "value"
+            }
+        },
+        {
+            "id": 4,
+            "title": "",
+            "overview": "",
+            "poster_path": null,
+            "backdrop_path": null,
+            "vote_average": 0,
+            "vote_count": 0,
+            "release_date": "",
+            "genre_ids": [],
+            "original_language": "",
+            "popularity": 0,
+            "adult": false
+        },
+        {
+            "id": 1,
+            "title": "Movie 1",
+            "overview": "This is a test overview for movie 1.",
+            "poster_path": "/poster1.jpg",
+            "backdrop_path": "/backdrop1.jpg",
+            "vote_average": 7.5,
+            "vote_count": 120,
+            "release_date": "2026-01-01",
+            "genre_ids": [
+                28,
+                12
+            ],
+            "original_language": "en",
+            "popularity": 150.3,
+            "adult": false
+        }
+    ]
+}

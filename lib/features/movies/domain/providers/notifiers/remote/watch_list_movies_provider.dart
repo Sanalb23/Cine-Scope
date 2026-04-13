@@ -1,5 +1,6 @@
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/base_paginated_movies_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final watchListMoviesProvider =
@@ -7,15 +8,11 @@ final watchListMoviesProvider =
       return WatchListMoviesNotifier();
     });
 
-class WatchListMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
+class WatchListMoviesNotifier extends BasePaginatedMoviesNotifier {
   @override
-  Future<List<MovieSummary>> build() async {
-    return await ref.watch(movieRepositoryProvider).getWatchListMovies();
-  }
-
-  Future<void> getWatchListMovies() async {
-    state = AsyncData(
-      await ref.watch(movieRepositoryProvider).getWatchListMovies(),
-    );
+  Future<List<MovieSummary>> fetchMoviesFromRepository(int page) async {
+    return await ref
+        .read(movieRepositoryProvider)
+        .getWatchListMovies(page: page);
   }
 }

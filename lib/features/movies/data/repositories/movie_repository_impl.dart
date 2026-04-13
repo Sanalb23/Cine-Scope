@@ -68,13 +68,19 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<List<MovieSummary>> getFavoriteMovies() async {
     final ids = _localDatasource.getFavorites();
 
-    final movies = ids.map((id) async {
-      return await _remoteDatasource
-          .getMovieById(id: id)
-          .then((x) => x.toMovieSummaryModel().toDomain());
-    }).toList();
+    final futures = ids.map((id) async {
+      try {
+        final movie = await _remoteDatasource.getMovieById(id: id);
+        return movie.toMovieSummaryModel().toDomain();
+      } catch (_) {
+        // Return null if fetching the movie fails
+        return null;
+      }
+    });
 
-    return await Future.wait(movies);
+    final results = await Future.wait(futures);
+    // Filter out the nulls
+    return results.whereType<MovieSummary>().toList();
   }
 
   @override
@@ -96,13 +102,19 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<List<MovieSummary>> getWatchListMovies() async {
     final ids = _localDatasource.getWatchList();
 
-    final movies = ids.map((id) async {
-      return await _remoteDatasource
-          .getMovieById(id: id)
-          .then((x) => x.toMovieSummaryModel().toDomain());
-    }).toList();
+    final futures = ids.map((id) async {
+      try {
+        final movie = await _remoteDatasource.getMovieById(id: id);
+        return movie.toMovieSummaryModel().toDomain();
+      } catch (_) {
+        // Return null if fetching the movie fails
+        return null;
+      }
+    });
 
-    return await Future.wait(movies);
+    final results = await Future.wait(futures);
+    // Filter out the nulls
+    return results.whereType<MovieSummary>().toList();
   }
 
   @override

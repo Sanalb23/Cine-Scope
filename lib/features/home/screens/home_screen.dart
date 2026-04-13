@@ -1,6 +1,7 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/home/screens/home_page_body.dart';
+import 'package:cine_scope/features/movies/presentation/favorite_movies_screen/favorite_movies_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -56,7 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               leading: const Icon(Icons.bookmark),
               title: const Text('Favorites'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoriteMoviesScreen(),
+                  ),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.watch_later),

@@ -52,9 +52,15 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List).map((x) {
-        return _buildMovieSummaryModel(x);
-      }).toList();
+      final List<MovieSummaryModel> movies = [];
+      for (final x in data['results'] as List) {
+        try {
+          movies.add(_buildMovieSummaryModel(x));
+        } catch (_) {
+          // Ignore element if parsing fails
+        }
+      }
+      return movies;
     } else {
       throw Exception('Failed to load movies');
     }
@@ -67,9 +73,15 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List).map((x) {
-        return _buildMovieSummaryModel(x);
-      }).toList();
+      final List<MovieSummaryModel> movies = [];
+      for (final x in data['results'] as List) {
+        try {
+          movies.add(_buildMovieSummaryModel(x));
+        } catch (_) {
+          // Ignore element if parsing fails
+        }
+      }
+      return movies;
     } else {
       throw Exception('Failed to load movies');
     }
@@ -87,9 +99,15 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List).map((x) {
-        return _buildMovieSummaryModel(x);
-      }).toList();
+      final List<MovieSummaryModel> movies = [];
+      for (final x in data['results'] as List) {
+        try {
+          movies.add(_buildMovieSummaryModel(x));
+        } catch (_) {
+          // Ignore element if parsing fails
+        }
+      }
+      return movies;
     } else {
       throw Exception('Failed to load movies');
     }
@@ -118,9 +136,15 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return (data['results'] as List).map((x) {
-        return _buildMovieSummaryModel(x);
-      }).toList();
+      final List<MovieSummaryModel> movies = [];
+      for (final x in data['results'] as List) {
+        try {
+          movies.add(_buildMovieSummaryModel(x));
+        } catch (_) {
+          // Ignore element if parsing fails
+        }
+      }
+      return movies;
     } else {
       throw Exception('Failed to load movies');
     }

@@ -10,15 +10,34 @@ class MoviesList extends ConsumerWidget {
     super.key,
     required this.movies,
     required this.onFetchMore,
+    this.onRefresh,
   });
 
   final AsyncValue<List<MovieSummary>> movies;
   final VoidCallback onFetchMore;
+  final Future<void> Function()? onRefresh;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return movies.when(
       data: (movies) {
+        Widget grid = GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.6,
+            mainAxisSpacing: AppSpacing.lg,
+            crossAxisSpacing: AppSpacing.lg,
+          ),
+          itemCount: movies.length,
+          itemBuilder: (context, index) {
+            return MovieCard(movie: movies[index]);
+          },
+        );
+
+        if (onRefresh != null) {
+          grid = RefreshIndicator(onRefresh: onRefresh!, child: grid);
+        }
+
         return NotificationListener<ScrollNotification>(
           onNotification: (notification) {
             if (notification.metrics.pixels >=
@@ -27,18 +46,7 @@ class MoviesList extends ConsumerWidget {
             }
             return false;
           },
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.6,
-              mainAxisSpacing: AppSpacing.lg,
-              crossAxisSpacing: AppSpacing.lg,
-            ),
-            itemCount: movies.length,
-            itemBuilder: (context, index) {
-              return MovieCard(movie: movies[index]);
-            },
-          ),
+          child: grid,
         );
       },
       loading: () => const MovieListSkeleton(),

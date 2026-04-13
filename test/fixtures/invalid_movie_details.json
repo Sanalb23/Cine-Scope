@@ -1,0 +1,24 @@
+{
+    "adult": "false",
+    "backdrop_path": null,
+    "genres": [
+        {
+            "id": "18",
+            "name": null
+        },
+        {
+            "id": null,
+            "name": "Thriller"
+        },
+        {}
+    ],
+    "id": null,
+    "original_language": 123,
+    "overview": "",
+    "popularity": "high",
+    "poster_path": "",
+    "release_date": "15-10-1999",
+    "title": null,
+    "vote_average": 15,
+    "vote_count": -100
+}

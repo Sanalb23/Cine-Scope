@@ -57,6 +57,32 @@ void main() {
       expect(result, isA<List<MovieSummary>>());
       expect(result.length, 2);
     });
+
+    test('should return only valid movies when json is invalid', () async {
+      //arrange
+      final fakeInvalidMovie = fixture('invalid_movie_details');
+
+      final fakeMovie = fixture('movie_details');
+
+      when(() => mockMovieRemoteDatasource.getMovieById(id: 1)).thenAnswer(
+        (_) async => MovieModel.fromJson(jsonDecode(fakeInvalidMovie)),
+      );
+
+      when(
+        () => mockMovieRemoteDatasource.getMovieById(id: 2),
+      ).thenAnswer((_) async => MovieModel.fromJson(jsonDecode(fakeMovie)));
+
+      when(
+        () => mockMovieLocalDatasource.getFavorites(),
+      ).thenAnswer((_) => [1, 2]);
+
+      //act
+      final result = await movieRepository.getFavoriteMovies();
+
+      //assert
+      expect(result, isA<List<MovieSummary>>());
+      expect(result.length, 1);
+    });
   });
 
   test('should return a list of movies in watchlist', () async {

@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/presentation/movie_card/movie_card.dart';
@@ -21,6 +22,15 @@ class MoviesList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return movies.when(
       data: (movies) {
+        if (movies.isEmpty) {
+          return Center(
+            child: Text(
+              'No movies found',
+              style: context.textTheme.headlineSmall,
+            ),
+          );
+        }
+
         Widget grid = GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,

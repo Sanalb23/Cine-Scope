@@ -1,6 +1,6 @@
 import 'package:cine_scope/features/movies/data/repositories/movie_repository.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
-import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

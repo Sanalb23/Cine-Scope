@@ -1,45 +1,30 @@
 import 'dart:async';
-import 'package:cine_scope/features/movies/data/utils/preload_posters.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/base_paginated_movies_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final searchMoviesProvider =
-    AsyncNotifierProvider<SearchMoviesNotifier, List<MovieSummary>>(() {
-      return SearchMoviesNotifier();
-    });
+final searchMoviesProvider = AsyncNotifierProvider.autoDispose
+    .family<SearchMoviesNotifier, List<MovieSummary>, String>(
+      SearchMoviesNotifier.new,
+    );
 
-class SearchMoviesNotifier extends AsyncNotifier<List<MovieSummary>> {
-  final _cache = <String, List<MovieSummary>>{};
+class SearchMoviesNotifier extends BasePaginatedMoviesNotifier {
+  final String query;
+  SearchMoviesNotifier(this.query, {super.preloadPostersFn});
 
   @override
-  Future<List<MovieSummary>> build() async {
-    return [];
+  Future<List<MovieSummary>> build() {
+    if (query.isEmpty) {
+      return Future.value([]);
+    }
+    return super.build();
   }
 
-  Future<void> searchMovies(String query) async {
-    if (query.isEmpty) {
-      state = const AsyncData([]);
-      return;
-    }
-
-    if (_cache.containsKey(query)) {
-      state = AsyncData(_cache[query]!);
-      return;
-    }
-
-    state = const AsyncLoading();
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    state = await AsyncValue.guard(() async {
-      final results = await ref
-          .read(movieRepositoryProvider)
-          .searchMovie(query: query);
-      _cache[query] = results;
-
-      await preloadPosters(results);
-
-      return results;
-    });
+  @override
+  Future<List<MovieSummary>> fetchMoviesFromRepository(int page) {
+    return ref
+        .read(movieRepositoryProvider)
+        .searchMovie(query: query, page: page);
   }
 }

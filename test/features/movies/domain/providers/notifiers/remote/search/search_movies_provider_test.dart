@@ -17,6 +17,12 @@ void main() {
     container = ProviderContainer(
       overrides: [
         movieRepositoryProvider.overrideWithValue(mockMovieRepository),
+        searchMoviesProvider.overrideWith2(
+          (arg) => SearchMoviesNotifier(
+            arg,
+            preloadPostersFn: (movies) async => movies,
+          ),
+        ),
       ],
     );
   });
@@ -27,8 +33,7 @@ void main() {
 
   group('search movies provider test', () {
     test('should return empty list when query is empty', () async {
-      await container.read(searchMoviesProvider.notifier).searchMovies('');
-      final result = await container.read(searchMoviesProvider.future);
+      final result = await container.read(searchMoviesProvider('').future);
 
       expect(result, isEmpty);
 
@@ -56,13 +61,12 @@ void main() {
       ).thenAnswer((_) async => expectedMovies);
 
       final subscription = container.listen(
-        searchMoviesProvider,
-        (previous, next) {},
+        searchMoviesProvider(query),
+        (_, __) {},
       );
 
-      await container.read(searchMoviesProvider.notifier).searchMovies(query);
+      final result = await container.read(searchMoviesProvider(query).future);
 
-      final result = await container.read(searchMoviesProvider.future);
       expect(result, expectedMovies);
 
       verify(() => mockMovieRepository.searchMovie(query: query)).called(1);

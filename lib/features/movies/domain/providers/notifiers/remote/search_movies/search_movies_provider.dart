@@ -18,6 +18,15 @@ class SearchMoviesNotifier extends BasePaginatedMoviesNotifier {
     if (query.isEmpty) {
       return Future.value([]);
     }
+
+    final link = ref.keepAlive();
+
+    final timer = Timer(const Duration(minutes: 3), () {
+      link.close();
+    });
+
+    ref.onDispose(() => timer.cancel());
+
     return super.build();
   }
 

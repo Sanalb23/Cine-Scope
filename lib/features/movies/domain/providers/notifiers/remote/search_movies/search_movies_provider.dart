@@ -10,8 +10,9 @@ final searchMoviesProvider = AsyncNotifierProvider.autoDispose
     );
 
 class SearchMoviesNotifier extends BasePaginatedMoviesNotifier {
-  final String query;
   SearchMoviesNotifier(this.query, {super.preloadPostersFn});
+
+  final String query;
 
   @override
   Future<List<MovieSummary>> build() async {

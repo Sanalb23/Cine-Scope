@@ -14,10 +14,16 @@ class SearchMoviesNotifier extends BasePaginatedMoviesNotifier {
   SearchMoviesNotifier(this.query, {super.preloadPostersFn});
 
   @override
-  Future<List<MovieSummary>> build() {
-    if (query.isEmpty) {
-      return Future.value([]);
-    }
+  Future<List<MovieSummary>> build() async {
+    if (query.isEmpty) return Future.value([]);
+
+    bool isCancelled = false;
+
+    ref.onDispose(() => isCancelled = true);
+
+    await Future.delayed(const Duration(milliseconds: 800));
+
+    if (isCancelled) return [];
 
     final link = ref.keepAlive();
 

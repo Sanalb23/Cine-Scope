@@ -4,6 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class BasePaginatedMoviesNotifier
     extends AsyncNotifier<List<MovieSummary>> {
+  BasePaginatedMoviesNotifier({this.preloadPostersFn});
+
+  final Future<List<MovieSummary>> Function(List<MovieSummary>)?
+  preloadPostersFn;
+
   int _currentPage = 1;
   bool _isFetchingMore = false;
 
@@ -15,7 +20,8 @@ abstract class BasePaginatedMoviesNotifier
     _isFetchingMore = false;
 
     final movies = await fetchMoviesFromRepository(_currentPage);
-    await preloadPosters(movies);
+    final preloader = preloadPostersFn ?? preloadPosters;
+    await preloader(movies);
     return movies;
   }
 
@@ -31,7 +37,8 @@ abstract class BasePaginatedMoviesNotifier
 
       final currentMovies = state.value!;
 
-      await preloadPosters(newMovies);
+      final preloader = preloadPostersFn ?? preloadPosters;
+      await preloader(newMovies);
 
       state = AsyncData([...currentMovies, ...newMovies]);
     } catch (e) {

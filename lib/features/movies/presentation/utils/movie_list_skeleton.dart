@@ -1,4 +1,4 @@
-import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
 import 'package:flutter/material.dart';
 

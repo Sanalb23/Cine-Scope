@@ -1,4 +1,5 @@
-import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/core/theme/app_theme_provider.dart';
+import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_screen.dart';
 import 'package:cine_scope/core/providers/prefs_instance_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,15 +21,17 @@ void main() async {
   );
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(appThemeProvider);
+
     return MaterialApp(
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.dark,
+      themeMode: themeMode,
       home: const HomeScreen(),
     );
   }

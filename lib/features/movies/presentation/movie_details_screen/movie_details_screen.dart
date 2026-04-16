@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
-import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/core/widgets/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/movie_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/similar_movies_provider.dart';

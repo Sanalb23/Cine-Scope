@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
-import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_favorite_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_in_watch_list_provider.dart';

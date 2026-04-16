@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
-import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TryAgainLater extends StatelessWidget {

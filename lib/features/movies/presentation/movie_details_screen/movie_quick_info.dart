@@ -8,11 +8,13 @@ class MovieQuickInfo extends StatelessWidget {
     required this.releaseDate,
     required this.originalLanguage,
     required this.adult,
+    required this.runtime,
   });
 
   final String releaseDate;
   final String originalLanguage;
   final bool adult;
+  final int runtime;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,9 @@ class MovieQuickInfo extends StatelessWidget {
         Text(releaseDate.isNotEmpty ? releaseDate.substring(0, 4) : 'N/A'),
         const _InfoRowSpacer(),
         Text(originalLanguage.toUpperCase()),
+        const _InfoRowSpacer(),
+        Text('$runtime min'),
+
         if (adult) ...[
           const _InfoRowSpacer(),
           Container(

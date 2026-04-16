@@ -133,6 +133,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                                     releaseDate: data.releaseDate,
                                     originalLanguage: data.originalLanguage,
                                     adult: data.adult,
+                                    runtime: data.runtime,
                                   ),
 
                                   Wrap(

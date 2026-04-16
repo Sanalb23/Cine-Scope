@@ -1,6 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
-import 'package:cine_scope/features/movies/presentation/utils/movie_runtime.dart';
 import 'package:flutter/material.dart';
 
 class MovieQuickInfo extends StatelessWidget {
@@ -9,13 +8,11 @@ class MovieQuickInfo extends StatelessWidget {
     required this.releaseDate,
     required this.originalLanguage,
     required this.adult,
-    required this.runtime,
   });
 
   final String releaseDate;
   final String originalLanguage;
   final bool adult;
-  final int runtime;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +24,6 @@ class MovieQuickInfo extends StatelessWidget {
         Text(releaseDate.isNotEmpty ? releaseDate.substring(0, 4) : 'N/A'),
         const _InfoRowSpacer(),
         Text(originalLanguage.toUpperCase()),
-        const _InfoRowSpacer(),
-        MovieRuntime(runtime: runtime),
 
         if (adult) ...[
           const _InfoRowSpacer(),

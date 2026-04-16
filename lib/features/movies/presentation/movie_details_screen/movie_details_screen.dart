@@ -16,6 +16,7 @@ import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:cine_scope/features/movies/presentation/movie_card/movie_card.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movie_runtime.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
 import 'package:flutter/material.dart';
@@ -122,6 +123,8 @@ class MovieDetailsScreen extends ConsumerWidget {
                                     style: context.textTheme.headlineMedium,
                                   ),
 
+                                  MovieRuntime(runtime: data.runtime),
+
                                   MoviePopularity(popularity: data.popularity),
 
                                   MovieRating(
@@ -133,7 +136,6 @@ class MovieDetailsScreen extends ConsumerWidget {
                                     releaseDate: data.releaseDate,
                                     originalLanguage: data.originalLanguage,
                                     adult: data.adult,
-                                    runtime: data.runtime,
                                   ),
 
                                   Wrap(

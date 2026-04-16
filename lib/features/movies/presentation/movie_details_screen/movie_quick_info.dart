@@ -21,7 +21,7 @@ class MovieQuickInfo extends StatelessWidget {
       spacing: AppSpacing.xl,
       runSpacing: AppSpacing.md,
       children: [
-        Text(releaseDate.substring(0, 4)),
+        Text(releaseDate.isNotEmpty ? releaseDate.substring(0, 4) : 'N/A'),
         const _InfoRowSpacer(),
         Text(originalLanguage.toUpperCase()),
         if (adult) ...[

@@ -53,9 +53,13 @@ class _MoviesList extends ConsumerWidget {
 
     final results = ref.watch(searchMoviesProvider(query));
 
-    return MoviesList(
-      movies: results,
-      onFetchMore: ref.read(searchMoviesProvider(query).notifier).fetchMore,
-    );
+    return query.isEmpty
+        ? const Center(child: Text('Search for a movie'))
+        : MoviesList(
+            movies: results,
+            onFetchMore: ref
+                .read(searchMoviesProvider(query).notifier)
+                .fetchMore,
+          );
   }
 }

@@ -17,4 +17,9 @@ class AppThemeNotifier extends Notifier<ThemeMode> {
     await ref.read(settingsRepositoryProvider).setTheme(theme);
     state = theme;
   }
+
+  void toggleTheme() {
+    final theme = state;
+    setTheme(theme == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
+  }
 }

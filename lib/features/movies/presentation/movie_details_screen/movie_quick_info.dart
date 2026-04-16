@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
+import 'package:cine_scope/core/extensions/duration_extensions.dart';
 import 'package:cine_scope/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,8 @@ class MovieQuickInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final runtimeString = Duration(minutes: runtime).hoursAndMinutesString;
+
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       spacing: AppSpacing.xl,
@@ -27,7 +30,7 @@ class MovieQuickInfo extends StatelessWidget {
         const _InfoRowSpacer(),
         Text(originalLanguage.toUpperCase()),
         const _InfoRowSpacer(),
-        Text('$runtime min'),
+        Text(runtimeString),
 
         if (adult) ...[
           const _InfoRowSpacer(),

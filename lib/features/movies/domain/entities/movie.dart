@@ -11,6 +11,7 @@ class Movie {
   final String originalLanguage;
   final double popularity;
   final bool adult;
+  final int runtime;
 
   Movie({
     required this.id,
@@ -25,5 +26,6 @@ class Movie {
     required this.originalLanguage,
     required this.popularity,
     required this.adult,
+    required this.runtime,
   });
 }

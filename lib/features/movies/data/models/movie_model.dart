@@ -14,6 +14,7 @@ class MovieModel {
   final String originalLanguage;
   final double popularity;
   final bool adult;
+  final int runtime;
 
   MovieModel({
     required this.id,
@@ -28,6 +29,7 @@ class MovieModel {
     required this.originalLanguage,
     required this.popularity,
     required this.adult,
+    required this.runtime,
   });
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class MovieModel {
       originalLanguage: json['original_language'],
       popularity: json['popularity'],
       adult: json['adult'],
+      runtime: json['runtime'],
     );
   }
 
@@ -62,6 +65,7 @@ class MovieModel {
     String? originalLanguage,
     double? popularity,
     bool? adult,
+    int? runtime,
   }) {
     return MovieModel(
       id: id ?? this.id,
@@ -76,6 +80,7 @@ class MovieModel {
       originalLanguage: originalLanguage ?? this.originalLanguage,
       popularity: popularity ?? this.popularity,
       adult: adult ?? this.adult,
+      runtime: runtime ?? this.runtime,
     );
   }
 
@@ -93,6 +98,7 @@ class MovieModel {
       originalLanguage: originalLanguage,
       popularity: popularity,
       adult: adult,
+      runtime: runtime,
     );
   }
 

@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
-import 'package:cine_scope/core/theme/app_theme.dart';
+import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
 import 'package:cine_scope/features/home/presentation/search_page_body.dart';
 import 'package:cine_scope/features/movies/presentation/favorite_movies_screen/favorite_movies_screen.dart';

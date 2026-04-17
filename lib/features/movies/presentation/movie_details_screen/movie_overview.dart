@@ -14,7 +14,10 @@ class MovieOverview extends StatelessWidget {
       spacing: AppSpacing.md,
       children: [
         Text('Overview', style: context.textTheme.headlineSmall),
-        Text(overview, style: context.textTheme.bodyMedium),
+        Text(
+          overview.isNotEmpty ? overview : 'No overview available',
+          style: context.textTheme.bodyMedium,
+        ),
       ],
     );
   }

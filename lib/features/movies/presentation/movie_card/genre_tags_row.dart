@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
+import 'package:cine_scope/core/features/genres/domain/genre_provider.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:flutter/material.dart';
@@ -17,30 +18,9 @@ class GenreTagsRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Replace with actual genre provider
-    final mockGenresMap = AsyncValue.data({
-      28: 'Action',
-      12: 'Adventure',
-      16: 'Animation',
-      35: 'Comedy',
-      80: 'Crime',
-      99: 'Documentary',
-      18: 'Drama',
-      10751: 'Family',
-      14: 'Fantasy',
-      36: 'History',
-      27: 'Horror',
-      10402: 'Music',
-      9648: 'Mystery',
-      10749: 'Romance',
-      878: 'Science Fiction',
-      10770: 'TV Movie',
-      53: 'Thriller',
-      10752: 'War',
-      37: 'Western',
-    });
+    final genresMap = ref.watch(genreProvider);
 
-    return mockGenresMap.when(
+    return genresMap.when(
       data: (data) => OverflowView.flexible(
         spacing: spacing,
         builder: (context, overflowCount) =>

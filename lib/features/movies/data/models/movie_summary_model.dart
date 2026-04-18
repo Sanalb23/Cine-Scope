@@ -21,12 +21,14 @@ class MovieSummaryModel {
 
   factory MovieSummaryModel.fromJson(Map<String, dynamic> json) {
     return MovieSummaryModel(
-      id: json['id'],
-      title: json['title'],
+      id: json['id'] ?? 0,
+      title: json['title'] ?? 'Unknown',
       posterPath: json['poster_path'],
-      voteAverage: json['vote_average'],
-      releaseDate: json['release_date'],
-      genreIds: List<int>.from(json['genre_ids']),
+      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
+      releaseDate: json['release_date'] != null
+          ? json['release_date'].toString().split('-').first
+          : 'TBD',
+      genreIds: List<int>.from(json['genre_ids'] ?? []),
       adult: json['adult'],
     );
   }

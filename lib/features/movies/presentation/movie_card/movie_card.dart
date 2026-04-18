@@ -78,12 +78,7 @@ class MovieCard extends ConsumerWidget {
                 Positioned(
                   bottom: AppSpacing.md,
                   right: AppSpacing.md,
-                  child: _InfoBadge(
-                    label:
-                        movie.releaseDate.isEmpty || movie.releaseDate == 'null'
-                        ? 'TBD'
-                        : movie.releaseDate.split('-').first,
-                  ),
+                  child: _InfoBadge(label: movie.releaseDate),
                 ),
 
                 if (movie.adult)

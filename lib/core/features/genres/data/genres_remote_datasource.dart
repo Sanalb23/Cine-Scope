@@ -18,8 +18,10 @@ class GenresRemoteDataSource {
     final response = await _httpClient.get(Uri.parse(_baseUrl));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
-      return Map<int, String>.from(
-        data['genres'].map((x) => MapEntry(x['id'], x['name'])),
+      return Map<int, String>.fromEntries(
+        (data['genres'] as List).map(
+          (genre) => MapEntry<int, String>(genre['id'], genre['name']),
+        ),
       );
     } else {
       throw Exception('Failed to load movie genres');

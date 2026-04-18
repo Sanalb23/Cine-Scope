@@ -66,8 +66,12 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       Uri.parse('$_baseUrl/movie/$id?api_key=$_apiKey'),
     );
     if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      return _buildMovieModel(data);
+      try {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        return _buildMovieModel(data);
+      } catch (_) {
+        throw Exception('Failed to load movie');
+      }
     } else {
       throw Exception('Failed to load movie');
     }

@@ -24,15 +24,6 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     return '$_baseImageUrl$size$path';
   }
 
-  MovieSummaryModel _buildMovieSummaryModel(Map<String, dynamic> json) {
-    final movie = MovieSummaryModel.fromJson(json);
-    return movie.copyWith(
-      posterPath: movie.posterPath != null
-          ? _buildImageUrl(movie.posterPath!, _posterSize)
-          : null,
-    );
-  }
-
   MovieModel _buildMovieModel(Map<String, dynamic> json) {
     final movie = MovieModel.fromJson(json);
     return movie.copyWith(
@@ -47,44 +38,16 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
 
   @override
   Future<List<MovieSummaryModel>> getPopularMovies({int page = 1}) async {
-    final response = await _httpClient.get(
-      Uri.parse('$_baseUrl/movie/popular?api_key=$_apiKey&page=$page'),
+    return await getMoviesList(
+      path: '/movie/popular?api_key=$_apiKey&page=$page',
     );
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      final List<MovieSummaryModel> movies = [];
-      for (final x in data['results'] as List) {
-        try {
-          movies.add(_buildMovieSummaryModel(x));
-        } catch (_) {
-          // Ignore element if parsing fails
-        }
-      }
-      return movies;
-    } else {
-      throw Exception('Failed to load movies');
-    }
   }
 
   @override
   Future<List<MovieSummaryModel>> getTopRatedMovies({int page = 1}) async {
-    final response = await _httpClient.get(
-      Uri.parse('$_baseUrl/movie/top_rated?api_key=$_apiKey&page=$page'),
+    return await getMoviesList(
+      path: '/movie/top_rated?api_key=$_apiKey&page=$page',
     );
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      final List<MovieSummaryModel> movies = [];
-      for (final x in data['results'] as List) {
-        try {
-          movies.add(_buildMovieSummaryModel(x));
-        } catch (_) {
-          // Ignore element if parsing fails
-        }
-      }
-      return movies;
-    } else {
-      throw Exception('Failed to load movies');
-    }
   }
 
   @override
@@ -92,25 +55,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     required String query,
     int page = 1,
   }) async {
-    final response = await _httpClient.get(
-      Uri.parse(
-        '$_baseUrl/search/movie?api_key=$_apiKey&query=$query&page=$page',
-      ),
+    return await getMoviesList(
+      path: '/search/movie?api_key=$_apiKey&query=$query&page=$page',
     );
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      final List<MovieSummaryModel> movies = [];
-      for (final x in data['results'] as List) {
-        try {
-          movies.add(_buildMovieSummaryModel(x));
-        } catch (_) {
-          // Ignore element if parsing fails
-        }
-      }
-      return movies;
-    } else {
-      throw Exception('Failed to load movies');
-    }
   }
 
   @override
@@ -131,15 +78,28 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     required int id,
     int page = 1,
   }) async {
-    final response = await _httpClient.get(
-      Uri.parse('$_baseUrl/movie/$id/similar?api_key=$_apiKey&page=$page'),
+    return await getMoviesList(
+      path: '/movie/$id/similar?api_key=$_apiKey&page=$page',
     );
+  }
+
+  Future<List<MovieSummaryModel>> getMoviesList({required String path}) async {
+    MovieSummaryModel buildMovieSummaryModel(Map<String, dynamic> json) {
+      final movie = MovieSummaryModel.fromJson(json);
+      return movie.copyWith(
+        posterPath: movie.posterPath != null
+            ? _buildImageUrl(movie.posterPath!, _posterSize)
+            : null,
+      );
+    }
+
+    final response = await _httpClient.get(Uri.parse('$_baseUrl$path'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       final List<MovieSummaryModel> movies = [];
       for (final x in data['results'] as List) {
         try {
-          movies.add(_buildMovieSummaryModel(x));
+          movies.add(buildMovieSummaryModel(x));
         } catch (_) {
           // Ignore element if parsing fails
         }

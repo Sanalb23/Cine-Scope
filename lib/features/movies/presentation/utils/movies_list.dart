@@ -6,7 +6,7 @@ import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleto
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoviesList extends ConsumerWidget {
+class MoviesList extends StatefulWidget {
   const MoviesList({
     super.key,
     required this.movies,
@@ -15,12 +15,19 @@ class MoviesList extends ConsumerWidget {
   });
 
   final AsyncValue<List<MovieSummary>> movies;
-  final VoidCallback onFetchMore;
+  final Future<void> Function() onFetchMore;
   final Future<void> Function()? onRefresh;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return movies.when(
+  State<MoviesList> createState() => _MoviesListState();
+}
+
+class _MoviesListState extends State<MoviesList> {
+  bool isFetchingMore = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.movies.when(
       data: (movies) {
         if (movies.isEmpty) {
           return Center(
@@ -32,6 +39,8 @@ class MoviesList extends ConsumerWidget {
         }
 
         Widget grid = GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.6,
@@ -44,19 +53,36 @@ class MoviesList extends ConsumerWidget {
           },
         );
 
-        if (onRefresh != null) {
-          grid = RefreshIndicator(onRefresh: onRefresh!, child: grid);
+        if (widget.onRefresh != null) {
+          grid = RefreshIndicator(onRefresh: widget.onRefresh!, child: grid);
         }
 
         return NotificationListener<ScrollNotification>(
           onNotification: (notification) {
-            if (notification.metrics.pixels >=
-                notification.metrics.maxScrollExtent * 0.9) {
-              onFetchMore();
+            if (!isFetchingMore &&
+                notification.metrics.pixels >=
+                    notification.metrics.maxScrollExtent * 0.9) {
+              setState(() {
+                isFetchingMore = true;
+              });
+              widget.onFetchMore().then((_) {
+                if (mounted) {
+                  setState(() {
+                    isFetchingMore = false;
+                  });
+                }
+              });
             }
             return false;
           },
-          child: grid,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              grid,
+              const SizedBox(height: AppSpacing.lg),
+              if (isFetchingMore) const MovieListSkeleton(isScrollable: false),
+            ],
+          ),
         );
       },
       loading: () => const MovieListSkeleton(),

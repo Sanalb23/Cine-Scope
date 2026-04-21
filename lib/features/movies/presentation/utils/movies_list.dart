@@ -25,6 +25,22 @@ class MoviesList extends StatefulWidget {
 class _MoviesListState extends State<MoviesList> {
   bool isFetchingMore = false;
 
+  void fetchMore() {
+    if (widget.movies.hasValue) {
+      setState(() {
+        isFetchingMore = true;
+      });
+
+      widget.onFetchMore().then((_) {
+        if (mounted) {
+          setState(() {
+            isFetchingMore = false;
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return widget.movies.when(
@@ -62,16 +78,7 @@ class _MoviesListState extends State<MoviesList> {
             if (!isFetchingMore &&
                 notification.metrics.pixels >=
                     notification.metrics.maxScrollExtent * 0.9) {
-              setState(() {
-                isFetchingMore = true;
-              });
-              widget.onFetchMore().then((_) {
-                if (mounted) {
-                  setState(() {
-                    isFetchingMore = false;
-                  });
-                }
-              });
+              fetchMore();
             }
             return false;
           },

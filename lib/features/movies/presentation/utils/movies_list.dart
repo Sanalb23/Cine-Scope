@@ -6,7 +6,7 @@ import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleto
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoviesList extends StatefulWidget {
+class MoviesList extends StatelessWidget {
   const MoviesList({
     super.key,
     required this.movies,
@@ -19,31 +19,8 @@ class MoviesList extends StatefulWidget {
   final Future<void> Function()? onRefresh;
 
   @override
-  State<MoviesList> createState() => _MoviesListState();
-}
-
-class _MoviesListState extends State<MoviesList> {
-  bool isFetchingMore = false;
-
-  void fetchMore() {
-    if (widget.movies.hasValue) {
-      setState(() {
-        isFetchingMore = true;
-      });
-
-      widget.onFetchMore().then((_) {
-        if (mounted) {
-          setState(() {
-            isFetchingMore = false;
-          });
-        }
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return widget.movies.when(
+    return movies.when(
       data: (movies) {
         if (movies.isEmpty) {
           return Center(
@@ -69,28 +46,11 @@ class _MoviesListState extends State<MoviesList> {
           },
         );
 
-        if (widget.onRefresh != null) {
-          grid = RefreshIndicator(onRefresh: widget.onRefresh!, child: grid);
+        if (onRefresh != null) {
+          grid = RefreshIndicator(onRefresh: onRefresh!, child: grid);
         }
 
-        return NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            if (!isFetchingMore &&
-                notification.metrics.pixels >=
-                    notification.metrics.maxScrollExtent * 0.9) {
-              fetchMore();
-            }
-            return false;
-          },
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              grid,
-              const SizedBox(height: AppSpacing.lg),
-              if (isFetchingMore) const MovieListSkeleton(isScrollable: false),
-            ],
-          ),
-        );
+        return grid;
       },
       loading: () => const MovieListSkeleton(),
       error: (error, stack) => Center(child: Text(error.toString())),

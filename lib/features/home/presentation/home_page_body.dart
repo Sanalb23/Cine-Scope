@@ -4,6 +4,7 @@ import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/mo
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/providers/movies_by_category_provider.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -67,9 +68,11 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
           ],
         ),
         Expanded(
-          child: MoviesList(
-            movies: listState.movies,
-            onFetchMore: listState.fetchMore,
+          child: PaginatedMoviesList(
+            moviesList: MoviesList(
+              movies: listState.movies,
+              onFetchMore: listState.fetchMore,
+            ),
           ),
         ),
       ],

@@ -57,6 +57,7 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
                 return [
                   _buildPopupMenuItem(MovieListCategory.popular),
                   _buildPopupMenuItem(MovieListCategory.topRated),
+                  _buildPopupMenuItem(MovieListCategory.upcoming),
                 ];
               },
               onSelected: (value) {

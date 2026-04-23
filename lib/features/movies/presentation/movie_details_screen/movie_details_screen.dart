@@ -195,7 +195,7 @@ class MovieDetailsScreen extends ConsumerWidget {
 
                           if (isFetchingMore) ...{
                             const SizedBox(height: AppSpacing.lg),
-                            const MovieListSkeleton(isScrollable: false),
+                            const MovieListSkeleton(),
                           },
                         ],
                       ),

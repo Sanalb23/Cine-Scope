@@ -18,7 +18,7 @@ class PaginatedMoviesList extends StatelessWidget {
           children: [
             moviesList,
             const SizedBox(height: AppSpacing.lg),
-            if (isFetchingMore) const MovieListSkeleton(isScrollable: false),
+            if (isFetchingMore) const MovieListSkeleton(),
           ],
         );
       },

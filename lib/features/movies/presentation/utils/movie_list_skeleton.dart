@@ -3,16 +3,14 @@ import 'package:cine_scope/features/movies/presentation/utils/skeleton_placehold
 import 'package:flutter/material.dart';
 
 class MovieListSkeleton extends StatelessWidget {
-  const MovieListSkeleton({super.key, this.isScrollable = true});
-
-  final bool isScrollable;
+  const MovieListSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
-      physics: isScrollable ? null : const NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.6,

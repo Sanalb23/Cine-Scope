@@ -2,6 +2,7 @@ import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/mo
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/popular_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/top_rated_movies_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/upcoming_movies_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 typedef PaginatedListState = ({
@@ -21,6 +22,11 @@ final moviesByCategoryProvider =
           return (
             movies: ref.watch(topRatedMoviesProvider),
             fetchMore: ref.read(topRatedMoviesProvider.notifier).fetchMore,
+          );
+        case MovieListCategory.upcoming:
+          return (
+            movies: ref.watch(upcomingMoviesProvider),
+            fetchMore: ref.read(upcomingMoviesProvider.notifier).fetchMore,
           );
       }
     });

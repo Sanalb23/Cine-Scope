@@ -6,6 +6,7 @@ extension MovieListCategoryEnumExtensions on MovieListCategory {
     return switch (this) {
       MovieListCategory.popular => 'Popular',
       MovieListCategory.topRated => 'Top Rated',
+      MovieListCategory.upcoming => 'Upcoming',
     };
   }
 
@@ -13,6 +14,7 @@ extension MovieListCategoryEnumExtensions on MovieListCategory {
     return switch (this) {
       MovieListCategory.popular => Icons.local_fire_department,
       MovieListCategory.topRated => Icons.star,
+      MovieListCategory.upcoming => Icons.event,
     };
   }
 }

@@ -51,6 +51,22 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   }
 
   @override
+  Future<List<MovieSummaryModel>> getUpcomingMovies({int page = 1}) async {
+    final DateTime now = DateTime.now();
+
+    final String gte = '${now.year}-${now.month}-${now.day}';
+
+    final DateTime lteDateTime = now.add(const Duration(days: 30));
+    final String lte =
+        '${lteDateTime.year}-${lteDateTime.month}-${lteDateTime.day}';
+
+    return await getMoviesList(
+      path:
+          '/discover/movie?api_key=$_apiKey&primary_release_date.gte=$gte&primary_release_date.lte=$lte&page=$page',
+    );
+  }
+
+  @override
   Future<List<MovieSummaryModel>> searchMovie({
     required String query,
     int page = 1,

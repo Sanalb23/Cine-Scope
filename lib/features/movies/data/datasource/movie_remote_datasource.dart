@@ -4,6 +4,7 @@ import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart'
 abstract class MovieRemoteDatasource {
   Future<List<MovieSummaryModel>> getPopularMovies({int page = 1});
   Future<List<MovieSummaryModel>> getTopRatedMovies({int page = 1});
+  Future<List<MovieSummaryModel>> getUpcomingMovies({int page = 1});
   Future<List<MovieSummaryModel>> searchMovie({
     required String query,
     int page = 1,

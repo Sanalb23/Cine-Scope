@@ -27,6 +27,12 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
+  Future<List<MovieSummary>> getUpcomingMovies({int page = 1}) async {
+    final movies = await _remoteDatasource.getUpcomingMovies(page: page);
+    return movies.map((x) => x.toDomain()).toList();
+  }
+
+  @override
   Future<List<MovieSummary>> searchMovie({
     required String query,
     int page = 1,

@@ -19,9 +19,17 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
             actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
             actions: const [
-              SizedBox(width: 40, height: 40, child: SkeletonPlaceholder()),
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: SkeletonPlaceholder(isCircle: true),
+              ),
               SizedBox(width: AppSpacing.md),
-              SizedBox(width: 40, height: 40, child: SkeletonPlaceholder()),
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: SkeletonPlaceholder(isCircle: true),
+              ),
             ],
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(

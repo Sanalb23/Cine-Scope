@@ -23,6 +23,7 @@ class WatchListScreen extends ConsumerWidget {
         child: PaginatedMoviesList(
           moviesList: MoviesList(
             movies: movies,
+            onRetry: () => ref.invalidate(watchListMoviesProvider),
             onFetchMore: () =>
                 ref.read(watchListMoviesProvider.notifier).fetchMore(),
             onRefresh: () async => ref.refresh(watchListMoviesProvider),

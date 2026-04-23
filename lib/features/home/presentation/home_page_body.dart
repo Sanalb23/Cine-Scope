@@ -72,6 +72,8 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
           child: PaginatedMoviesList(
             moviesList: MoviesList(
               movies: listState.movies,
+              onRetry: () =>
+                  ref.invalidate(moviesByCategoryProvider(_movieListCategory)),
               onFetchMore: listState.fetchMore,
             ),
           ),

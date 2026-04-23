@@ -186,6 +186,8 @@ class MovieDetailsScreen extends ConsumerWidget {
                         children: [
                           MoviesList(
                             movies: similarMovies,
+                            onRetry: () =>
+                                ref.invalidate(similarMoviesProvider(id)),
                             onFetchMore: ref
                                 .read(similarMoviesProvider(id).notifier)
                                 .fetchMore,

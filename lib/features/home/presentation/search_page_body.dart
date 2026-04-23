@@ -57,6 +57,7 @@ class _MoviesList extends ConsumerWidget {
         ? const Center(child: Text('Search for a movie'))
         : MoviesList(
             movies: results,
+            onRetry: () => ref.invalidate(searchMoviesProvider(query)),
             onFetchMore: ref
                 .read(searchMoviesProvider(query).notifier)
                 .fetchMore,

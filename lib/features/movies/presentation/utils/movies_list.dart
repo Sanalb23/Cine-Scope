@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:cine_scope/core/widgets/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/presentation/movie_card/movie_card.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
@@ -11,11 +12,13 @@ class MoviesList extends StatelessWidget {
     super.key,
     required this.movies,
     required this.onFetchMore,
+    required this.onRetry,
     this.onRefresh,
   });
 
   final AsyncValue<List<MovieSummary>> movies;
   final Future<void> Function() onFetchMore;
+  final VoidCallback onRetry;
   final Future<void> Function()? onRefresh;
 
   @override
@@ -53,7 +56,7 @@ class MoviesList extends StatelessWidget {
         return grid;
       },
       loading: () => const MovieListSkeleton(),
-      error: (error, stack) => Center(child: Text(error.toString())),
+      error: (error, stack) => Center(child: TryAgainLater(onPressed: onRetry)),
     );
   }
 }

@@ -3,7 +3,7 @@ class MovieSummary {
   final String title;
   final String? posterPath;
   final double voteAverage;
-  final String releaseDate;
+  final DateTime releaseDate;
   final List<int> genreIds;
   final bool adult;
 

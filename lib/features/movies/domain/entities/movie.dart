@@ -6,7 +6,7 @@ class Movie {
   final String? backdropPath;
   final double voteAverage;
   final int voteCount;
-  final String releaseDate;
+  final DateTime releaseDate;
   final List<(int, String)> genres;
   final String originalLanguage;
   final double popularity;

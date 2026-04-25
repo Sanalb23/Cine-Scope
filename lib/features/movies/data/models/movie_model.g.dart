@@ -14,7 +14,7 @@ MovieModel _$MovieModelFromJson(Map<String, dynamic> json) => MovieModel(
   backdropPath: json['backdropPath'] as String?,
   voteAverage: (json['voteAverage'] as num).toDouble(),
   voteCount: (json['voteCount'] as num).toInt(),
-  releaseDate: json['releaseDate'] as String,
+  releaseDate: DateTime.parse(json['releaseDate'] as String),
   genres: (json['genres'] as List<dynamic>)
       .map(
         (e) => _$recordConvert(
@@ -40,7 +40,7 @@ Map<String, dynamic> _$MovieModelToJson(MovieModel instance) =>
       'backdropPath': instance.backdropPath,
       'voteAverage': instance.voteAverage,
       'voteCount': instance.voteCount,
-      'releaseDate': instance.releaseDate,
+      'releaseDate': instance.releaseDate.toIso8601String(),
       'genres': instance.genres
           .map((e) => <String, dynamic>{r'$1': e.$1, r'$2': e.$2})
           .toList(),

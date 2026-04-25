@@ -132,7 +132,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                                     ),
 
                                     MovieQuickInfo(
-                                      releaseDate: data.releaseDate,
+                                      releaseDate: '${data.releaseDate.year}',
                                       originalLanguage: data.originalLanguage,
                                       adult: data.adult,
                                     ),

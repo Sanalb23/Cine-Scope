@@ -12,7 +12,7 @@ MovieSummaryModel _$MovieSummaryModelFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       posterPath: json['posterPath'] as String?,
       voteAverage: (json['voteAverage'] as num).toDouble(),
-      releaseDate: json['releaseDate'] as String,
+      releaseDate: DateTime.parse(json['releaseDate'] as String),
       genreIds: (json['genreIds'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
@@ -26,7 +26,7 @@ Map<String, dynamic> _$MovieSummaryModelToJson(MovieSummaryModel instance) =>
       'title': instance.title,
       'posterPath': instance.posterPath,
       'voteAverage': instance.voteAverage,
-      'releaseDate': instance.releaseDate,
+      'releaseDate': instance.releaseDate.toIso8601String(),
       'genreIds': instance.genreIds,
       'adult': instance.adult,
     };

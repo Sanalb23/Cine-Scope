@@ -4,18 +4,32 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class MovieModel {
   final int id;
   final String title;
   final String overview;
+
+  @JsonKey(name: 'poster_path')
   final String? posterPath;
+
+  @JsonKey(name: 'backdrop_path')
   final String? backdropPath;
+
+  @JsonKey(name: 'vote_average')
   final double voteAverage;
+
+  @JsonKey(name: 'vote_count')
   final int voteCount;
+
+  @JsonKey(name: 'release_date')
   final DateTime releaseDate;
+
   final List<(int, String)> genres;
+
+  @JsonKey(name: 'original_language')
   final String originalLanguage;
+
   final double popularity;
   final bool adult;
   final int runtime;

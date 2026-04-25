@@ -1,5 +1,9 @@
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'movie_summary_model.g.dart';
+
+@JsonSerializable()
 class MovieSummaryModel {
   final int id;
   final String title;
@@ -19,19 +23,8 @@ class MovieSummaryModel {
     required this.adult,
   });
 
-  factory MovieSummaryModel.fromJson(Map<String, dynamic> json) {
-    return MovieSummaryModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? 'Unknown',
-      posterPath: json['poster_path'],
-      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-      releaseDate: json['release_date'] != null
-          ? json['release_date'].toString().split('-').first
-          : 'TBD',
-      genreIds: List<int>.from(json['genre_ids'] ?? []),
-      adult: json['adult'],
-    );
-  }
+  factory MovieSummaryModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieSummaryModelFromJson(json);
 
   MovieSummaryModel copyWith({
     int? id,

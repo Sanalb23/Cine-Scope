@@ -1,6 +1,10 @@
 import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'movie_model.g.dart';
+
+@JsonSerializable()
 class MovieModel {
   final int id;
   final String title;
@@ -32,31 +36,8 @@ class MovieModel {
     required this.runtime,
   });
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) {
-    return MovieModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? 'Unknown',
-      overview: json['overview'] ?? 'No overview available',
-      posterPath: json['poster_path'],
-      backdropPath: json['backdrop_path'],
-      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-      voteCount: json['vote_count'] ?? 0,
-      releaseDate: json['release_date'] != null
-          ? json['release_date'].toString().split('-').first
-          : 'TBD',
-      genres: json['genres'] != null
-          ? List<(int, String)>.from(
-              (json['genres'] as List).map(
-                (x) => (x['id'] as int, x['name'] as String),
-              ),
-            )
-          : [],
-      originalLanguage: json['original_language'] ?? 'Unknown language',
-      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
-      adult: json['adult'] ?? false,
-      runtime: json['runtime'] ?? 0,
-    );
-  }
+  factory MovieModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieModelFromJson(json);
 
   MovieModel copyWith({
     int? id,

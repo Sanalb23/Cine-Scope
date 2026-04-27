@@ -19,8 +19,10 @@ MovieModel _$MovieModelFromJson(Map<String, dynamic> json) => MovieModel(
       .map(
         (e) => _$recordConvert(
           e,
-          ($jsonValue) =>
-              (($jsonValue[r'$1'] as num).toInt(), $jsonValue[r'$2'] as String),
+          ($jsonValue) => (
+            id: ($jsonValue['id'] as num).toInt(),
+            name: $jsonValue['name'] as String,
+          ),
         ),
       )
       .toList(),

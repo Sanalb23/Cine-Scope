@@ -7,7 +7,7 @@ class Movie {
   final double voteAverage;
   final int voteCount;
   final DateTime releaseDate;
-  final List<(int, String)> genres;
+  final List<({int id, String name})> genres;
   final String originalLanguage;
   final double popularity;
   final bool adult;

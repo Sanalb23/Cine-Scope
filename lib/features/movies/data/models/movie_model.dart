@@ -25,7 +25,7 @@ class MovieModel {
   @JsonKey(name: 'release_date')
   final DateTime releaseDate;
 
-  final List<(int, String)> genres;
+  final List<({int id, String name})> genres;
 
   @JsonKey(name: 'original_language')
   final String originalLanguage;
@@ -62,7 +62,7 @@ class MovieModel {
     double? voteAverage,
     int? voteCount,
     DateTime? releaseDate,
-    List<(int, String)>? genres,
+    List<({int id, String name})>? genres,
     String? originalLanguage,
     double? popularity,
     bool? adult,
@@ -110,7 +110,7 @@ class MovieModel {
       posterPath: posterPath ?? '',
       voteAverage: voteAverage,
       releaseDate: releaseDate,
-      genreIds: genres.map((x) => x.$1).toList(),
+      genreIds: genres.map((x) => x.id).toList(),
       adult: adult,
     );
   }

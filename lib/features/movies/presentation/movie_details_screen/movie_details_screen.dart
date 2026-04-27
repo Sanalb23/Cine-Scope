@@ -141,7 +141,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                                       spacing: AppSpacing.md,
                                       runSpacing: AppSpacing.md,
                                       children: data.genres
-                                          .map((e) => GenreTag(genre: e.$2))
+                                          .map((e) => GenreTag(genre: e.name))
                                           .toList(),
                                     ),
                                   ],

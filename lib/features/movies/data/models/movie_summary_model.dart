@@ -1,12 +1,25 @@
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'movie_summary_model.g.dart';
+
+@JsonSerializable(createToJson: false)
 class MovieSummaryModel {
   final int id;
   final String title;
+
+  @JsonKey(name: 'poster_path')
   final String? posterPath;
+
+  @JsonKey(name: 'vote_average')
   final double voteAverage;
-  final String releaseDate;
+
+  @JsonKey(name: 'release_date')
+  final DateTime releaseDate;
+
+  @JsonKey(name: 'genre_ids')
   final List<int> genreIds;
+
   final bool adult;
 
   MovieSummaryModel({
@@ -19,26 +32,15 @@ class MovieSummaryModel {
     required this.adult,
   });
 
-  factory MovieSummaryModel.fromJson(Map<String, dynamic> json) {
-    return MovieSummaryModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? 'Unknown',
-      posterPath: json['poster_path'],
-      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-      releaseDate: json['release_date'] != null
-          ? json['release_date'].toString().split('-').first
-          : 'TBD',
-      genreIds: List<int>.from(json['genre_ids'] ?? []),
-      adult: json['adult'],
-    );
-  }
+  factory MovieSummaryModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieSummaryModelFromJson(json);
 
   MovieSummaryModel copyWith({
     int? id,
     String? title,
     String? posterPath,
     double? voteAverage,
-    String? releaseDate,
+    DateTime? releaseDate,
     List<int>? genreIds,
     bool? adult,
   }) {

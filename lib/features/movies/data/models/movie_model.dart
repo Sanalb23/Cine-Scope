@@ -1,17 +1,35 @@
 import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'movie_model.g.dart';
+
+@JsonSerializable(createToJson: false)
 class MovieModel {
   final int id;
   final String title;
   final String overview;
+
+  @JsonKey(name: 'poster_path')
   final String? posterPath;
+
+  @JsonKey(name: 'backdrop_path')
   final String? backdropPath;
+
+  @JsonKey(name: 'vote_average')
   final double voteAverage;
+
+  @JsonKey(name: 'vote_count')
   final int voteCount;
-  final String releaseDate;
-  final List<(int, String)> genres;
+
+  @JsonKey(name: 'release_date')
+  final DateTime releaseDate;
+
+  final List<({int id, String name})> genres;
+
+  @JsonKey(name: 'original_language')
   final String originalLanguage;
+
   final double popularity;
   final bool adult;
   final int runtime;
@@ -32,31 +50,8 @@ class MovieModel {
     required this.runtime,
   });
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) {
-    return MovieModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? 'Unknown',
-      overview: json['overview'] ?? 'No overview available',
-      posterPath: json['poster_path'],
-      backdropPath: json['backdrop_path'],
-      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-      voteCount: json['vote_count'] ?? 0,
-      releaseDate: json['release_date'] != null
-          ? json['release_date'].toString().split('-').first
-          : 'TBD',
-      genres: json['genres'] != null
-          ? List<(int, String)>.from(
-              (json['genres'] as List).map(
-                (x) => (x['id'] as int, x['name'] as String),
-              ),
-            )
-          : [],
-      originalLanguage: json['original_language'] ?? 'Unknown language',
-      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
-      adult: json['adult'] ?? false,
-      runtime: json['runtime'] ?? 0,
-    );
-  }
+  factory MovieModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieModelFromJson(json);
 
   MovieModel copyWith({
     int? id,
@@ -66,8 +61,8 @@ class MovieModel {
     String? backdropPath,
     double? voteAverage,
     int? voteCount,
-    String? releaseDate,
-    List<(int, String)>? genres,
+    DateTime? releaseDate,
+    List<({int id, String name})>? genres,
     String? originalLanguage,
     double? popularity,
     bool? adult,
@@ -115,7 +110,7 @@ class MovieModel {
       posterPath: posterPath ?? '',
       voteAverage: voteAverage,
       releaseDate: releaseDate,
-      genreIds: genres.map((x) => x.$1).toList(),
+      genreIds: genres.map((x) => x.id).toList(),
       adult: adult,
     );
   }

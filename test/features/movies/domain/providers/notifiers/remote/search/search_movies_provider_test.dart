@@ -50,7 +50,7 @@ void main() {
           title: 'Inception',
           posterPath: '/path.jpg',
           voteAverage: 8.8,
-          releaseDate: '2010-07-15',
+          releaseDate: DateTime.parse('2010-07-15'),
           genreIds: [28],
           adult: false,
         ),

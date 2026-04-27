@@ -2,6 +2,7 @@ import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -55,12 +56,14 @@ class _MoviesList extends ConsumerWidget {
 
     return query.isEmpty
         ? const Center(child: Text('Search for a movie'))
-        : MoviesList(
-            movies: results,
-            onRetry: () => ref.invalidate(searchMoviesProvider(query)),
-            onFetchMore: ref
-                .read(searchMoviesProvider(query).notifier)
-                .fetchMore,
+        : PaginatedMoviesList(
+            moviesList: MoviesList(
+              movies: results,
+              onRetry: () => ref.invalidate(searchMoviesProvider(query)),
+              onFetchMore: ref
+                  .read(searchMoviesProvider(query).notifier)
+                  .fetchMore,
+            ),
           );
   }
 }

@@ -16,15 +16,28 @@ class PaginatedScrollHandler extends StatefulWidget {
 
 class _PaginatedScrollHandlerState extends State<PaginatedScrollHandler> {
   bool _isFetchingMore = false;
+  bool _hasMore = true;
 
   void _fetchMore() {
-    if (_isFetchingMore) return;
+    if (_isFetchingMore || !_hasMore) return;
 
     setState(() => _isFetchingMore = true);
 
-    widget.onFetchMore().then((_) {
-      if (mounted) setState(() => _isFetchingMore = false);
-    });
+    widget
+        .onFetchMore()
+        .then((_) {
+          if (mounted) {
+            setState(() => _isFetchingMore = false);
+          }
+        })
+        .onError((error, stackTrace) {
+          if (mounted) {
+            setState(() {
+              _isFetchingMore = false;
+              _hasMore = false;
+            });
+          }
+        });
   }
 
   @override

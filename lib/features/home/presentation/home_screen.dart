@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.watch_later),
-              title: const Text('Watch Later'),
+              title: const Text('Watch List'),
               onTap: () {
                 Navigator.push(
                   context,

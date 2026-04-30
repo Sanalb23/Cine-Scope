@@ -61,6 +61,21 @@ void main() {
       expect(result, isA<List<MovieSummaryModel>>());
       expect(result.length, 2);
     });
+
+    test(
+      'should return an empty list when page limit is exceeded (API status_code 22)',
+      () async {
+        final fakeResponse = fixture('invalid_page_response');
+
+        when(
+          () => mockHttpClient.get(any()),
+        ).thenAnswer((_) async => http.Response(fakeResponse, 400));
+
+        final result = await movieRemoteDatasource.getPopularMovies(page: 501);
+
+        expect(result.length, 0);
+      },
+    );
   });
 
   group('movie details tests', () {

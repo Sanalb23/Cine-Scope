@@ -116,6 +116,11 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     final response = await _httpClient.get(Uri.parse('$_baseUrl$path'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
+
+      if ((data['results'] as List).isEmpty) {
+        return [];
+      }
+
       final List<MovieSummaryModel> movies = [];
       for (final x in data['results'] as List) {
         try {
@@ -126,6 +131,15 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       }
       return movies;
     } else {
+      try {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+
+        if (data['status_code'] == 22) {
+          return [];
+        }
+      } catch (_) {
+        // Fall back to default exception if response is not valid JSON
+      }
       throw Exception('Failed to load movies');
     }
   }

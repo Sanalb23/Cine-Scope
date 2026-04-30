@@ -11,13 +11,11 @@ class MoviesList extends StatelessWidget {
   const MoviesList({
     super.key,
     required this.movies,
-    required this.onFetchMore,
     required this.onRetry,
     this.onRefresh,
   });
 
   final AsyncValue<List<MovieSummary>> movies;
-  final Future<void> Function() onFetchMore;
   final VoidCallback onRetry;
   final Future<void> Function()? onRefresh;
 

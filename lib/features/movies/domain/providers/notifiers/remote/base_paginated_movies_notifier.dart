@@ -16,21 +16,19 @@ abstract class BasePaginatedMoviesNotifier
 
   @override
   Future<List<MovieSummary>> build() async {
-    _currentPage = 1;
-    _isFetchingMore = false;
-
     final movies = await fetchMoviesFromRepository(_currentPage);
     final preloader = preloadPostersFn ?? preloadPosters;
     await preloader(movies);
+
+    _currentPage++;
+
     return movies;
   }
 
-  Future<void> fetchMore() async {
-    if (_isFetchingMore || !state.hasValue) return;
+  Future<List<MovieSummary>> fetchMore() async {
+    if (_isFetchingMore || !state.hasValue) return [];
 
     _isFetchingMore = true;
-
-    _currentPage++;
 
     try {
       final newMovies = await fetchMoviesFromRepository(_currentPage);
@@ -41,8 +39,12 @@ abstract class BasePaginatedMoviesNotifier
       await preloader(newMovies);
 
       state = AsyncData([...currentMovies, ...newMovies]);
+
+      _currentPage++;
+
+      return newMovies;
     } catch (e) {
-      // TODO: handle error
+      rethrow;
     } finally {
       _isFetchingMore = false;
     }

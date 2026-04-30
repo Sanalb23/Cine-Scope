@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PaginatedScrollHandler extends StatefulWidget {
-  final Future<void> Function() onFetchMore;
+  final Future<List<dynamic>> Function() onFetchMore;
   final Widget Function(BuildContext context, bool isFetchingMore) builder;
 
   const PaginatedScrollHandler({
@@ -18,23 +18,28 @@ class _PaginatedScrollHandlerState extends State<PaginatedScrollHandler> {
   bool _isFetchingMore = false;
   bool _hasMore = true;
 
-  void _fetchMore() {
+  Future<void> _fetchMore() async {
     if (_isFetchingMore || !_hasMore) return;
 
     setState(() => _isFetchingMore = true);
 
-    widget
+    await widget
         .onFetchMore()
-        .then((_) {
+        .then((movies) {
           if (mounted) {
-            setState(() => _isFetchingMore = false);
+            setState(() {
+              if (movies.isEmpty) {
+                _hasMore = false;
+              }
+
+              _isFetchingMore = false;
+            });
           }
         })
         .onError((error, stackTrace) {
           if (mounted) {
             setState(() {
               _isFetchingMore = false;
-              _hasMore = false;
             });
           }
         });

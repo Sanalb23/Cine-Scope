@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 typedef PaginatedListState = ({
   AsyncValue<List<MovieSummary>> movies,
-  Future<void> Function() fetchMore,
+  Future<List<MovieSummary>> Function() fetchMore,
 });
 
 final moviesByCategoryProvider =

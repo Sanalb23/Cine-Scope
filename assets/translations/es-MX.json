@@ -1,0 +1,16 @@
+{
+    "app_name": "CineScope",
+    "home": "Inicio",
+    "search": "Buscar",
+    "explore_movies": "Explorar películas",
+    "favorites": "Favoritos",
+    "watch_list": "Por ver",
+    "overview": "Sinopsis",
+    "no_overview": "No hay una sinopsis disponible.",
+    "no_image_available": "Imagen no disponible",
+    "search_for_a_movie": "Busca una película",
+    "search_ellipsis": "Buscar...",
+    "error": "Error",
+    "please_try_again_later": "Por favor, inténtalo de nuevo más tarde",
+    "retry": "Reintentar"
+}

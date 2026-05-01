@@ -18,7 +18,9 @@ abstract class BasePaginatedMoviesNotifier
   @override
   Future<List<MovieSummary>> build() async {
     ref.watch(localeProvider);
-    
+
+    _currentPage = 1;
+
     final movies = await fetchMoviesFromRepository(_currentPage);
     final preloader = preloadPostersFn ?? preloadPosters;
     await preloader(movies);

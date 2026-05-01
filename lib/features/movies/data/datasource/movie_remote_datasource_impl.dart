@@ -7,12 +7,15 @@ import 'package:http/http.dart' as http;
 class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   final http.Client _httpClient;
   final String _apiKey;
+  final String _language;
 
   MovieRemoteDatasourceImpl({
     required http.Client httpClient,
     required String apiKey,
+    required String language,
   }) : _httpClient = httpClient,
-       _apiKey = apiKey;
+       _apiKey = apiKey,
+       _language = language;
 
   final String _baseUrl = 'https://api.themoviedb.org/3';
 
@@ -39,14 +42,14 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   @override
   Future<List<MovieSummaryModel>> getPopularMovies({int page = 1}) async {
     return await getMoviesList(
-      path: '/movie/popular?api_key=$_apiKey&page=$page',
+      path: '/movie/popular?api_key=$_apiKey&language=$_language&page=$page',
     );
   }
 
   @override
   Future<List<MovieSummaryModel>> getTopRatedMovies({int page = 1}) async {
     return await getMoviesList(
-      path: '/movie/top_rated?api_key=$_apiKey&page=$page',
+      path: '/movie/top_rated?api_key=$_apiKey&language=$_language&page=$page',
     );
   }
 
@@ -62,7 +65,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
 
     return await getMoviesList(
       path:
-          '/discover/movie?api_key=$_apiKey&primary_release_date.gte=$gte&primary_release_date.lte=$lte&page=$page',
+          '/discover/movie?api_key=$_apiKey&language=$_language&primary_release_date.gte=$gte&primary_release_date.lte=$lte&page=$page',
     );
   }
 
@@ -72,14 +75,14 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     int page = 1,
   }) async {
     return await getMoviesList(
-      path: '/search/movie?api_key=$_apiKey&query=$query&page=$page',
+      path: '/search/movie?api_key=$_apiKey&language=$_language&query=$query&page=$page',
     );
   }
 
   @override
   Future<MovieModel> getMovieById({required int id}) async {
     final response = await _httpClient.get(
-      Uri.parse('$_baseUrl/movie/$id?api_key=$_apiKey'),
+      Uri.parse('$_baseUrl/movie/$id?api_key=$_apiKey&language=$_language'),
     );
     if (response.statusCode == 200) {
       try {
@@ -99,7 +102,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     int page = 1,
   }) async {
     return await getMoviesList(
-      path: '/movie/$id/similar?api_key=$_apiKey&page=$page',
+      path: '/movie/$id/similar?api_key=$_apiKey&language=$_language&page=$page',
     );
   }
 

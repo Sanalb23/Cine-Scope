@@ -24,6 +24,7 @@ void main() {
     movieRemoteDatasource = MovieRemoteDatasourceImpl(
       httpClient: mockHttpClient,
       apiKey: 'fake_api_key',
+      language: 'en-US',
     );
   });
 

@@ -2,9 +2,11 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
 import 'package:cine_scope/features/home/presentation/search_page_body.dart';
+import 'package:cine_scope/features/home/presentation/utils/language_dropdown_menu.dart';
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
 import 'package:cine_scope/features/movies/presentation/favorite_movies_screen/favorite_movies_screen.dart';
 import 'package:cine_scope/features/movies/presentation/watch_list_screen/watch_list_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CineScope', style: context.textTheme.displaySmall),
+        title: Text('app_name'.tr(), style: context.textTheme.displaySmall),
         centerTitle: true,
         actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
         actions: [const SwitchThemeButton()],
@@ -57,14 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
             DrawerHeader(
               child: Center(
                 child: Text(
-                  'CineScope',
+                  'app_name'.tr(),
                   style: context.textTheme.headlineMedium,
                 ),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.bookmark),
-              title: const Text('Favorites'),
+              title: Text('favorites'.tr()),
               onTap: () {
                 Navigator.push(
                   context,
@@ -76,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.watch_later),
-              title: const Text('Watch Later'),
+              title: Text('watch_list'.tr()),
               onTap: () {
                 Navigator.push(
                   context,
@@ -85,6 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
+            ),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: LanguageDropdownMenu(),
             ),
           ],
         ),
@@ -101,9 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       bottomNavigationBar: NavigationBar(
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.search), label: 'Search'),
+        destinations: [
+          NavigationDestination(icon: const Icon(Icons.home), label: 'home'.tr()),
+          NavigationDestination(icon: const Icon(Icons.search), label: 'search'.tr()),
         ],
         selectedIndex: _selectedPage,
         onDestinationSelected: (index) {

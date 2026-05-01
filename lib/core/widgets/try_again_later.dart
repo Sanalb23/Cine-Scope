@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class TryAgainLater extends StatelessWidget {
@@ -10,14 +11,14 @@ class TryAgainLater extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: .center,
+      mainAxisAlignment: MainAxisAlignment.center,
       spacing: AppSpacing.md,
       children: [
-        Icon(Icons.error_outline, size: 48),
-        Text('Error', style: context.textTheme.headlineSmall),
-        Text('Please try again later', style: context.textTheme.bodyMedium),
+        const Icon(Icons.error_outline, size: 48),
+        Text('error'.tr(), style: context.textTheme.headlineSmall),
+        Text('please_try_again_later'.tr(), style: context.textTheme.bodyMedium),
         const SizedBox(height: AppSpacing.md),
-        ElevatedButton(onPressed: onPressed, child: Text('Retry')),
+        ElevatedButton(onPressed: onPressed, child: Text('retry'.tr())),
       ],
     );
   }

@@ -12,5 +12,8 @@
     "search_ellipsis": "Search...",
     "error": "Error",
     "please_try_again_later": "Please try again later",
-    "retry": "Retry"
+    "retry": "Retry",
+    "popular": "Popular",
+    "top_rated": "Top Rated",
+    "upcoming": "Upcoming"
 }

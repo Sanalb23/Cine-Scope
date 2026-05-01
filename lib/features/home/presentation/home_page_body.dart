@@ -48,7 +48,7 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
         Row(
           children: [
             Text(
-              '${_movieListCategory.title} Movies',
+              _movieListCategory.title,
               style: context.textTheme.headlineSmall,
             ),
             Spacer(),

@@ -4,6 +4,7 @@ import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/sea
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +35,7 @@ class _SearchPageBodyState extends ConsumerState<SearchPageBody> {
           ),
           controller: _searchController,
           trailing: [const Icon(Icons.search)],
-          hintText: 'Search...',
+          hintText: 'search_ellipsis'.tr(),
           onChanged: (value) {
             ref.read(searchQueryProvider.notifier).setSearchQuery(value);
           },
@@ -56,7 +57,7 @@ class _MoviesList extends ConsumerWidget {
     final results = ref.watch(searchMoviesProvider(query));
 
     return query.isEmpty
-        ? const Center(child: Text('Search for a movie'))
+        ? Center(child: Text('search_for_a_movie'.tr()))
         : PaginatedScrollHandler(
             onFetchMore: () =>
                 ref.read(searchMoviesProvider(query).notifier).fetchMore(),

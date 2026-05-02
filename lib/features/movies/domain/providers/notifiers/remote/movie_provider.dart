@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/movies/data/utils/preload_backdrop.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
@@ -8,6 +9,8 @@ final movieProvider = FutureProvider.autoDispose.family<Movie, int>((
   ref,
   id,
 ) async {
+  ref.watch(localeProvider);
+
   final link = ref.keepAlive();
 
   final timer = Timer(const Duration(minutes: 3), () {

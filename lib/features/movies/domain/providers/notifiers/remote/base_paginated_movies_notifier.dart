@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/movies/data/utils/preload_posters.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,10 @@ abstract class BasePaginatedMoviesNotifier
 
   @override
   Future<List<MovieSummary>> build() async {
+    ref.watch(localeProvider);
+
+    _currentPage = 1;
+
     final movies = await fetchMoviesFromRepository(_currentPage);
     final preloader = preloadPostersFn ?? preloadPosters;
     await preloader(movies);

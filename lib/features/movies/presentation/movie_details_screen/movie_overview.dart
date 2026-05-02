@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class MovieOverview extends StatelessWidget {
@@ -13,8 +14,11 @@ class MovieOverview extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: AppSpacing.md,
       children: [
-        Text('Overview', style: context.textTheme.headlineSmall),
-        Text(overview, style: context.textTheme.bodyMedium),
+        Text('overview'.tr(), style: context.textTheme.headlineSmall),
+        Text(
+          overview.isNotEmpty ? overview : 'no_overview_available'.tr(),
+          style: context.textTheme.bodyMedium,
+        ),
       ],
     );
   }

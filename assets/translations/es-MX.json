@@ -18,5 +18,9 @@
     "upcoming": "Próximamente",
     "watch_trailer": "Ver trailer",
     "no_trailer_available": "No hay trailer disponible",
-    "no_movies_found": "No se encontraron películas"
+    "no_movies_found": "No se encontraron películas",
+    "confirm_removal_message": "¿Estás seguro de que deseas eliminar \"{movie_title}\" de {list_name}?",
+    "remove_from_list_question": "¿Eliminar de {list_name}?",
+    "remove": "Eliminar",
+    "cancel": "Cancelar"
 }

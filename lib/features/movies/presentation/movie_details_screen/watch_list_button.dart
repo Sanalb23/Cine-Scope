@@ -22,7 +22,7 @@ class WatchListButton extends ConsumerWidget {
       icon: isInWatchList ? Icons.watch_later : Icons.watch_later_outlined,
       onPressed: () async {
         if (isInWatchList &&
-            !(await confirmRemoval(context, 'watch list', movieTitle))) {
+            !(await confirmRemoval(context, 'watch_list', movieTitle))) {
           return;
         }
         ref.read(isInWatchListProvider(movieId).notifier).toggleWatchList();

@@ -131,7 +131,7 @@ class MovieCard extends ConsumerWidget {
                           if (isInWatchList &&
                               !(await confirmRemoval(
                                 context,
-                                'watch list',
+                                'watch_list',
                                 movie.title,
                               ))) {
                             break;

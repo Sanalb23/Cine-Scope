@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SkeletonPlaceholder extends StatelessWidget {
-  const SkeletonPlaceholder({super.key, this.isCircle = false});
+  const SkeletonPlaceholder({
+    super.key,
+    this.isCircle = false,
+    this.height,
+    this.width,
+  });
   final bool isCircle;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +23,8 @@ class SkeletonPlaceholder extends StatelessWidget {
       )!,
       highlightColor: context.colors.inverseSurface.withValues(alpha: 0.5),
       child: Container(
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
           color: Colors.white,

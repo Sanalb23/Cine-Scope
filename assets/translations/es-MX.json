@@ -6,7 +6,7 @@
     "favorites": "Favoritos",
     "watch_list": "Por ver",
     "overview": "Sinopsis",
-    "no_overview": "No hay una sinopsis disponible.",
+    "no_overview_available": "No hay una sinopsis disponible.",
     "no_image_available": "Imagen no disponible",
     "search_for_a_movie": "Busca una película",
     "search_ellipsis": "Buscar...",

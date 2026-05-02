@@ -12,6 +12,7 @@ class Movie {
   final double popularity;
   final bool adult;
   final int runtime;
+  final String? trailerPath;
 
   Movie({
     required this.id,
@@ -27,5 +28,6 @@ class Movie {
     required this.popularity,
     required this.adult,
     required this.runtime,
+    required this.trailerPath,
   });
 }

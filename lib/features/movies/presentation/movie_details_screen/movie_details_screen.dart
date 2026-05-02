@@ -12,6 +12,7 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/trailer_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
@@ -97,7 +98,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                     sliver: SliverToBoxAdapter(
                       child: Column(
                         crossAxisAlignment: .start,
-                        spacing: AppSpacing.md,
+                        spacing: AppSpacing.xxl,
                         children: [
                           Row(
                             crossAxisAlignment: .start,
@@ -150,7 +151,11 @@ class MovieDetailsScreen extends ConsumerWidget {
                             ],
                           ),
 
-                          const SizedBox(height: AppSpacing.xl),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 44,
+                            child: TrailerButton(trailerPath: data.trailerPath),
+                          ),
                           MovieOverview(overview: data.overview),
 
                           Divider(),

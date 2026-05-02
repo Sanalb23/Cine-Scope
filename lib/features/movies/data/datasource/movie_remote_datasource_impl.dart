@@ -27,8 +27,39 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     return '$_baseImageUrl$size$path';
   }
 
-  MovieModel _buildMovieModel(Map<String, dynamic> json) {
+  String? _buildTrailerUrl(List<dynamic>? results) {
+    if (results == null || results.isEmpty) return null;
+
+    try {
+      final trailer = results.firstWhere(
+        (video) => video['site'] == 'YouTube' && video['type'] == 'Trailer',
+      );
+      return 'https://www.youtube.com/watch?v=${trailer['key']}';
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<String?> _getTrailerPathById({required int id}) async {
+    final response = await _httpClient.get(
+      Uri.parse('$_baseUrl/movie/$id/videos?api_key=$_apiKey'),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return _buildTrailerUrl(data['results']);
+    }
+
+    return null;
+  }
+
+  Future<MovieModel> _buildMovieModel(Map<String, dynamic> json) async {
     final movie = MovieModel.fromJson(json);
+
+    var trailerPath = _buildTrailerUrl(json['videos']?['results'] as List?);
+
+    trailerPath ??= await _getTrailerPathById(id: movie.id);
+
     return movie.copyWith(
       posterPath: movie.posterPath != null
           ? _buildImageUrl(movie.posterPath!, _posterSize)
@@ -36,6 +67,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       backdropPath: movie.backdropPath != null
           ? _buildImageUrl(movie.backdropPath!, _backdropSize)
           : null,
+      trailerPath: trailerPath,
     );
   }
 
@@ -75,14 +107,17 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     int page = 1,
   }) async {
     return await getMoviesList(
-      path: '/search/movie?api_key=$_apiKey&language=$_language&query=$query&page=$page',
+      path:
+          '/search/movie?api_key=$_apiKey&language=$_language&query=$query&page=$page',
     );
   }
 
   @override
   Future<MovieModel> getMovieById({required int id}) async {
     final response = await _httpClient.get(
-      Uri.parse('$_baseUrl/movie/$id?api_key=$_apiKey&language=$_language'),
+      Uri.parse(
+        '$_baseUrl/movie/$id?api_key=$_apiKey&language=$_language&append_to_response=videos',
+      ),
     );
     if (response.statusCode == 200) {
       try {
@@ -102,7 +137,8 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     int page = 1,
   }) async {
     return await getMoviesList(
-      path: '/movie/$id/similar?api_key=$_apiKey&language=$_language&page=$page',
+      path:
+          '/movie/$id/similar?api_key=$_apiKey&language=$_language&page=$page',
     );
   }
 

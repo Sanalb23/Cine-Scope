@@ -30,6 +30,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   String? _buildTrailerUrl(Map<String, dynamic> json) {
     if (json['videos'] != null && json['videos']['results'] != null) {
       final results = json['videos']['results'] as List;
+
+      if (results.isEmpty) return null;
+
       final trailer = results.cast<Map<String, dynamic>>().firstWhere(
         (video) => video['site'] == 'YouTube' && video['type'] == 'Trailer',
       );

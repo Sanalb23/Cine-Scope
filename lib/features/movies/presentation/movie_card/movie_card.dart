@@ -110,14 +110,32 @@ class MovieCard extends ConsumerWidget {
                     itemBuilder: (context) {
                       return actions;
                     },
-                    onSelected: (value) {
+                    onSelected: (value) async {
                       switch (value) {
                         case 'favorite':
+                          if (isInFavorites &&
+                              !(await _confirmRemoval(
+                                context,
+                                'favorites',
+                                movie.title,
+                              ))) {
+                            break;
+                          }
+
                           ref
                               .read(isFavoriteProvider(movie.id).notifier)
                               .toggleFavorite();
                           break;
                         case 'watchList':
+                          if (isInWatchList &&
+                              !(await _confirmRemoval(
+                                context,
+                                'watch list',
+                                movie.title,
+                              ))) {
+                            break;
+                          }
+
                           ref
                               .read(isInWatchListProvider(movie.id).notifier)
                               .toggleWatchList();
@@ -180,4 +198,31 @@ class _InfoBadge extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<bool> _confirmRemoval(
+  BuildContext context,
+  String listName,
+  String movieTitle,
+) async {
+  final confirmed = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Remove from $listName?'),
+      content: Text(
+        'Are you sure you want to remove "$movieTitle" from your $listName?',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text('Remove'),
+        ),
+      ],
+    ),
+  );
+  return confirmed ?? false;
 }

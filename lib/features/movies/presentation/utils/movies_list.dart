@@ -4,6 +4,7 @@ import 'package:cine_scope/core/widgets/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/presentation/movie_card/movie_card.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,7 +27,7 @@ class MoviesList extends StatelessWidget {
         if (movies.isEmpty) {
           return Center(
             child: Text(
-              'No movies found',
+              'no_movies_found'.tr(),
               style: context.textTheme.headlineSmall,
             ),
           );

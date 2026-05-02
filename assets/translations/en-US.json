@@ -17,5 +17,6 @@
     "top_rated": "Top Rated",
     "upcoming": "Upcoming",
     "watch_trailer": "Watch trailer",
-    "no_trailer_available": "No trailer available"
+    "no_trailer_available": "No trailer available",
+    "no_movies_found": "No movies found"
 }

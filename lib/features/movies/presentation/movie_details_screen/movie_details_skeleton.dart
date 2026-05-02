@@ -1,6 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
+import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsSkeleton extends StatelessWidget {

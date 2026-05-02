@@ -20,7 +20,7 @@ import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart'
 import 'package:cine_scope/features/movies/presentation/utils/movie_runtime.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
-import 'package:cine_scope/features/movies/presentation/utils/skeleton_placeholder.dart';
+import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

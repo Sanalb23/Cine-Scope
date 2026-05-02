@@ -27,25 +27,45 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     return '$_baseImageUrl$size$path';
   }
 
-  String? _buildTrailerUrl(Map<String, dynamic> json) {
-    if (json['videos'] != null && json['videos']['results'] != null) {
-      final results = json['videos']['results'] as List;
+  String? _buildTrailerUrl(List<dynamic> results) {
+    if (results.isEmpty) return null;
 
-      if (results.isEmpty) return null;
+    final trailer = results.firstWhere(
+      (video) => video['site'] == 'YouTube' && video['type'] == 'Trailer',
+    );
 
-      final trailer = results.cast<Map<String, dynamic>>().firstWhere(
-        (video) => video['site'] == 'YouTube' && video['type'] == 'Trailer',
-      );
-
-      if (trailer.isNotEmpty && trailer['key'] != null) {
-        return 'https://www.youtube.com/watch?v=${trailer['key']}';
-      }
+    if (trailer.isNotEmpty && trailer['key'] != null) {
+      return 'https://www.youtube.com/watch?v=${trailer['key']}';
     }
+
     return null;
   }
 
-  MovieModel _buildMovieModel(Map<String, dynamic> json) {
+  Future<String?> _getTrailerPathById({required int id}) async {
+    final response = await _httpClient.get(
+      Uri.parse('$_baseUrl/movie/$id/videos?api_key=$_apiKey'),
+    );
+    if (response.statusCode == 200) {
+      try {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        return _buildTrailerUrl(data['results']);
+      } catch (_) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  Future<MovieModel> _buildMovieModel(Map<String, dynamic> json) async {
     final movie = MovieModel.fromJson(json);
+
+    final videoResults = json['videos']?['results'] as List? ?? [];
+
+    var trailerPath = _buildTrailerUrl(videoResults);
+
+    trailerPath ??= await _getTrailerPathById(id: movie.id);
+
     return movie.copyWith(
       posterPath: movie.posterPath != null
           ? _buildImageUrl(movie.posterPath!, _posterSize)
@@ -53,7 +73,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       backdropPath: movie.backdropPath != null
           ? _buildImageUrl(movie.backdropPath!, _backdropSize)
           : null,
-      trailerPath: _buildTrailerUrl(json),
+      trailerPath: trailerPath,
     );
   }
 

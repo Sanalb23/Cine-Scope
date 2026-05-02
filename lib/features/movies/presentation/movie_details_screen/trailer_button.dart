@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,11 +22,14 @@ class TrailerButton extends StatelessWidget {
               spacing: AppSpacing.md,
               children: [
                 Icon(Icons.play_arrow),
-                Text('Watch trailer', style: context.textTheme.titleMedium),
+                Text(
+                  'watch_trailer'.tr(),
+                  style: context.textTheme.titleMedium,
+                ),
               ],
             )
           : Text(
-              'No trailer available',
+              'no_trailer_available'.tr(),
               style: context.textTheme.titleMedium?.copyWith(
                 color: context.theme.colorScheme.onSurface.withValues(
                   alpha: 0.3,

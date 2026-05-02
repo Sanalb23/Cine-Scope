@@ -15,5 +15,7 @@
     "retry": "Reintentar",
     "popular": "Populares",
     "top_rated": "Mejor Calificadas",
-    "upcoming": "Próximamente"
+    "upcoming": "Próximamente",
+    "watch_trailer": "Ver trailer",
+    "no_trailer_available": "No hay trailer disponible"
 }

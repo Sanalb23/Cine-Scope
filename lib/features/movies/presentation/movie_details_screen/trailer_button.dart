@@ -1,6 +1,7 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TrailerButton extends StatelessWidget {
   final String? trailerPath;
@@ -11,8 +12,8 @@ class TrailerButton extends StatelessWidget {
     return FilledButton(
       onPressed: trailerPath == null
           ? null
-          : () {
-              //TODO: implement url launcher
+          : () async {
+              await launchUrl(Uri.parse(trailerPath!));
             },
       child: trailerPath != null
           ? Row(

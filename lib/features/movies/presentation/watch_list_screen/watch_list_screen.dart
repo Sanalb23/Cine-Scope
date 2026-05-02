@@ -4,6 +4,7 @@ import 'package:cine_scope/core/widgets/paginated_scroll_handler.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/watch_list_movies_provider.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,7 +18,7 @@ class WatchListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Watch List', style: context.textTheme.headlineSmall),
+        title: Text('watch_list'.tr(), style: context.textTheme.headlineSmall),
       ),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),

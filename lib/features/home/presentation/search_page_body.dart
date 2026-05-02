@@ -1,5 +1,5 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/core/widgets/paginated_scroll_handler.dart';
+import 'package:cine_scope/core/utils/paginated_scroll_handler.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';

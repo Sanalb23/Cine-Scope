@@ -5,6 +5,7 @@ import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_f
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_in_watch_list_provider.dart';
 import 'package:cine_scope/features/movies/presentation/movie_card/genre_tags_row.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_screen.dart';
+import 'package:cine_scope/features/movies/presentation/utils/confirm_removal_dialog.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -114,7 +115,7 @@ class MovieCard extends ConsumerWidget {
                       switch (value) {
                         case 'favorite':
                           if (isInFavorites &&
-                              !(await _confirmRemoval(
+                              !(await confirmRemoval(
                                 context,
                                 'favorites',
                                 movie.title,
@@ -128,7 +129,7 @@ class MovieCard extends ConsumerWidget {
                           break;
                         case 'watchList':
                           if (isInWatchList &&
-                              !(await _confirmRemoval(
+                              !(await confirmRemoval(
                                 context,
                                 'watch list',
                                 movie.title,
@@ -198,31 +199,4 @@ class _InfoBadge extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<bool> _confirmRemoval(
-  BuildContext context,
-  String listName,
-  String movieTitle,
-) async {
-  final confirmed = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Remove from $listName?'),
-      content: Text(
-        'Are you sure you want to remove "$movieTitle" from your $listName?',
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: const Text('Remove'),
-        ),
-      ],
-    ),
-  );
-  return confirmed ?? false;
 }

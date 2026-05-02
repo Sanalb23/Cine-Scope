@@ -9,16 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MoviesList extends StatelessWidget {
-  const MoviesList({
-    super.key,
-    required this.movies,
-    required this.onRetry,
-    this.onRefresh,
-  });
+  const MoviesList({super.key, required this.movies, required this.onRetry});
 
   final AsyncValue<List<MovieSummary>> movies;
   final VoidCallback onRetry;
-  final Future<void> Function()? onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +41,6 @@ class MoviesList extends StatelessWidget {
             return MovieCard(movie: movies[index]);
           },
         );
-
-        if (onRefresh != null) {
-          grid = RefreshIndicator(onRefresh: onRefresh!, child: grid);
-        }
 
         return grid;
       },

@@ -7,6 +7,7 @@ import 'package:cine_scope/features/movies/presentation/movie_card/genre_tags_ro
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_screen.dart';
 import 'package:cine_scope/features/movies/presentation/utils/confirm_removal_dialog.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,7 +27,11 @@ class MovieCard extends ConsumerWidget {
           spacing: AppSpacing.md,
           children: [
             Icon(isInFavorites ? Icons.bookmark : Icons.bookmark_add_outlined),
-            Text(isInFavorites ? 'Remove from favorites' : 'Add to favorites'),
+            Text(
+              isInFavorites
+                  ? 'remove_from'.tr(args: ['favorites'.tr()])
+                  : 'add_to'.tr(args: ['favorites'.tr()]),
+            ),
           ],
         ),
       ),
@@ -39,7 +44,9 @@ class MovieCard extends ConsumerWidget {
               isInWatchList ? Icons.watch_later : Icons.watch_later_outlined,
             ),
             Text(
-              isInWatchList ? 'Remove from watch list' : 'Add to watch list',
+              isInWatchList
+                  ? 'remove_from'.tr(args: ['watch_list'.tr()])
+                  : 'add_to'.tr(args: ['watch_list'.tr()]),
             ),
           ],
         ),

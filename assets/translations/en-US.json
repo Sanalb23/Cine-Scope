@@ -22,5 +22,7 @@
     "confirm_removal_message": "Are you sure you want to remove \"{movie_title}\" from {list_name}?",
     "remove_from_list_question": "Remove from {list_name}?",
     "remove": "Remove",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "remove_from": "Remove from {}",
+    "add_to": "Add to {}"
 }

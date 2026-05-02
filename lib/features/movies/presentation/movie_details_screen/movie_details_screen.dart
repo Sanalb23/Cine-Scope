@@ -55,9 +55,9 @@ class MovieDetailsScreen extends ConsumerWidget {
                     ),
                     actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
                     actions: [
-                      FavoriteButton(movieId: id),
+                      FavoriteButton(movieId: id, movieTitle: data.title),
                       const SizedBox(width: AppSpacing.md),
-                      WatchListButton(movieId: id),
+                      WatchListButton(movieId: id, movieTitle: data.title),
                     ],
                     flexibleSpace: FlexibleSpaceBar(
                       background: Stack(

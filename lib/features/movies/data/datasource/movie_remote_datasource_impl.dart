@@ -27,6 +27,20 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     return '$_baseImageUrl$size$path';
   }
 
+  String? _buildTrailerUrl(Map<String, dynamic> json) {
+    if (json['videos'] != null && json['videos']['results'] != null) {
+      final results = json['videos']['results'] as List;
+      final trailer = results.cast<Map<String, dynamic>>().firstWhere(
+        (video) => video['site'] == 'YouTube' && video['type'] == 'Trailer',
+      );
+
+      if (trailer.isNotEmpty && trailer['key'] != null) {
+        return 'https://www.youtube.com/watch?v=${trailer['key']}';
+      }
+    }
+    return null;
+  }
+
   MovieModel _buildMovieModel(Map<String, dynamic> json) {
     final movie = MovieModel.fromJson(json);
     return movie.copyWith(
@@ -36,6 +50,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       backdropPath: movie.backdropPath != null
           ? _buildImageUrl(movie.backdropPath!, _backdropSize)
           : null,
+      trailerPath: _buildTrailerUrl(json),
     );
   }
 
@@ -75,14 +90,17 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     int page = 1,
   }) async {
     return await getMoviesList(
-      path: '/search/movie?api_key=$_apiKey&language=$_language&query=$query&page=$page',
+      path:
+          '/search/movie?api_key=$_apiKey&language=$_language&query=$query&page=$page',
     );
   }
 
   @override
   Future<MovieModel> getMovieById({required int id}) async {
     final response = await _httpClient.get(
-      Uri.parse('$_baseUrl/movie/$id?api_key=$_apiKey&language=$_language'),
+      Uri.parse(
+        '$_baseUrl/movie/$id?api_key=$_apiKey&language=$_language&append_to_response=videos',
+      ),
     );
     if (response.statusCode == 200) {
       try {
@@ -102,7 +120,8 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     int page = 1,
   }) async {
     return await getMoviesList(
-      path: '/movie/$id/similar?api_key=$_apiKey&language=$_language&page=$page',
+      path:
+          '/movie/$id/similar?api_key=$_apiKey&language=$_language&page=$page',
     );
   }
 

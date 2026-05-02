@@ -34,6 +34,9 @@ class MovieModel {
   final bool adult;
   final int runtime;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final String? trailerPath;
+
   MovieModel({
     required this.id,
     required this.title,
@@ -48,6 +51,7 @@ class MovieModel {
     required this.popularity,
     required this.adult,
     required this.runtime,
+    this.trailerPath,
   });
 
   factory MovieModel.fromJson(Map<String, dynamic> json) =>
@@ -67,6 +71,7 @@ class MovieModel {
     double? popularity,
     bool? adult,
     int? runtime,
+    String? trailerPath,
   }) {
     return MovieModel(
       id: id ?? this.id,
@@ -82,6 +87,7 @@ class MovieModel {
       popularity: popularity ?? this.popularity,
       adult: adult ?? this.adult,
       runtime: runtime ?? this.runtime,
+      trailerPath: trailerPath ?? this.trailerPath,
     );
   }
 
@@ -100,6 +106,7 @@ class MovieModel {
       popularity: popularity,
       adult: adult,
       runtime: runtime,
+      trailerPath: trailerPath,
     );
   }
 

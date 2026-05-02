@@ -32,7 +32,6 @@ class FavoriteMoviesScreen extends ConsumerWidget {
                 MoviesList(
                   movies: movies,
                   onRetry: () => ref.invalidate(favoriteMoviesProvider),
-                  onRefresh: () async => ref.refresh(favoriteMoviesProvider),
                 ),
                 if (isFetchingMore) const MovieListSkeleton(),
               ],

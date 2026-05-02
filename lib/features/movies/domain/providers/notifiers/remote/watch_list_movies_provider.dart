@@ -4,7 +4,10 @@ import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/bas
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final watchListMoviesProvider =
-    AsyncNotifierProvider<WatchListMoviesNotifier, List<MovieSummary>>(() {
+    AsyncNotifierProvider.autoDispose<
+      WatchListMoviesNotifier,
+      List<MovieSummary>
+    >(() {
       return WatchListMoviesNotifier();
     });
 

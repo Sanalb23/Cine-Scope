@@ -1,4 +1,5 @@
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/watch_list_movies_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final isInWatchListProvider = NotifierProvider.autoDispose
@@ -24,5 +25,7 @@ class IsInWatchListNotifier extends Notifier<bool> {
     }
 
     state = ref.read(movieRepositoryProvider).isInWatchList(id);
+
+    ref.invalidate(watchListMoviesProvider);
   }
 }

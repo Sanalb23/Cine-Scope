@@ -1,4 +1,5 @@
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/favorite_movies_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final isFavoriteProvider = NotifierProvider.autoDispose
@@ -22,5 +23,7 @@ class IsFavoriteNotifier extends Notifier<bool> {
     }
 
     state = ref.read(movieRepositoryProvider).isFavorite(id);
+
+    ref.invalidate(favoriteMoviesProvider);
   }
 }

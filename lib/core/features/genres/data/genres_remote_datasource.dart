@@ -4,15 +4,18 @@ import 'package:http/http.dart' as http;
 class GenresRemoteDataSource {
   final http.Client _httpClient;
   final String _apiKey;
+  final String _language;
 
   GenresRemoteDataSource({
     required http.Client httpClient,
     required String apiKey,
+    required String language,
   }) : _httpClient = httpClient,
-       _apiKey = apiKey;
+       _apiKey = apiKey,
+       _language = language;
 
   String get _baseUrl =>
-      'https://api.themoviedb.org/3/genre/movie/list?api_key=$_apiKey';
+      'https://api.themoviedb.org/3/genre/movie/list?api_key=$_apiKey&language=$_language';
 
   Future<Map<int, String>> getMovieGenres() async {
     final response = await _httpClient.get(Uri.parse(_baseUrl));

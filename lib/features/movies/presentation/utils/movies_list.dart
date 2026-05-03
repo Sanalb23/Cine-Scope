@@ -28,6 +28,7 @@ class MoviesList extends StatelessWidget {
         }
 
         Widget grid = GridView.builder(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

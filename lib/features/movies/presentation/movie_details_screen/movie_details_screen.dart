@@ -116,7 +116,7 @@ class MovieDetailsScreen extends ConsumerWidget {
               ),
 
               SliverPadding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 sliver: movie.when(
                   loading: () => const MovieDetailsSkeleton(),
                   error: (error, stackTrace) => SliverToBoxAdapter(
@@ -186,10 +186,7 @@ class MovieDetailsScreen extends ConsumerWidget {
               ),
 
               SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xxl,
-                  vertical: AppSpacing.md,
-                ),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 sliver: SliverToBoxAdapter(
                   child: movie.when(
                     data: (_) => Text(
@@ -204,13 +201,12 @@ class MovieDetailsScreen extends ConsumerWidget {
                   ),
                 ),
               ),
+
               SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xxl,
-                  vertical: AppSpacing.md,
-                ),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 sliver: SliverToBoxAdapter(
                   child: ListView(
+                    padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children: [

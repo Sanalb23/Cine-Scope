@@ -16,22 +16,19 @@ class PaginatedScrollHandler extends StatefulWidget {
 
 class _PaginatedScrollHandlerState extends State<PaginatedScrollHandler> {
   bool _isFetchingMore = false;
-  bool _hasMore = true;
 
   Future<void> _fetchMore() async {
-    if (_isFetchingMore || !_hasMore) return;
+    if (_isFetchingMore) return;
 
-    setState(() => _isFetchingMore = true);
+    if (mounted) {
+      setState(() => _isFetchingMore = true);
+    }
 
     await widget
         .onFetchMore()
         .then((movies) {
           if (mounted) {
             setState(() {
-              if (movies.isEmpty) {
-                _hasMore = false;
-              }
-
               _isFetchingMore = false;
             });
           }
@@ -53,6 +50,7 @@ class _PaginatedScrollHandlerState extends State<PaginatedScrollHandler> {
             notification.metrics.maxScrollExtent * 0.9) {
           _fetchMore();
         }
+
         return false;
       },
       child: widget.builder(context, _isFetchingMore),

@@ -12,6 +12,7 @@ abstract class BasePaginatedMoviesNotifier
 
   int _currentPage = 1;
   bool _isFetchingMore = false;
+  bool _hasMore = true;
 
   Future<List<MovieSummary>> fetchMoviesFromRepository(int page);
 
@@ -20,6 +21,8 @@ abstract class BasePaginatedMoviesNotifier
     ref.watch(localeProvider);
 
     _currentPage = 1;
+    _hasMore = true;
+    _isFetchingMore = false;
 
     final movies = await fetchMoviesFromRepository(_currentPage);
     final preloader = preloadPostersFn ?? preloadPosters;
@@ -31,7 +34,9 @@ abstract class BasePaginatedMoviesNotifier
   }
 
   Future<List<MovieSummary>> fetchMore() async {
-    if (_isFetchingMore || !state.hasValue) return [];
+    if (_isFetchingMore || !state.hasValue || state.isLoading || !_hasMore) {
+      return [];
+    }
 
     _isFetchingMore = true;
 
@@ -39,6 +44,11 @@ abstract class BasePaginatedMoviesNotifier
       final newMovies = await fetchMoviesFromRepository(_currentPage);
 
       final currentMovies = state.value!;
+
+      if (newMovies.isEmpty) {
+        _hasMore = false;
+        return currentMovies;
+      }
 
       final preloader = preloadPostersFn ?? preloadPosters;
       await preloader(newMovies);

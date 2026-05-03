@@ -1,9 +1,7 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/core/utils/paginated_scroll_handler.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/favorite_movies_provider.dart';
-import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
-import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,21 +20,11 @@ class FavoriteMoviesScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
-        child: PaginatedScrollHandler(
+        child: PaginatedMoviesList(
           onFetchMore: () =>
               ref.read(favoriteMoviesProvider.notifier).fetchMore(),
-          builder: (context, isFetchingMore) {
-            return ListView(
-              shrinkWrap: true,
-              children: [
-                MoviesList(
-                  movies: movies,
-                  onRetry: () => ref.invalidate(favoriteMoviesProvider),
-                ),
-                if (isFetchingMore) const MovieListSkeleton(),
-              ],
-            );
-          },
+          onRetry: () => ref.invalidate(favoriteMoviesProvider),
+          movies: movies,
         ),
       ),
     );

@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 
+typedef FetchMoreErrorHandler = ({
+  bool onFetchingMoreError,
+  VoidCallback retry,
+});
+
 class PaginatedScrollHandler extends StatefulWidget {
   final Future<List<dynamic>> Function() onFetchMore;
-  final Widget Function(BuildContext context, bool isFetchingMore) builder;
+  final Widget Function(
+    BuildContext context,
+    bool isFetchingMore,
+    FetchMoreErrorHandler errorHandler,
+  )
+  builder;
 
   const PaginatedScrollHandler({
     super.key,
@@ -16,9 +26,10 @@ class PaginatedScrollHandler extends StatefulWidget {
 
 class _PaginatedScrollHandlerState extends State<PaginatedScrollHandler> {
   bool _isFetchingMore = false;
+  bool _onError = false;
 
   Future<void> _fetchMore() async {
-    if (_isFetchingMore) return;
+    if (_isFetchingMore || _onError) return;
 
     if (mounted) {
       setState(() => _isFetchingMore = true);
@@ -37,6 +48,7 @@ class _PaginatedScrollHandlerState extends State<PaginatedScrollHandler> {
           if (mounted) {
             setState(() {
               _isFetchingMore = false;
+              _onError = true;
             });
           }
         });
@@ -53,7 +65,10 @@ class _PaginatedScrollHandlerState extends State<PaginatedScrollHandler> {
 
         return false;
       },
-      child: widget.builder(context, _isFetchingMore),
+      child: widget.builder(context, _isFetchingMore, (
+        onFetchingMoreError: _onError,
+        retry: _fetchMore,
+      )),
     );
   }
 }

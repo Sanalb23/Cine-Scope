@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/core/utils/paginated_scroll_handler.dart';
+import 'package:cine_scope/core/utils/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
@@ -21,7 +22,7 @@ class PaginatedMoviesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return PaginatedScrollHandler(
       onFetchMore: onFetchMore,
-      builder: (context, isFetchingMore) {
+      builder: (context, isFetchingMore, paginationErrorHandler) {
         return ListView(
           shrinkWrap: true,
           children: [
@@ -30,6 +31,11 @@ class PaginatedMoviesList extends StatelessWidget {
             if (isFetchingMore) ...{
               const SizedBox(height: AppSpacing.lg),
               const MovieListSkeleton(),
+            },
+
+            if (paginationErrorHandler.onFetchingMoreError) ...{
+              const SizedBox(height: AppSpacing.lg),
+              TryAgainLater(onPressed: paginationErrorHandler.retry),
             },
           ],
         );

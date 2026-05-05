@@ -38,7 +38,7 @@ class MovieDetailsScreen extends ConsumerWidget {
       body: PaginatedScrollHandler(
         onFetchMore: () =>
             ref.read(similarMoviesProvider(id).notifier).fetchMore(),
-        builder: (context, isFetchingMore) {
+        builder: (context, isFetchingMore, paginationErrorHandler) {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -219,6 +219,11 @@ class MovieDetailsScreen extends ConsumerWidget {
                       if (isFetchingMore) ...{
                         const SizedBox(height: AppSpacing.lg),
                         const MovieListSkeleton(),
+                      },
+
+                      if (paginationErrorHandler.onFetchingMoreError) ...{
+                        const SizedBox(height: AppSpacing.xxl),
+                        TryAgainLater(onPressed: paginationErrorHandler.retry),
                       },
                     ],
                   ),

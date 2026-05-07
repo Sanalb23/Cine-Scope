@@ -1,41 +1,48 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/core/utils/paginated_scroll_handler.dart';
 import 'package:cine_scope/core/utils/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:cine_scope/features/pagination/models/paginated_state.dart';
+import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PaginatedMoviesList extends StatelessWidget {
   const PaginatedMoviesList({
     super.key,
-    required this.onFetchMore,
-    required this.onRetry,
-    required this.movies,
+    required this.fetchCallback,
+    required this.retryCallback,
+    required this.state,
+    this.isScrollable = true,
   });
-  final Future<List<dynamic>> Function() onFetchMore;
-  final void Function() onRetry;
-  final AsyncValue<List<MovieSummary>> movies;
+  final VoidCallback fetchCallback;
+  final VoidCallback retryCallback;
+  final PaginatedState<MovieSummary> state;
+  final bool isScrollable;
 
   @override
   Widget build(BuildContext context) {
     return PaginatedScrollHandler(
-      onFetchMore: onFetchMore,
-      builder: (context, isFetchingMore, paginationErrorHandler) {
+      fetchCallback: fetchCallback,
+      retryCallback: retryCallback,
+      state: state,
+      builder: (context, isFetchingMore, hasError) {
         return ListView(
+          physics: isScrollable
+              ? AlwaysScrollableScrollPhysics()
+              : NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
-            MoviesList(movies: movies, onRetry: onRetry),
+            if (state.items.isNotEmpty) MoviesList(movies: state.items),
 
-            if (isFetchingMore) ...{
+            if (state.isLoading) ...{
               const SizedBox(height: AppSpacing.lg),
               const MovieListSkeleton(),
             },
 
-            if (paginationErrorHandler.onFetchingMoreError) ...{
+            if (state.hasError) ...{
               const SizedBox(height: AppSpacing.lg),
-              TryAgainLater(onPressed: paginationErrorHandler.retry),
+              TryAgainLater(onPressed: retryCallback),
             },
           ],
         );

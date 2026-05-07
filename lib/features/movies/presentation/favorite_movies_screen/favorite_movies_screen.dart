@@ -21,10 +21,11 @@ class FavoriteMoviesScreen extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: PaginatedMoviesList(
-          onFetchMore: () =>
+          fetchCallback: () =>
               ref.read(favoriteMoviesProvider.notifier).fetchMore(),
-          onRetry: () => ref.invalidate(favoriteMoviesProvider),
-          movies: movies,
+          retryCallback: () =>
+              ref.read(favoriteMoviesProvider.notifier).retry(),
+          state: movies,
         ),
       ),
     );

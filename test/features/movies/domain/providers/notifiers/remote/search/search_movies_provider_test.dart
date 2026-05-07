@@ -17,12 +17,6 @@ void main() {
     container = ProviderContainer(
       overrides: [
         movieRepositoryProvider.overrideWithValue(mockMovieRepository),
-        searchMoviesProvider.overrideWith2(
-          (arg) => SearchMoviesNotifier(
-            arg,
-            preloadPostersFn: (movies) async => movies,
-          ),
-        ),
       ],
     );
   });
@@ -32,10 +26,10 @@ void main() {
   });
 
   group('search movies provider test', () {
-    test('should return empty list when query is empty', () async {
-      final result = await container.read(searchMoviesProvider('').future);
+    test('should return empty list when query is empty', () {
+      final result = container.read(searchMoviesProvider('').notifier).state;
 
-      expect(result, isEmpty);
+      expect(result.items, isEmpty);
 
       verifyNever(
         () => mockMovieRepository.searchMovie(query: any(named: 'query')),
@@ -44,6 +38,7 @@ void main() {
 
     test('should return movies when query is not empty', () async {
       const query = 'Inception';
+
       final expectedMovies = [
         MovieSummary(
           id: 1,
@@ -62,10 +57,16 @@ void main() {
 
       final subscription = container.listen(
         searchMoviesProvider(query),
-        (_, __) {},
+        (_, _) {},
       );
 
-      final result = await container.read(searchMoviesProvider(query).future);
+      // Yield the event loop to let the 'await fetchItems()' in fetchMore() finish
+      await Future.microtask(() {});
+
+      final result = container
+          .read(searchMoviesProvider(query).notifier)
+          .state
+          .items;
 
       expect(result, expectedMovies);
 

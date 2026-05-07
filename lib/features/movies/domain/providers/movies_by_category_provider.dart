@@ -3,11 +3,14 @@ import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/popular_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/top_rated_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/upcoming_movies_provider.dart';
+import 'package:cine_scope/features/pagination/models/paginated_state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 typedef PaginatedListState = ({
-  AsyncValue<List<MovieSummary>> movies,
-  Future<List<MovieSummary>> Function() fetchMore,
+  PaginatedState<MovieSummary> state,
+  VoidCallback fetchCallback,
+  VoidCallback retryCallback,
 });
 
 final moviesByCategoryProvider =
@@ -15,18 +18,24 @@ final moviesByCategoryProvider =
       switch (category) {
         case MovieListCategory.popular:
           return (
-            movies: ref.watch(popularMoviesProvider),
-            fetchMore: ref.read(popularMoviesProvider.notifier).fetchMore,
+            state: ref.watch(popularMoviesProvider),
+            fetchCallback: ref.read(popularMoviesProvider.notifier).fetchMore,
+            retryCallback: () =>
+                ref.read(popularMoviesProvider.notifier).retry(),
           );
         case MovieListCategory.topRated:
           return (
-            movies: ref.watch(topRatedMoviesProvider),
-            fetchMore: ref.read(topRatedMoviesProvider.notifier).fetchMore,
+            state: ref.watch(topRatedMoviesProvider),
+            fetchCallback: ref.read(topRatedMoviesProvider.notifier).fetchMore,
+            retryCallback: () =>
+                ref.read(topRatedMoviesProvider.notifier).retry(),
           );
         case MovieListCategory.upcoming:
           return (
-            movies: ref.watch(upcomingMoviesProvider),
-            fetchMore: ref.read(upcomingMoviesProvider.notifier).fetchMore,
+            state: ref.watch(upcomingMoviesProvider),
+            fetchCallback: ref.read(upcomingMoviesProvider.notifier).fetchMore,
+            retryCallback: () =>
+                ref.read(upcomingMoviesProvider.notifier).retry(),
           );
       }
     });

@@ -1,67 +1,11 @@
-import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/movies/data/utils/preload_posters.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cine_scope/features/pagination/paginated_notifier.dart';
 
 abstract class BasePaginatedMoviesNotifier
-    extends AsyncNotifier<List<MovieSummary>> {
-  BasePaginatedMoviesNotifier({this.preloadPostersFn});
-
-  final Future<List<MovieSummary>> Function(List<MovieSummary>)?
-  preloadPostersFn;
-
-  int _currentPage = 1;
-  bool _isFetchingMore = false;
-  bool _hasMore = true;
-
-  Future<List<MovieSummary>> fetchMoviesFromRepository(int page);
-
+    extends PaginatedNotifier<MovieSummary> {
   @override
-  Future<List<MovieSummary>> build() async {
-    ref.watch(localeProvider);
-
-    _currentPage = 1;
-    _hasMore = true;
-    _isFetchingMore = false;
-
-    final movies = await fetchMoviesFromRepository(_currentPage);
-    final preloader = preloadPostersFn ?? preloadPosters;
-    await preloader(movies);
-
-    _currentPage++;
-
-    return movies;
-  }
-
-  Future<List<MovieSummary>> fetchMore() async {
-    if (_isFetchingMore || !state.hasValue || state.isLoading || !_hasMore) {
-      return [];
-    }
-
-    _isFetchingMore = true;
-
-    try {
-      final newMovies = await fetchMoviesFromRepository(_currentPage);
-
-      final currentMovies = state.value!;
-
-      if (newMovies.isEmpty) {
-        _hasMore = false;
-        return currentMovies;
-      }
-
-      final preloader = preloadPostersFn ?? preloadPosters;
-      await preloader(newMovies);
-
-      state = AsyncData([...currentMovies, ...newMovies]);
-
-      _currentPage++;
-
-      return newMovies;
-    } catch (e) {
-      rethrow;
-    } finally {
-      _isFetchingMore = false;
-    }
+  Future<void> preloadFn(List<MovieSummary> items) async {
+    await preloadPosters(items);
   }
 }

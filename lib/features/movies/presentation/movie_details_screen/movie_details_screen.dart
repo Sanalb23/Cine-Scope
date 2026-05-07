@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/core/utils/paginated_scroll_handler.dart';
 import 'package:cine_scope/core/utils/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/movie_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/similar_movies_provider.dart';
@@ -15,12 +14,12 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/trailer_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
-import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_runtime.dart';
-import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
+import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
+import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,9 +35,12 @@ class MovieDetailsScreen extends ConsumerWidget {
 
     return Scaffold(
       body: PaginatedScrollHandler(
-        onFetchMore: () =>
+        fetchCallback: () =>
             ref.read(similarMoviesProvider(id).notifier).fetchMore(),
-        builder: (context, isFetchingMore) {
+        retryCallback: () =>
+            ref.read(similarMoviesProvider(id).notifier).retry(),
+        state: similarMovies,
+        builder: (context, isFetchingMore, hasError) {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -205,22 +207,14 @@ class MovieDetailsScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 sliver: SliverToBoxAdapter(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    children: [
-                      MoviesList(
-                        movies: similarMovies,
-                        onRetry: () =>
-                            ref.invalidate(similarMoviesProvider(id)),
-                      ),
-
-                      if (isFetchingMore) ...{
-                        const SizedBox(height: AppSpacing.lg),
-                        const MovieListSkeleton(),
-                      },
-                    ],
+                  child: PaginatedMoviesList(
+                    fetchCallback: () => ref
+                        .read(similarMoviesProvider(id).notifier)
+                        .fetchMore(),
+                    retryCallback: () =>
+                        ref.read(similarMoviesProvider(id).notifier).retry(),
+                    state: similarMovies,
+                    isScrollable: false,
                   ),
                 ),
               ),

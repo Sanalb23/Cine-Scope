@@ -21,10 +21,11 @@ class WatchListScreen extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: PaginatedMoviesList(
-          onFetchMore: () =>
+          fetchCallback: () =>
               ref.read(watchListMoviesProvider.notifier).fetchMore(),
-          onRetry: () => ref.invalidate(watchListMoviesProvider),
-          movies: movies,
+          retryCallback: () =>
+              ref.read(watchListMoviesProvider.notifier).retry(),
+          state: movies,
         ),
       ),
     );

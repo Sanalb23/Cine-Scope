@@ -70,10 +70,9 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
         ),
         Expanded(
           child: PaginatedMoviesList(
-            onFetchMore: listState.fetchMore,
-            onRetry: () =>
-                ref.invalidate(moviesByCategoryProvider(_movieListCategory)),
-            movies: listState.movies,
+            fetchCallback: listState.fetchCallback,
+            retryCallback: listState.retryCallback,
+            state: listState.state,
           ),
         ),
       ],

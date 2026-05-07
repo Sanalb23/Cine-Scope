@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/base_paginated_movies_notifier.dart';
+import 'package:cine_scope/features/pagination/models/paginated_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final similarMoviesProvider = AsyncNotifierProvider.autoDispose
-    .family<SimilarMoviesNotifier, List<MovieSummary>, int>(
+final similarMoviesProvider = NotifierProvider.autoDispose
+    .family<SimilarMoviesNotifier, PaginatedState<MovieSummary>, int>(
       SimilarMoviesNotifier.new,
     );
 
@@ -16,7 +17,7 @@ class SimilarMoviesNotifier extends BasePaginatedMoviesNotifier {
   SimilarMoviesNotifier(this.movieId);
 
   @override
-  Future<List<MovieSummary>> build() async {
+  PaginatedState<MovieSummary> build() {
     final link = ref.keepAlive();
 
     final timer = Timer(const Duration(minutes: 3), () {
@@ -31,7 +32,7 @@ class SimilarMoviesNotifier extends BasePaginatedMoviesNotifier {
   }
 
   @override
-  Future<List<MovieSummary>> fetchMoviesFromRepository(int page) async {
+  Future<List<MovieSummary>> fetchItems(int page) async {
     return await ref
         .read(movieRepositoryProvider)
         .getSimilarMovies(page: page, id: movieId);

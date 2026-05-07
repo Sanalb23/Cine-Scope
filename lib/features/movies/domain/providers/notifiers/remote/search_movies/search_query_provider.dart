@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final searchQueryProvider =
@@ -7,11 +9,17 @@ final searchQueryProvider =
 
 class SearchQueryNotifier extends Notifier<String> {
   @override
-  String build() {
-    return '';
-  }
+  String build() => '';
 
-  void setSearchQuery(String query) {
+  void setSearchQuery(String query) async {
+    bool isCancelled = false;
+
+    ref.onDispose(() => isCancelled = true);
+
+    await Future.delayed(const Duration(milliseconds: 800));
+
+    if (isCancelled) return;
+
     state = query;
   }
 }

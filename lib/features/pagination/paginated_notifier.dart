@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 abstract class PaginatedNotifier<T> extends Notifier<PaginatedState<T>> {
   Future<List<T>> fetchItems(int page);
 
+  Future<void>? preloadFn(List<T> items) => null;
+
   @override
   PaginatedState<T> build() {
     state = PaginatedState<T>();
@@ -32,6 +34,8 @@ abstract class PaginatedNotifier<T> extends Notifier<PaginatedState<T>> {
           isLoading: false,
           hasMore: true,
         );
+
+        await preloadFn(newItems);
       }
     } catch (e) {
       state = state.copyWith(isLoading: false, hasError: true);

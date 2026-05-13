@@ -31,7 +31,6 @@ class MovieModel {
   final String originalLanguage;
 
   final double popularity;
-  final bool adult;
   final int runtime;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +48,6 @@ class MovieModel {
     required this.genres,
     required this.originalLanguage,
     required this.popularity,
-    required this.adult,
     required this.runtime,
     this.trailerPath,
   });
@@ -69,7 +67,6 @@ class MovieModel {
     List<({int id, String name})>? genres,
     String? originalLanguage,
     double? popularity,
-    bool? adult,
     int? runtime,
     String? trailerPath,
   }) {
@@ -85,7 +82,6 @@ class MovieModel {
       genres: genres ?? this.genres,
       originalLanguage: originalLanguage ?? this.originalLanguage,
       popularity: popularity ?? this.popularity,
-      adult: adult ?? this.adult,
       runtime: runtime ?? this.runtime,
       trailerPath: trailerPath ?? this.trailerPath,
     );
@@ -104,7 +100,6 @@ class MovieModel {
       genres: genres,
       originalLanguage: originalLanguage,
       popularity: popularity,
-      adult: adult,
       runtime: runtime,
       trailerPath: trailerPath,
     );
@@ -118,7 +113,6 @@ class MovieModel {
       voteAverage: voteAverage,
       releaseDate: releaseDate,
       genreIds: genres.map((x) => x.id).toList(),
-      adult: adult,
     );
   }
 }

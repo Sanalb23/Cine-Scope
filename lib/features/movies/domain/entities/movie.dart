@@ -10,7 +10,6 @@ class Movie {
   final List<({int id, String name})> genres;
   final String originalLanguage;
   final double popularity;
-  final bool adult;
   final int runtime;
   final String? trailerPath;
 
@@ -26,7 +25,6 @@ class Movie {
     required this.genres,
     required this.originalLanguage,
     required this.popularity,
-    required this.adult,
     required this.runtime,
     required this.trailerPath,
   });

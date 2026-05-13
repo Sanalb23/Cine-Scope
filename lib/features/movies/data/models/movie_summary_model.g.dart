@@ -16,5 +16,4 @@ MovieSummaryModel _$MovieSummaryModelFromJson(Map<String, dynamic> json) =>
       genreIds: (json['genre_ids'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
-      adult: json['adult'] as bool,
     );

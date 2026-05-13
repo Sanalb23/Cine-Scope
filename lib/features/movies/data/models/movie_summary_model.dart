@@ -20,8 +20,6 @@ class MovieSummaryModel {
   @JsonKey(name: 'genre_ids')
   final List<int> genreIds;
 
-  final bool adult;
-
   MovieSummaryModel({
     required this.id,
     required this.title,
@@ -29,7 +27,6 @@ class MovieSummaryModel {
     required this.voteAverage,
     required this.releaseDate,
     required this.genreIds,
-    required this.adult,
   });
 
   factory MovieSummaryModel.fromJson(Map<String, dynamic> json) =>
@@ -42,7 +39,6 @@ class MovieSummaryModel {
     double? voteAverage,
     DateTime? releaseDate,
     List<int>? genreIds,
-    bool? adult,
   }) {
     return MovieSummaryModel(
       id: id ?? this.id,
@@ -51,7 +47,6 @@ class MovieSummaryModel {
       voteAverage: voteAverage ?? this.voteAverage,
       releaseDate: releaseDate ?? this.releaseDate,
       genreIds: genreIds ?? this.genreIds,
-      adult: adult ?? this.adult,
     );
   }
 
@@ -63,7 +58,6 @@ class MovieSummaryModel {
       voteAverage: voteAverage,
       releaseDate: releaseDate,
       genreIds: genreIds,
-      adult: adult,
     );
   }
 }

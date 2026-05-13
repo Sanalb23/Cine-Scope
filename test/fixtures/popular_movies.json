@@ -14,8 +14,7 @@
                 12
             ],
             "original_language": "en",
-            "popularity": 150.3,
-            "adult": false
+            "popularity": 150.3
         },
         {
             "id": 2,
@@ -31,8 +30,7 @@
                 53
             ],
             "original_language": "en",
-            "popularity": 98.7,
-            "adult": false
+            "popularity": 98.7
         }
     ]
 }

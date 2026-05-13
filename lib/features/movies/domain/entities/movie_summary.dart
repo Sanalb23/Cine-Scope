@@ -5,7 +5,6 @@ class MovieSummary {
   final double voteAverage;
   final DateTime releaseDate;
   final List<int> genreIds;
-  final bool adult;
 
   MovieSummary({
     required this.id,
@@ -14,6 +13,5 @@ class MovieSummary {
     required this.voteAverage,
     required this.releaseDate,
     required this.genreIds,
-    required this.adult,
   });
 }

@@ -7,12 +7,10 @@ class MovieQuickInfo extends StatelessWidget {
     super.key,
     required this.releaseDate,
     required this.originalLanguage,
-    required this.adult,
   });
 
   final String releaseDate;
   final String originalLanguage;
-  final bool adult;
 
   @override
   Widget build(BuildContext context) {
@@ -24,26 +22,6 @@ class MovieQuickInfo extends StatelessWidget {
         Text(releaseDate),
         const _InfoRowSpacer(),
         Text(originalLanguage.toUpperCase()),
-
-        if (adult) ...[
-          const _InfoRowSpacer(),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.sm,
-              vertical: AppSpacing.sm / 2,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(color: context.colors.error),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              '18+',
-              style: context.textTheme.labelLarge?.copyWith(
-                color: context.colors.error,
-              ),
-            ),
-          ),
-        ],
       ],
     );
   }

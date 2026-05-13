@@ -9,7 +9,6 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/fav
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_overview.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_popularity.dart';
-import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_quick_info.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/trailer_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
@@ -156,11 +155,6 @@ class MovieDetailsScreen extends ConsumerWidget {
                                   MovieRating(
                                     voteAverage: data.voteAverage,
                                     voteCount: data.voteCount,
-                                  ),
-                                  MovieQuickInfo(
-                                    releaseDate: '${data.releaseDate.year}',
-                                    originalLanguage: data.originalLanguage,
-                                    adult: data.adult,
                                   ),
                                   Wrap(
                                     spacing: AppSpacing.md,

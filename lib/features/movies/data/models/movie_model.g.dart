@@ -28,7 +28,6 @@ MovieModel _$MovieModelFromJson(Map<String, dynamic> json) => MovieModel(
       .toList(),
   originalLanguage: json['original_language'] as String,
   popularity: (json['popularity'] as num).toDouble(),
-  adult: json['adult'] as bool,
   runtime: (json['runtime'] as num).toInt(),
 );
 

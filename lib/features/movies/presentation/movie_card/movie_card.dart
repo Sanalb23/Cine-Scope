@@ -89,16 +89,6 @@ class MovieCard extends ConsumerWidget {
                   child: _InfoBadge(label: '${movie.releaseDate.year}'),
                 ),
 
-                if (movie.adult)
-                  Positioned(
-                    top: AppSpacing.md,
-                    left: AppSpacing.md,
-                    child: _InfoBadge(
-                      label: '18+',
-                      labelColor: context.colors.error,
-                    ),
-                  ),
-
                 Positioned.fill(
                   child: Material(
                     color: Colors.transparent,

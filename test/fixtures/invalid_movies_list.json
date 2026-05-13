@@ -14,8 +14,7 @@
                 null
             ],
             "original_language": 10,
-            "popularity": "high",
-            "adult": "false"
+            "popularity": "high"
         },
         {
             "id": 2,
@@ -38,7 +37,6 @@
             ],
             "original_language": "en",
             "popularity": 120.5,
-            "adult": false,
             "unexpected_field": "???",
             "another_one": {
                 "nested": "value"
@@ -55,8 +53,7 @@
             "release_date": "",
             "genre_ids": [],
             "original_language": "",
-            "popularity": 0,
-            "adult": false
+            "popularity": 0
         },
         {
             "id": 1,
@@ -72,8 +69,7 @@
                 12
             ],
             "original_language": "en",
-            "popularity": 150.3,
-            "adult": false
+            "popularity": 150.3
         }
     ]
 }

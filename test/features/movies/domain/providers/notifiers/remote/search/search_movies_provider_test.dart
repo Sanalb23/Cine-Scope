@@ -47,7 +47,6 @@ void main() {
           voteAverage: 8.8,
           releaseDate: DateTime.parse('2010-07-15'),
           genreIds: [28],
-          adult: false,
         ),
       ];
 

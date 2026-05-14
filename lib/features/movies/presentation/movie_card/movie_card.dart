@@ -77,14 +77,17 @@ class MovieCard extends ConsumerWidget {
               children: [
                 MoviePoster(posterPath: movie.posterPath),
 
-                Positioned(
-                  bottom: AppSpacing.md,
-                  left: AppSpacing.md,
-                  child: _InfoBadge(
-                    label: movie.voteAverage.toStringAsFixed(1),
-                    icon: Icons.star,
+                if (daysUntilRelease == 'Today' ||
+                    daysUntilRelease == null) ...[
+                  Positioned(
+                    bottom: AppSpacing.md,
+                    left: AppSpacing.md,
+                    child: _InfoBadge(
+                      label: movie.voteAverage.toStringAsFixed(1),
+                      icon: Icons.star,
+                    ),
                   ),
-                ),
+                ],
 
                 Positioned(
                   bottom: AppSpacing.md,

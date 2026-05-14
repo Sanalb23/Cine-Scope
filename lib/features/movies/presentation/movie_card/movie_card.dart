@@ -77,8 +77,7 @@ class MovieCard extends ConsumerWidget {
               children: [
                 MoviePoster(posterPath: movie.posterPath),
 
-                if (daysUntilRelease == 'Today' ||
-                    daysUntilRelease == null) ...[
+                if (movie.voteAverage > 0) ...[
                   Positioned(
                     bottom: AppSpacing.md,
                     left: AppSpacing.md,

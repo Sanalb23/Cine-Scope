@@ -6,7 +6,7 @@ import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_i
 import 'package:cine_scope/features/movies/presentation/movie_card/genre_tags_row.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_screen.dart';
 import 'package:cine_scope/features/movies/presentation/utils/confirm_removal_dialog.dart';
-import 'package:cine_scope/features/movies/presentation/utils/days_until_release_label.dart';
+import 'package:cine_scope/features/movies/presentation/utils/days_until_release_date.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +63,7 @@ class MovieCard extends ConsumerWidget {
       );
     }
 
-    final daysUntilRelease = daysUntilReleaseLabel(movie.releaseDate);
+    final daysUntilRelease = daysUntilReleaseDate(movie.releaseDate);
 
     return GestureDetector(
       onTap: onTap,
@@ -99,7 +99,12 @@ class MovieCard extends ConsumerWidget {
                     top: AppSpacing.md,
                     left: AppSpacing.md,
                     child: _InfoBadge(
-                      label: daysUntilRelease,
+                      label: switch (daysUntilRelease) {
+                        0 => 'today',
+                        1 => 'tomorrow',
+                        > 1 => '$daysUntilRelease days',
+                        _ => 'Unknown',
+                      },
                       icon: Icons.calendar_today,
                       labelColor: context.colors.onSurface,
                     ),

@@ -174,35 +174,29 @@ class MovieDetailsScreen extends ConsumerWidget {
                           child: TrailerButton(trailerPath: data.trailerPath),
                         ),
                         MovieOverview(overview: data.overview),
-                        Divider(),
+                        const Divider(),
+                        Column(
+                          crossAxisAlignment: .start,
+                          spacing: AppSpacing.lg,
+                          children: [
+                            Text(
+                              'Similar Movies',
+                              style: context.textTheme.headlineSmall,
+                            ),
+                            PaginatedMoviesList(
+                              fetchCallback: () => ref
+                                  .read(similarMoviesProvider(id).notifier)
+                                  .fetchMore(),
+                              retryCallback: () => ref
+                                  .read(similarMoviesProvider(id).notifier)
+                                  .retry(),
+                              state: similarMovies,
+                              isScrollable: false,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ),
-                ),
-              ),
-
-              SliverPadding(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: .start,
-                    spacing: AppSpacing.lg,
-                    children: [
-                      Text(
-                        'Similar Movies',
-                        style: context.textTheme.headlineSmall,
-                      ),
-                      PaginatedMoviesList(
-                        fetchCallback: () => ref
-                            .read(similarMoviesProvider(id).notifier)
-                            .fetchMore(),
-                        retryCallback: () => ref
-                            .read(similarMoviesProvider(id).notifier)
-                            .retry(),
-                        state: similarMovies,
-                        isScrollable: false,
-                      ),
-                    ],
                   ),
                 ),
               ),

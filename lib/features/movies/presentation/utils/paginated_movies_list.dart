@@ -28,6 +28,7 @@ class PaginatedMoviesList extends StatelessWidget {
       state: state,
       builder: (context, isFetchingMore, hasError) {
         return ListView(
+          padding: EdgeInsets.zero,
           physics: isScrollable
               ? AlwaysScrollableScrollPhysics()
               : NeverScrollableScrollPhysics(),

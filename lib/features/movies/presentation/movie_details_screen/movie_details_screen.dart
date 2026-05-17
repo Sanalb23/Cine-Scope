@@ -5,6 +5,7 @@ import 'package:cine_scope/core/utils/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/movie_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/similar_movies_provider.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/countdown_banner.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/favorite_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_overview.dart';
@@ -12,6 +13,7 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/trailer_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
+import 'package:cine_scope/features/movies/presentation/utils/days_until_release_date.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_runtime.dart';
@@ -36,6 +38,8 @@ class MovieDetailsScreen extends ConsumerWidget {
       body: SafeArea(
         child: movie.when(
           data: (data) {
+            final daysUntilRelease = daysUntilReleaseDate(data.releaseDate);
+
             return PaginatedScrollHandler(
               fetchCallback: () =>
                   ref.read(similarMoviesProvider(id).notifier).fetchMore(),
@@ -140,6 +144,12 @@ class MovieDetailsScreen extends ConsumerWidget {
                                 ),
                               ],
                             ),
+
+                            if (daysUntilRelease != null)
+                              CountDownBanner(
+                                daysUntilRelease: daysUntilRelease,
+                              ),
+
                             SizedBox(
                               width: double.infinity,
                               height: 44,
@@ -147,6 +157,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                                 trailerPath: data.trailerPath,
                               ),
                             ),
+
                             MovieOverview(overview: data.overview),
                             const Divider(),
                             Column(

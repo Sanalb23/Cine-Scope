@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsSkeleton extends StatelessWidget {
@@ -71,6 +72,15 @@ class MovieDetailsSkeleton extends StatelessWidget {
               width: index == 3 ? 200 : double.infinity,
             ),
           ),
+
+          const SizedBox(height: AppSpacing.xl),
+
+          // Similar movies title
+          const SkeletonPlaceholder(height: 28, width: 150),
+          const SizedBox(height: AppSpacing.sm),
+
+          // Similar movies grid skeleton
+          const MovieListSkeleton(),
         ],
       ),
     );

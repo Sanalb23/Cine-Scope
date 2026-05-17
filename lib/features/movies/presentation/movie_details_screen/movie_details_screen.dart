@@ -121,7 +121,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                                     spacing: AppSpacing.md,
                                     children: [
                                       Text(
-                                        data.title,
+                                        '${data.title} (${data.releaseDate.year})',
                                         style: context.textTheme.headlineMedium,
                                       ),
                                       MovieRuntime(runtime: data.runtime),

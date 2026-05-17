@@ -184,31 +184,25 @@ class MovieDetailsScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 sliver: SliverToBoxAdapter(
-                  child: movie.when(
-                    data: (_) => Text(
-                      'Similar Movies',
-                      style: context.textTheme.headlineSmall,
-                    ),
-                    loading: () => const Align(
-                      alignment: Alignment.centerLeft,
-                      child: SkeletonPlaceholder(width: 150, height: 34),
-                    ),
-                    error: (_, _) => const SizedBox.shrink(),
-                  ),
-                ),
-              ),
-
-              SliverPadding(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                sliver: SliverToBoxAdapter(
-                  child: PaginatedMoviesList(
-                    fetchCallback: () => ref
-                        .read(similarMoviesProvider(id).notifier)
-                        .fetchMore(),
-                    retryCallback: () =>
-                        ref.read(similarMoviesProvider(id).notifier).retry(),
-                    state: similarMovies,
-                    isScrollable: false,
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    spacing: AppSpacing.lg,
+                    children: [
+                      Text(
+                        'Similar Movies',
+                        style: context.textTheme.headlineSmall,
+                      ),
+                      PaginatedMoviesList(
+                        fetchCallback: () => ref
+                            .read(similarMoviesProvider(id).notifier)
+                            .fetchMore(),
+                        retryCallback: () => ref
+                            .read(similarMoviesProvider(id).notifier)
+                            .retry(),
+                        state: similarMovies,
+                        isScrollable: false,
+                      ),
+                    ],
                   ),
                 ),
               ),

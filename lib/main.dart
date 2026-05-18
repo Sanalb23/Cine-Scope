@@ -1,9 +1,10 @@
 import 'package:cine_scope/core/providers/locale_provider.dart';
+import 'package:cine_scope/core/providers/notification_service_provider.dart';
 import 'package:cine_scope/core/theme/app_theme_provider.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_screen.dart';
 import 'package:cine_scope/core/providers/prefs_instance_provider.dart';
-import 'package:cine_scope/features/notifications/notification_service.dart';
+import 'package:cine_scope/core/features/notifications/notification_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,13 +17,17 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: "lib/.env");
 
-  await NotificationService().initNotification();
+  final notificationService = NotificationService();
+  await notificationService.initNotification();
 
   final prefs = await SharedPreferences.getInstance();
 
   runApp(
     ProviderScope(
-      overrides: [prefsInstanceProvider.overrideWithValue(prefs)],
+      overrides: [
+        prefsInstanceProvider.overrideWithValue(prefs),
+        notificationServiceProvider.overrideWithValue(notificationService),
+      ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en', 'US'), Locale('es', 'MX')],
         path: 'assets/translations',

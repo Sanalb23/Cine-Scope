@@ -1,4 +1,4 @@
-import 'package:cine_scope/features/notifications/notification_service.dart';
+import 'package:cine_scope/core/features/notifications/notification_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MovieNotificationUtils {

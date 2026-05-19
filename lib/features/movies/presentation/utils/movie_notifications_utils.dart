@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/features/notifications/notification_service.dart';
+import 'package:cine_scope/features/movies/presentation/utils/days_until_release_date.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MovieNotificationUtils {
@@ -11,15 +12,21 @@ class MovieNotificationUtils {
     required String movieTitle,
     required DateTime releaseDate,
   }) async {
-    final countdownReminderId = _buildCountdownReminderId(movieId);
     final releaseReminderId = _buildReleaseReminderId(movieId);
 
-    await _scheduleCountdownReminder(
-      countdownReminderId,
-      movieTitle,
-      releaseDate,
-    );
     await _scheduleReleaseReminder(releaseReminderId, movieTitle, releaseDate);
+
+    final daysUntilRelease = daysUntilReleaseDate(releaseDate);
+    if (daysUntilRelease == null) return;
+
+    if (daysUntilRelease >= 3) {
+      final countdownReminderId = _buildCountdownReminderId(movieId);
+      await _scheduleCountdownReminder(
+        countdownReminderId,
+        movieTitle,
+        releaseDate,
+      );
+    }
   }
 
   Future<void> cancelMovieNotifications({required int movieId}) async {

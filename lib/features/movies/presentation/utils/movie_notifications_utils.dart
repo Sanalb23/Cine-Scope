@@ -2,7 +2,9 @@ import 'package:cine_scope/core/features/notifications/notification_service.dart
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MovieNotificationUtils {
-  final NotificationService _notificationService = NotificationService();
+  final NotificationService _notificationService;
+  MovieNotificationUtils({required NotificationService notificationService})
+    : _notificationService = notificationService;
 
   Future<void> scheduleCountdownReminder(
     int movieId,

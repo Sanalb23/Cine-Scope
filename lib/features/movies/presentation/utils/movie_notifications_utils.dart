@@ -6,15 +6,36 @@ class MovieNotificationUtils {
   MovieNotificationUtils({required NotificationService notificationService})
     : _notificationService = notificationService;
 
-  Future<void> scheduleCountdownReminder(
-    int movieId,
+  Future<void> scheduleMovieNotifications({
+    required int movieId,
+    required String movieTitle,
+    required DateTime releaseDate,
+  }) async {
+    final countdownReminderId = _buildCountdownReminderId(movieId);
+    final releaseReminderId = _buildReleaseReminderId(movieId);
+
+    await _scheduleCountdownReminder(
+      countdownReminderId,
+      movieTitle,
+      releaseDate,
+    );
+    await _scheduleReleaseReminder(releaseReminderId, movieTitle, releaseDate);
+  }
+
+  Future<void> cancelMovieNotifications({required int movieId}) async {
+    final countdownReminderId = _buildCountdownReminderId(movieId);
+    final releaseReminderId = _buildReleaseReminderId(movieId);
+
+    await _notificationService.cancelNotification(countdownReminderId);
+    await _notificationService.cancelNotification(releaseReminderId);
+  }
+
+  Future<void> _scheduleCountdownReminder(
+    int uniqueId,
     String movieTitle,
     DateTime releaseDate,
   ) async {
     final reminderDate = releaseDate.subtract(const Duration(days: 3));
-
-    String uniqueStringId = "${movieId}_3_days_countdown_reminder";
-    int uniqueId = uniqueStringId.hashCode;
 
     await _notificationService.scheduleNotification(
       id: uniqueId,
@@ -28,14 +49,11 @@ class MovieNotificationUtils {
     );
   }
 
-  Future<void> scheduleReleaseReminder(
-    int movieId,
+  Future<void> _scheduleReleaseReminder(
+    int uniqueId,
     String movieTitle,
     DateTime releaseDate,
   ) async {
-    String uniqueStringId = "${movieId}_release_reminder";
-    int uniqueId = uniqueStringId.hashCode;
-
     await _notificationService.scheduleNotification(
       id: uniqueId,
       title: 'Now in theaters!',
@@ -46,5 +64,15 @@ class MovieNotificationUtils {
       importance: Importance.max,
       priority: Priority.high,
     );
+  }
+
+  int _buildReleaseReminderId(int movieId) {
+    final uniqueStringId = "${movieId}_release_reminder";
+    return uniqueStringId.hashCode;
+  }
+
+  int _buildCountdownReminderId(int movieId) {
+    final uniqueStringId = "${movieId}_3_days_countdown_reminder";
+    return uniqueStringId.hashCode;
   }
 }

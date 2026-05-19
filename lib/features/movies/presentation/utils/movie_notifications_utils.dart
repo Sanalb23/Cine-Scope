@@ -13,8 +13,11 @@ class MovieNotificationUtils {
   ) async {
     final reminderDate = releaseDate.subtract(const Duration(days: 3));
 
+    String uniqueStringId = "${movieId}_3_days_countdown_reminder";
+    int uniqueId = uniqueStringId.hashCode;
+
     await _notificationService.scheduleNotification(
-      id: movieId,
+      id: uniqueId,
       title: '3 days left!',
       body: '$movieTitle premieres very soon.',
       scheduledTime: reminderDate,
@@ -30,8 +33,11 @@ class MovieNotificationUtils {
     String movieTitle,
     DateTime releaseDate,
   ) async {
+    String uniqueStringId = "${movieId}_release_reminder";
+    int uniqueId = uniqueStringId.hashCode;
+
     await _notificationService.scheduleNotification(
-      id: movieId + 10000,
+      id: uniqueId,
       title: 'Now in theaters!',
       body: 'The premiere of $movieTitle is today.',
       scheduledTime: releaseDate,

@@ -8,36 +8,56 @@ class CountDownBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: LinearGradient(
-          begin: .centerRight,
-          end: .centerLeft,
-          colors: [
-            context.theme.colorScheme.error,
-            context.theme.colorScheme.error.withValues(alpha: .5),
-          ],
+    return FilledButton.tonal(
+      style: FilledButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.lg,
         ),
       ),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: .center,
-          spacing: AppSpacing.md,
-          children: [
-            Icon(
-              Icons.timer_outlined,
-              size: (context.textTheme.titleLarge?.fontSize ?? 0) * 1.5,
+      onPressed: () {},
+      child: Row(
+        spacing: AppSpacing.md,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.theme.colorScheme.tertiaryContainer,
             ),
-            Text(switch (daysUntilRelease) {
-              0 => 'RELEASES TODAY!',
-              1 => 'RELEASES TOMORROW',
-              _ => 'RELEASING IN $daysUntilRelease DAYS',
-            }, style: context.textTheme.titleLarge),
-          ],
-        ),
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Icon(
+                Icons.notifications_rounded,
+                size: 32,
+                color: context.theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: .start,
+            children: [
+              Text(
+                switch (daysUntilRelease) {
+                  0 => 'RELEASES TODAY!',
+                  1 => 'RELEASES TOMORROW',
+                  _ => 'RELEASING IN $daysUntilRelease DAYS',
+                },
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text('Tap to get notified', style: context.textTheme.bodySmall),
+            ],
+          ),
+          const Spacer(),
+          Icon(
+            Icons.chevron_right,
+            size: 32,
+            color: context.theme.colorScheme.onSurfaceVariant,
+          ),
+        ],
       ),
     );
   }

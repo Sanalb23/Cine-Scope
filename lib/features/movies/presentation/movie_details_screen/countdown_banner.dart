@@ -3,6 +3,7 @@ import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/movie_notification_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CountDownBanner extends ConsumerWidget {
   const CountDownBanner({
@@ -37,6 +38,13 @@ class CountDownBanner extends ConsumerWidget {
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Ok'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  openAppSettings();
+                },
+                child: const Text('Open Settings'),
               ),
             ],
           ),

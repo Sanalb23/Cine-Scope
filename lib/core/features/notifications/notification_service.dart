@@ -2,7 +2,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin notificationsPlugin =
+  final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   Future<void> initNotification() async {
@@ -12,7 +12,7 @@ class NotificationService {
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
 
-    await notificationsPlugin.initialize(settings: initializationSettings);
+    await _notificationsPlugin.initialize(settings: initializationSettings);
   }
 
   Future<void> scheduleNotification({
@@ -25,7 +25,7 @@ class NotificationService {
     Importance importance = Importance.max,
     Priority priority = Priority.high,
   }) async {
-    await notificationsPlugin.zonedSchedule(
+    await _notificationsPlugin.zonedSchedule(
       id: id,
       title: title,
       body: body,
@@ -43,6 +43,6 @@ class NotificationService {
   }
 
   Future<void> cancelNotification(int id) async {
-    await notificationsPlugin.cancel(id: id);
+    await _notificationsPlugin.cancel(id: id);
   }
 }

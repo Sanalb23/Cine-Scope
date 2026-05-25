@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -49,5 +51,29 @@ class NotificationService {
   Future<bool> isNotificationScheduled(int id) async {
     final pending = await _notificationsPlugin.pendingNotificationRequests();
     return pending.any((x) => x.id == id);
+  }
+
+  Future<bool?> requestPermissions() async {
+    if (Platform.isAndroid) {
+      return await _notificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
+          ?.requestNotificationsPermission();
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool?> areNotificationsEnabled() async {
+    if (Platform.isAndroid) {
+      return await _notificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
+          ?.areNotificationsEnabled();
+    } else {
+      return false;
+    }
   }
 }

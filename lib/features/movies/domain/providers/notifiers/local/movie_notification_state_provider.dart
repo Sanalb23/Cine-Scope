@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/providers/notification_service_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_notification_utils_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,6 +33,24 @@ class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
         await utils.cancelMovieNotifications(movieId: movieId);
         state = const AsyncData(false);
       } else {
+        final notificationsEnabled = await ref
+            .read(notificationServiceProvider)
+            .areNotificationsEnabled();
+
+        if (notificationsEnabled == null || !notificationsEnabled) {
+          final isGranted = await ref
+              .read(notificationServiceProvider)
+              .requestPermissions();
+
+          if (isGranted == null || !isGranted) {
+            state = AsyncError(
+              'Notifications must be enabled to schedule movie reminders.',
+              StackTrace.current,
+            );
+            return;
+          }
+        }
+
         await utils.scheduleMovieNotifications(
           movieId: movieId,
           movieTitle: movieTitle,

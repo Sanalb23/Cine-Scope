@@ -1,61 +1,93 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/local/movie_notification_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CountDownBanner extends StatelessWidget {
-  const CountDownBanner({super.key, required this.daysUntilRelease});
+class CountDownBanner extends ConsumerWidget {
+  const CountDownBanner({
+    super.key,
+    required this.movieId,
+    required this.movieTitle,
+    required this.releaseDate,
+    required this.daysUntilRelease,
+  });
+  final int movieId;
+  final String movieTitle;
+  final DateTime releaseDate;
   final int daysUntilRelease;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notificationState = ref.watch(
+      movieNotificationStateProvider(movieId),
+    );
+    final notificationStateNotifier = ref.read(
+      movieNotificationStateProvider(movieId).notifier,
+    );
+
     return Opacity(
-      opacity: daysUntilRelease == 0 ? 0.5 : 1,
+      opacity: daysUntilRelease == 0 || notificationState.isLoading ? 0.5 : 1,
       child: FilledButton.tonal(
         style: FilledButton.styleFrom(
+          backgroundColor: notificationState.value ?? false
+              ? Colors.green
+              : null,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.lg,
           ),
         ),
-        onPressed: daysUntilRelease == 0 ? null : () {},
+        onPressed: daysUntilRelease == 0 || notificationState.isLoading
+            ? null
+            : () => notificationStateNotifier.toggleState(
+                movieTitle,
+                releaseDate,
+              ),
         child: Row(
           spacing: AppSpacing.md,
           children: [
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: context.theme.colorScheme.tertiaryContainer,
+                color: notificationState.value ?? false
+                    ? Colors.green.shade600
+                    : context.theme.colorScheme.tertiaryContainer,
               ),
               padding: const EdgeInsets.all(AppSpacing.md),
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                child: Icon(
-                  daysUntilRelease == 0
-                      ? Icons.calendar_today
-                      : Icons.notifications_rounded,
-                  size: 32,
-                  color: context.theme.colorScheme.onSurfaceVariant,
-                ),
+              child: Icon(
+                daysUntilRelease == 0
+                    ? Icons.calendar_today
+                    : notificationState.value ?? false
+                    ? Icons.check
+                    : Icons.notifications_rounded,
+                size: 32,
+                color: context.theme.colorScheme.onSurfaceVariant,
               ),
             ),
             Column(
               crossAxisAlignment: .start,
               children: [
                 Text(
-                  switch (daysUntilRelease) {
-                    0 => 'RELEASES TODAY!',
-                    1 => 'RELEASES TOMORROW',
-                    _ => 'RELEASING IN $daysUntilRelease DAYS',
-                  },
+                  notificationState.value ?? false
+                      ? 'Notification set'
+                      : switch (daysUntilRelease) {
+                          0 => 'RELEASES TODAY!',
+                          1 => 'RELEASES TOMORROW',
+                          _ => 'RELEASING IN $daysUntilRelease DAYS',
+                        },
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  daysUntilRelease == 0
-                      ? 'Get your popcorn ready'
-                      : 'Tap to get notified',
+                  notificationState.value ?? false
+                      ? 'You\'ll get notified when it releases'
+                      : switch (daysUntilRelease) {
+                          0 => 'Get your popcorn ready',
+                          _ => 'Tap to get notified',
+                        },
                   style: context.textTheme.bodySmall,
                 ),
               ],

@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/utils/init_timezone.dart';
 import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/core/providers/notification_service_provider.dart';
 import 'package:cine_scope/core/theme/app_theme_provider.dart';
@@ -16,6 +17,8 @@ void main() async {
 
   await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: "lib/.env");
+
+  await initTimeZone();
 
   final notificationService = NotificationService();
   await notificationService.initNotification();

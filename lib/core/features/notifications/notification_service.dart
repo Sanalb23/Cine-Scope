@@ -45,4 +45,9 @@ class NotificationService {
   Future<void> cancelNotification(int id) async {
     await _notificationsPlugin.cancel(id: id);
   }
+
+  Future<bool> isNotificationScheduled(int id) async {
+    final pending = await _notificationsPlugin.pendingNotificationRequests();
+    return pending.any((x) => x.id == id);
+  }
 }

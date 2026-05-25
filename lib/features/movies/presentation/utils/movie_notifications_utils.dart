@@ -37,6 +37,19 @@ class MovieNotificationUtils {
     await _notificationService.cancelNotification(releaseReminderId);
   }
 
+  Future<bool> isMovieNotificationScheduled(int movieId) async {
+    final releaseReminderId = _buildReleaseReminderId(movieId);
+    final countdownReminderId = _buildCountdownReminderId(movieId);
+
+    final isReleaseReminderScheduled = await _notificationService
+        .isNotificationScheduled(releaseReminderId);
+
+    final isCountdownReminderScheduled = await _notificationService
+        .isNotificationScheduled(countdownReminderId);
+
+    return isReleaseReminderScheduled || isCountdownReminderScheduled;
+  }
+
   Future<void> _scheduleCountdownReminder(
     int uniqueId,
     String movieTitle,

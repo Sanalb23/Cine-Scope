@@ -26,6 +26,24 @@ class CountDownBanner extends ConsumerWidget {
       movieNotificationStateProvider(movieId).notifier,
     );
 
+    ref.listen(movieNotificationStateProvider(movieId), (previous, next) {
+      if (next is AsyncError && !next.isLoading) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: Text(next.error.toString()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+
     return Opacity(
       opacity: daysUntilRelease == 0 || notificationState.isLoading ? 0.5 : 1,
       child: FilledButton.tonal(

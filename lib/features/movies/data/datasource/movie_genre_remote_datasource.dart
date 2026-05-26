@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class GenresRemoteDataSource {
+class MovieGenreRemoteDataSource {
   final http.Client _httpClient;
   final String _apiKey;
   final String _language;
 
-  GenresRemoteDataSource({
+  MovieGenreRemoteDataSource({
     required http.Client httpClient,
     required String apiKey,
     required String language,

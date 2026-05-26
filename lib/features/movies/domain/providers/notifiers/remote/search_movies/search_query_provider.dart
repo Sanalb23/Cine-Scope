@@ -11,7 +11,13 @@ class SearchQueryNotifier extends Notifier<String> {
   Timer? _debounceTimer;
 
   @override
-  String build() => '';
+  String build() {
+    ref.onDispose(() {
+      _debounceTimer?.cancel();
+    });
+
+    return '';
+  }
 
   void setSearchQuery(String query) {
     _debounceTimer?.cancel();

@@ -24,7 +24,9 @@ class TrailerButton extends StatelessWidget {
                 Icon(Icons.play_arrow),
                 Text(
                   'watch_trailer'.tr(),
-                  style: context.textTheme.titleMedium,
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: context.colors.onPrimary,
+                  ),
                 ),
               ],
             )

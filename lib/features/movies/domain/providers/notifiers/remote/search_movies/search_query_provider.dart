@@ -8,18 +8,17 @@ final searchQueryProvider =
     );
 
 class SearchQueryNotifier extends Notifier<String> {
+  Timer? _debounceTimer;
+
   @override
   String build() => '';
 
-  void setSearchQuery(String query) async {
-    bool isCancelled = false;
+  void setSearchQuery(String query) {
+    _debounceTimer?.cancel();
 
-    ref.onDispose(() => isCancelled = true);
-
-    await Future.delayed(const Duration(milliseconds: 800));
-
-    if (isCancelled) return;
-
-    state = query;
+    _debounceTimer = Timer(
+      const Duration(milliseconds: 800),
+      () => state = query,
+    );
   }
 }

@@ -34,17 +34,12 @@ class PaginatedMoviesList extends StatelessWidget {
               : NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
-            if (state.items.isNotEmpty) MoviesList(movies: state.items),
-
-            if (state.isLoading) ...{
+            if (state.items.isNotEmpty) ...[
+              MoviesList(movies: state.items),
               const SizedBox(height: AppSpacing.lg),
-              const MovieListSkeleton(),
-            },
-
-            if (state.hasError) ...{
-              const SizedBox(height: AppSpacing.lg),
-              TryAgainLater(onPressed: retryCallback),
-            },
+            ],
+            if (state.isLoading) const MovieListSkeleton(),
+            if (state.hasError) TryAgainLater(onPressed: retryCallback),
           ],
         );
       },

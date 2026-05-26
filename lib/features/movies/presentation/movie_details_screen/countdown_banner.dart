@@ -1,6 +1,7 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/movie_notification_state_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,19 +33,19 @@ class CountDownBanner extends ConsumerWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Error'),
+            title: Text('error'.tr()),
             content: Text(next.error.toString()),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Ok'),
+                child: Text('ok'.tr()),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                   openAppSettings();
                 },
-                child: const Text('Open Settings'),
+                child: Text('open_settings'.tr()),
               ),
             ],
           ),
@@ -97,11 +98,11 @@ class CountDownBanner extends ConsumerWidget {
               children: [
                 Text(
                   notificationState.value ?? false
-                      ? 'Notification set'
+                      ? 'notification_set'.tr()
                       : switch (daysUntilRelease) {
-                          0 => 'RELEASES TODAY!',
-                          1 => 'RELEASES TOMORROW',
-                          _ => 'RELEASING IN $daysUntilRelease DAYS',
+                          0 => 'releases_today'.tr(),
+                          1 => 'releases_tomorrow'.tr(),
+                          _ => 'releasing_in_days'.tr(namedArgs: {'days': daysUntilRelease.toString()}),
                         },
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
@@ -109,10 +110,10 @@ class CountDownBanner extends ConsumerWidget {
                 ),
                 Text(
                   notificationState.value ?? false
-                      ? 'You\'ll get notified when it releases'
+                      ? 'youll_get_notified_when_it_releases'.tr()
                       : switch (daysUntilRelease) {
-                          0 => 'Get your popcorn ready',
-                          _ => 'Tap to get notified',
+                          0 => 'get_your_popcorn_ready'.tr(),
+                          _ => 'tap_to_get_notified'.tr(),
                         },
                   style: context.textTheme.bodySmall,
                 ),

@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/features/notifications/notification_service.dart';
 import 'package:cine_scope/features/movies/presentation/utils/days_until_release_date.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MovieNotificationUtils {
@@ -59,11 +60,11 @@ class MovieNotificationUtils {
 
     await _notificationService.scheduleNotification(
       id: uniqueId,
-      title: '3 days left!',
-      body: '$movieTitle premieres very soon.',
+      title: 'days_left'.tr(namedArgs: {'days': '3'}),
+      body: 'premieres_very_soon'.tr(namedArgs: {'movie_title': movieTitle}),
       scheduledTime: reminderDate,
       channelId: 'movie_countdown_channel',
-      channelName: 'Movie Countdown',
+      channelName: 'movie_countdown'.tr(),
       importance: Importance.defaultImportance,
       priority: Priority.defaultPriority,
     );
@@ -76,11 +77,11 @@ class MovieNotificationUtils {
   ) async {
     await _notificationService.scheduleNotification(
       id: uniqueId,
-      title: 'Now in theaters!',
-      body: 'The premiere of $movieTitle is today.',
+      title: 'now_in_theaters'.tr(),
+      body: 'premiere_is_today'.tr(namedArgs: {'movie_title': movieTitle}),
       scheduledTime: releaseDate,
       channelId: 'movie_release_channel',
-      channelName: 'Movie Releases',
+      channelName: 'movie_releases'.tr(),
       importance: Importance.max,
       priority: Priority.high,
     );

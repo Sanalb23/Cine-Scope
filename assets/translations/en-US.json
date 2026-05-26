@@ -24,5 +24,21 @@
     "remove": "Remove",
     "cancel": "Cancel",
     "remove_from": "Remove from {}",
-    "add_to": "Add to {}"
+    "add_to": "Add to {}",
+    "ok": "Ok",
+    "open_settings": "Open Settings",
+    "notification_set": "Notification set",
+    "releases_today": "RELEASES TODAY!",
+    "releases_tomorrow": "RELEASES TOMORROW",
+    "releasing_in_days": "RELEASING IN {days} DAYS",
+    "youll_get_notified_when_it_releases": "We'll notify you when it releases",
+    "get_your_popcorn_ready": "Get your popcorn ready",
+    "tap_to_get_notified": "Tap to get notified",
+    "days_left": "{days} days left!",
+    "premieres_very_soon": "{movie_title} premieres very soon.",
+    "movie_countdown": "Movie Countdown",
+    "now_in_theaters": "Now in theaters!",
+    "premiere_is_today": "The premiere of {movie_title} is today.",
+    "movie_releases": "Movie Releases",
+    "notifications_must_be_enabled": "Notifications must be enabled to schedule movie reminders."
 }

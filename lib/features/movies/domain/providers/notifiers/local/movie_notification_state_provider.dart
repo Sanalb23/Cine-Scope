@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/providers/notification_service_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_notification_utils_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final movieNotificationStateProvider = AsyncNotifierProvider.autoDispose
@@ -44,7 +45,7 @@ class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
 
           if (isGranted == null || !isGranted) {
             state = AsyncError(
-              'Notifications must be enabled to schedule movie reminders.',
+              'notifications_must_be_enabled'.tr(),
               StackTrace.current,
             );
             return;

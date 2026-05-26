@@ -24,5 +24,21 @@
     "remove": "Eliminar",
     "cancel": "Cancelar",
     "remove_from": "Eliminar de {}",
-    "add_to": "Añadir a {}"
+    "add_to": "Añadir a {}",
+    "ok": "Aceptar",
+    "open_settings": "Abrir ajustes",
+    "notification_set": "Notificación establecida",
+    "releases_today": "¡SE ESTRENA HOY!",
+    "releases_tomorrow": "SE ESTRENA MAÑANA",
+    "releasing_in_days": "SE ESTRENA EN {days} DÍAS",
+    "youll_get_notified_when_it_releases": "Te notificaremos cuando se estrene",
+    "get_your_popcorn_ready": "Prepara tus palomitas",
+    "tap_to_get_notified": "Toca para recibir notificación",
+    "days_left": "¡Faltan {days} días!",
+    "premieres_very_soon": "{movie_title} se estrena muy pronto.",
+    "movie_countdown": "Cuenta regresiva de películas",
+    "now_in_theaters": "¡Ya en cines!",
+    "premiere_is_today": "El estreno de {movie_title} es hoy.",
+    "movie_releases": "Estrenos de películas",
+    "notifications_must_be_enabled": "Las notificaciones deben estar activadas para programar recordatorios de películas."
 }

@@ -40,5 +40,9 @@
     "now_in_theaters": "Now in theaters!",
     "premiere_is_today": "The premiere of {movie_title} is today.",
     "movie_releases": "Movie Releases",
-    "notifications_must_be_enabled": "Notifications must be enabled to schedule movie reminders."
+    "notifications_must_be_enabled": "Notifications must be enabled to schedule movie reminders.",
+    "today": "today",
+    "tomorrow": "tomorrow",
+    "n_days": "{days} days",
+    "unknown": "Unknown"
 }

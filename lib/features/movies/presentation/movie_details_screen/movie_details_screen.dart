@@ -147,6 +147,9 @@ class MovieDetailsScreen extends ConsumerWidget {
 
                             if (daysUntilRelease != null)
                               CountDownBanner(
+                                movieId: id,
+                                movieTitle: data.title,
+                                releaseDate: data.releaseDate,
                                 daysUntilRelease: daysUntilRelease,
                               ),
 

@@ -100,10 +100,12 @@ class MovieCard extends ConsumerWidget {
                     left: AppSpacing.md,
                     child: _InfoBadge(
                       label: switch (daysUntilRelease) {
-                        0 => 'today',
-                        1 => 'tomorrow',
-                        > 1 => '$daysUntilRelease days',
-                        _ => 'Unknown',
+                        0 => 'today'.tr(),
+                        1 => 'tomorrow'.tr(),
+                        > 1 => 'n_days'.tr(
+                          namedArgs: {'days': daysUntilRelease.toString()},
+                        ),
+                        _ => 'unknown'.tr(),
                       },
                       icon: Icons.calendar_today,
                       labelColor: context.colors.onSurface,

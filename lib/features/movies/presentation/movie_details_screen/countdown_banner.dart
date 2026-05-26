@@ -1,41 +1,132 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/local/movie_notification_state_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class CountDownBanner extends StatelessWidget {
-  const CountDownBanner({super.key, required this.daysUntilRelease});
+class CountDownBanner extends ConsumerWidget {
+  const CountDownBanner({
+    super.key,
+    required this.movieId,
+    required this.movieTitle,
+    required this.releaseDate,
+    required this.daysUntilRelease,
+  });
+  final int movieId;
+  final String movieTitle;
+  final DateTime releaseDate;
   final int daysUntilRelease;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: LinearGradient(
-          begin: .centerRight,
-          end: .centerLeft,
-          colors: [
-            context.theme.colorScheme.error,
-            context.theme.colorScheme.error.withValues(alpha: .5),
-          ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notificationState = ref.watch(
+      movieNotificationStateProvider(movieId),
+    );
+    final notificationStateNotifier = ref.read(
+      movieNotificationStateProvider(movieId).notifier,
+    );
+
+    ref.listen(movieNotificationStateProvider(movieId), (previous, next) {
+      if (next is AsyncError && !next.isLoading) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('error'.tr()),
+            content: Text(next.error.toString()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('ok'.tr()),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  openAppSettings();
+                },
+                child: Text('open_settings'.tr()),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+
+    return Opacity(
+      opacity: daysUntilRelease == 0 || notificationState.isLoading ? 0.5 : 1,
+      child: FilledButton.tonal(
+        style: FilledButton.styleFrom(
+          backgroundColor: notificationState.value ?? false
+              ? Colors.green
+              : null,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.lg,
+          ),
         ),
-      ),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Center(
+        onPressed: daysUntilRelease == 0 || notificationState.isLoading
+            ? null
+            : () => notificationStateNotifier.toggleState(
+                movieTitle,
+                releaseDate,
+              ),
         child: Row(
-          mainAxisAlignment: .center,
           spacing: AppSpacing.md,
           children: [
-            Icon(
-              Icons.timer_outlined,
-              size: (context.textTheme.titleLarge?.fontSize ?? 0) * 1.5,
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: notificationState.value ?? false
+                    ? Colors.green.shade600
+                    : context.theme.colorScheme.tertiaryContainer,
+              ),
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Icon(
+                daysUntilRelease == 0
+                    ? Icons.calendar_today
+                    : notificationState.value ?? false
+                    ? Icons.check
+                    : Icons.notifications_rounded,
+                size: 32,
+                color: context.theme.colorScheme.onSurfaceVariant,
+              ),
             ),
-            Text(switch (daysUntilRelease) {
-              0 => 'RELEASES TODAY!',
-              1 => 'RELEASES TOMORROW',
-              _ => 'RELEASING IN $daysUntilRelease DAYS',
-            }, style: context.textTheme.titleLarge),
+            Column(
+              crossAxisAlignment: .start,
+              children: [
+                Text(
+                  notificationState.value ?? false
+                      ? 'notification_set'.tr()
+                      : switch (daysUntilRelease) {
+                          0 => 'releases_today'.tr(),
+                          1 => 'releases_tomorrow'.tr(),
+                          _ => 'releasing_in_days'.tr(namedArgs: {'days': daysUntilRelease.toString()}),
+                        },
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  notificationState.value ?? false
+                      ? 'youll_get_notified_when_it_releases'.tr()
+                      : switch (daysUntilRelease) {
+                          0 => 'get_your_popcorn_ready'.tr(),
+                          _ => 'tap_to_get_notified'.tr(),
+                        },
+                  style: context.textTheme.bodySmall,
+                ),
+              ],
+            ),
+            const Spacer(),
+            if (daysUntilRelease != 0) ...[
+              Icon(
+                Icons.chevron_right,
+                size: 32,
+                color: context.theme.colorScheme.onSurfaceVariant,
+              ),
+            ],
           ],
         ),
       ),

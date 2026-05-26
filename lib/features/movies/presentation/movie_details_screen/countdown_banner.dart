@@ -61,7 +61,9 @@ class CountDownBanner extends ConsumerWidget {
       opacity: daysUntilRelease == 0 || notificationState.isLoading ? 0.5 : 1,
       child: FilledButton.tonal(
         style: FilledButton.styleFrom(
-          backgroundColor: isActive ? Colors.green : null,
+          backgroundColor: isActive && daysUntilRelease != 0
+              ? Colors.green
+              : null,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
@@ -80,7 +82,7 @@ class CountDownBanner extends ConsumerWidget {
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isActive
+                color: isActive && daysUntilRelease != 0
                     ? Colors.green.shade600
                     : context.theme.colorScheme.tertiaryContainer,
               ),
@@ -92,14 +94,16 @@ class CountDownBanner extends ConsumerWidget {
                     ? Icons.check
                     : Icons.notifications_rounded,
                 size: 32,
-                color: isActive ? activeForegroundColor : null,
+                color: isActive && daysUntilRelease != 0
+                    ? activeForegroundColor
+                    : null,
               ),
             ),
             Column(
               crossAxisAlignment: .start,
               children: [
                 Text(
-                  isActive
+                  isActive && daysUntilRelease != 0
                       ? 'notification_set'.tr()
                       : switch (daysUntilRelease) {
                           0 => 'releases_today'.tr(),
@@ -110,11 +114,13 @@ class CountDownBanner extends ConsumerWidget {
                         },
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: isActive ? activeForegroundColor : null,
+                    color: isActive && daysUntilRelease != 0
+                        ? activeForegroundColor
+                        : null,
                   ),
                 ),
                 Text(
-                  isActive
+                  isActive && daysUntilRelease != 0
                       ? 'youll_get_notified_when_it_releases'.tr()
                       : switch (daysUntilRelease) {
                           0 => 'get_your_popcorn_ready'.tr(),

@@ -53,13 +53,15 @@ class CountDownBanner extends ConsumerWidget {
       }
     });
 
+    final isActive = notificationState.value ?? false;
+
+    final activeForegroundColor = Colors.green.shade50;
+
     return Opacity(
       opacity: daysUntilRelease == 0 || notificationState.isLoading ? 0.5 : 1,
       child: FilledButton.tonal(
         style: FilledButton.styleFrom(
-          backgroundColor: notificationState.value ?? false
-              ? Colors.green
-              : null,
+          backgroundColor: isActive ? Colors.green : null,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
@@ -78,7 +80,7 @@ class CountDownBanner extends ConsumerWidget {
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: notificationState.value ?? false
+                color: isActive
                     ? Colors.green.shade600
                     : context.theme.colorScheme.tertiaryContainer,
               ),
@@ -86,36 +88,41 @@ class CountDownBanner extends ConsumerWidget {
               child: Icon(
                 daysUntilRelease == 0
                     ? Icons.calendar_today
-                    : notificationState.value ?? false
+                    : isActive
                     ? Icons.check
                     : Icons.notifications_rounded,
                 size: 32,
-                color: context.theme.colorScheme.onSurfaceVariant,
+                color: isActive ? activeForegroundColor : null,
               ),
             ),
             Column(
               crossAxisAlignment: .start,
               children: [
                 Text(
-                  notificationState.value ?? false
+                  isActive
                       ? 'notification_set'.tr()
                       : switch (daysUntilRelease) {
                           0 => 'releases_today'.tr(),
                           1 => 'releases_tomorrow'.tr(),
-                          _ => 'releasing_in_days'.tr(namedArgs: {'days': daysUntilRelease.toString()}),
+                          _ => 'releasing_in_days'.tr(
+                            namedArgs: {'days': daysUntilRelease.toString()},
+                          ),
                         },
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: isActive ? activeForegroundColor : null,
                   ),
                 ),
                 Text(
-                  notificationState.value ?? false
+                  isActive
                       ? 'youll_get_notified_when_it_releases'.tr()
                       : switch (daysUntilRelease) {
                           0 => 'get_your_popcorn_ready'.tr(),
                           _ => 'tap_to_get_notified'.tr(),
                         },
-                  style: context.textTheme.bodySmall,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: isActive ? activeForegroundColor : null,
+                  ),
                 ),
               ],
             ),
@@ -124,7 +131,7 @@ class CountDownBanner extends ConsumerWidget {
               Icon(
                 Icons.chevron_right,
                 size: 32,
-                color: context.theme.colorScheme.onSurfaceVariant,
+                color: isActive ? activeForegroundColor : null,
               ),
             ],
           ],

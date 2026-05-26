@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
+import 'package:cine_scope/features/movies/presentation/utils/genre_tags_skeleton.dart';
 import 'package:flutter/material.dart';
 
 class MovieListSkeleton extends StatelessWidget {
@@ -27,16 +28,7 @@ class MovieListSkeleton extends StatelessWidget {
 
             const Expanded(flex: 2, child: SkeletonPlaceholder()),
 
-            const Expanded(
-              child: Row(
-                spacing: AppSpacing.sm,
-                children: [
-                  Flexible(flex: 3, child: SkeletonPlaceholder()),
-                  Flexible(flex: 3, child: SkeletonPlaceholder()),
-                  Flexible(flex: 2, child: SkeletonPlaceholder()),
-                ],
-              ),
-            ),
+            const Expanded(child: GenreTagsSkeleton()),
           ],
         );
       },

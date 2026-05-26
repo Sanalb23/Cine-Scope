@@ -4,9 +4,7 @@ import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final genreDatasourceProvider = Provider.autoDispose<GenresRemoteDataSource>((
-  ref,
-) {
+final genreDatasourceProvider = Provider<GenresRemoteDataSource>((ref) {
   final httpClient = ref.watch(httpClientProvider);
   final apiKey = dotenv.env['TMDB_API_KEY']!;
   final language = ref.watch(localeProvider);

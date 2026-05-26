@@ -1,4 +1,4 @@
-import 'package:cine_scope/core/features/movies/data/enum/movie_list_category/movie_list_category_enum.dart';
+import 'package:cine_scope/features/movies/data/enum/movie_list_category_enum.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/popular_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/top_rated_movies_provider.dart';

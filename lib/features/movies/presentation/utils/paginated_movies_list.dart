@@ -24,7 +24,6 @@ class PaginatedMoviesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return PaginatedScrollHandler(
       fetchCallback: fetchCallback,
-      retryCallback: retryCallback,
       child: ListView(
         padding: EdgeInsets.zero,
         physics: isScrollable

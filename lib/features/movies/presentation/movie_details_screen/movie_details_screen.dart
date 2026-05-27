@@ -43,8 +43,6 @@ class MovieDetailsScreen extends ConsumerWidget {
             return PaginatedScrollHandler(
               fetchCallback: () =>
                   ref.read(similarMoviesProvider(id).notifier).fetchMore(),
-              retryCallback: () =>
-                  ref.read(similarMoviesProvider(id).notifier).retry(),
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(

@@ -4,11 +4,9 @@ class PaginatedScrollHandler extends StatelessWidget {
   const PaginatedScrollHandler({
     super.key,
     required this.fetchCallback,
-    required this.retryCallback,
     required this.child,
   });
   final VoidCallback fetchCallback;
-  final VoidCallback retryCallback;
   final Widget child;
 
   @override

@@ -46,7 +46,7 @@ class MovieDetailsScreen extends ConsumerWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    expandedHeight: 200,
+                    expandedHeight: context.screenDiagonal * 0.175,
                     pinned: true,
                     leading: Center(
                       child: AppBarButton(

@@ -15,8 +15,8 @@ class PaginatedScrollHandler extends StatelessWidget {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        if (notification.metrics.pixels ==
-            notification.metrics.maxScrollExtent) {
+        if (notification.metrics.pixels >=
+            notification.metrics.maxScrollExtent * 0.6) {
           fetchCallback();
         }
 

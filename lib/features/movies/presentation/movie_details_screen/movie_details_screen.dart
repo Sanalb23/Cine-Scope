@@ -103,9 +103,13 @@ class MovieDetailsScreen extends ConsumerWidget {
                             spacing: AppSpacing.xl,
                             children: [
                               SizedBox(
-                                width: 135,
-                                height: 200,
-                                child: MoviePoster(posterPath: data.posterPath),
+                                width: context.screenDiagonal * 0.15,
+                                child: AspectRatio(
+                                  aspectRatio: 2 / 3,
+                                  child: MoviePoster(
+                                    posterPath: data.posterPath,
+                                  ),
+                                ),
                               ),
                               Expanded(
                                 child: Column(

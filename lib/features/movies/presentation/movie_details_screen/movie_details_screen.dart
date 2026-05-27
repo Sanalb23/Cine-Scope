@@ -45,151 +45,142 @@ class MovieDetailsScreen extends ConsumerWidget {
                   ref.read(similarMoviesProvider(id).notifier).fetchMore(),
               retryCallback: () =>
                   ref.read(similarMoviesProvider(id).notifier).retry(),
-              state: similarMovies,
-              builder: (context, isFetchingMore, hasError) {
-                return CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      expandedHeight: 200,
-                      pinned: true,
-                      leading: Center(
-                        child: AppBarButton(
-                          icon: Icons.arrow_back,
-                          onPressed: () => Navigator.pop(context),
-                        ),
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    expandedHeight: 200,
+                    pinned: true,
+                    leading: Center(
+                      child: AppBarButton(
+                        icon: Icons.arrow_back,
+                        onPressed: () => Navigator.pop(context),
                       ),
-                      actionsPadding: const EdgeInsets.only(
-                        right: AppSpacing.md,
+                    ),
+                    actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
+                    actions: [
+                      FavoriteButton(movieId: id, movieTitle: data.title),
+                      const SizedBox(width: AppSpacing.md),
+                      WatchListButton(movieId: id, movieTitle: data.title),
+                    ],
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          data.backdropPath != null
+                              ? CachedNetworkImage(
+                                  imageUrl: data.backdropPath!,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) =>
+                                      const SkeletonPlaceholder(),
+                                  errorWidget: (context, url, error) =>
+                                      const _BackdropErrorWidget(),
+                                )
+                              : const _BackdropErrorWidget(),
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  context.theme.scaffoldBackgroundColor,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      actions: [
-                        FavoriteButton(movieId: id, movieTitle: data.title),
-                        const SizedBox(width: AppSpacing.md),
-                        WatchListButton(movieId: id, movieTitle: data.title),
-                      ],
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            data.backdropPath != null
-                                ? CachedNetworkImage(
-                                    imageUrl: data.backdropPath!,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        const SkeletonPlaceholder(),
-                                    errorWidget: (context, url, error) =>
-                                        const _BackdropErrorWidget(),
-                                  )
-                                : const _BackdropErrorWidget(),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Colors.transparent,
-                                    context.theme.scaffoldBackgroundColor,
+                    ),
+                  ),
+
+                  SliverPadding(
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: .start,
+                        spacing: AppSpacing.xxl,
+                        children: [
+                          Row(
+                            crossAxisAlignment: .start,
+                            spacing: AppSpacing.xl,
+                            children: [
+                              SizedBox(
+                                width: 135,
+                                height: 200,
+                                child: MoviePoster(posterPath: data.posterPath),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: .start,
+                                  spacing: AppSpacing.md,
+                                  children: [
+                                    Text(
+                                      '${data.title} (${data.releaseDate.year})',
+                                      style: context.textTheme.headlineMedium,
+                                    ),
+                                    MovieRuntime(runtime: data.runtime),
+                                    MoviePopularity(
+                                      popularity: data.popularity,
+                                    ),
+                                    MovieRating(
+                                      voteAverage: data.voteAverage,
+                                      voteCount: data.voteCount,
+                                    ),
+                                    Wrap(
+                                      spacing: AppSpacing.md,
+                                      runSpacing: AppSpacing.md,
+                                      children: data.genres
+                                          .map((e) => GenreTag(genre: e.name))
+                                          .toList(),
+                                    ),
                                   ],
                                 ),
                               ),
+                            ],
+                          ),
+
+                          if (daysUntilRelease != null)
+                            CountDownBanner(
+                              movieId: id,
+                              movieTitle: data.title,
+                              releaseDate: data.releaseDate,
+                              daysUntilRelease: daysUntilRelease,
                             ),
-                          ],
-                        ),
+
+                          SizedBox(
+                            width: double.infinity,
+                            height: 44,
+                            child: TrailerButton(trailerPath: data.trailerPath),
+                          ),
+
+                          MovieOverview(overview: data.overview),
+                          const Divider(),
+                          Column(
+                            crossAxisAlignment: .start,
+                            spacing: AppSpacing.lg,
+                            children: [
+                              Text(
+                                'Similar Movies',
+                                style: context.textTheme.headlineSmall,
+                              ),
+                              PaginatedMoviesList(
+                                fetchCallback: () => ref
+                                    .read(similarMoviesProvider(id).notifier)
+                                    .fetchMore(),
+                                retryCallback: () => ref
+                                    .read(similarMoviesProvider(id).notifier)
+                                    .retry(),
+                                state: similarMovies,
+                                isScrollable: false,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-
-                    SliverPadding(
-                      padding: const EdgeInsets.all(AppSpacing.lg),
-                      sliver: SliverToBoxAdapter(
-                        child: Column(
-                          crossAxisAlignment: .start,
-                          spacing: AppSpacing.xxl,
-                          children: [
-                            Row(
-                              crossAxisAlignment: .start,
-                              spacing: AppSpacing.xl,
-                              children: [
-                                SizedBox(
-                                  width: 135,
-                                  height: 200,
-                                  child: MoviePoster(
-                                    posterPath: data.posterPath,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: .start,
-                                    spacing: AppSpacing.md,
-                                    children: [
-                                      Text(
-                                        '${data.title} (${data.releaseDate.year})',
-                                        style: context.textTheme.headlineMedium,
-                                      ),
-                                      MovieRuntime(runtime: data.runtime),
-                                      MoviePopularity(
-                                        popularity: data.popularity,
-                                      ),
-                                      MovieRating(
-                                        voteAverage: data.voteAverage,
-                                        voteCount: data.voteCount,
-                                      ),
-                                      Wrap(
-                                        spacing: AppSpacing.md,
-                                        runSpacing: AppSpacing.md,
-                                        children: data.genres
-                                            .map((e) => GenreTag(genre: e.name))
-                                            .toList(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            if (daysUntilRelease != null)
-                              CountDownBanner(
-                                movieId: id,
-                                movieTitle: data.title,
-                                releaseDate: data.releaseDate,
-                                daysUntilRelease: daysUntilRelease,
-                              ),
-
-                            SizedBox(
-                              width: double.infinity,
-                              height: 44,
-                              child: TrailerButton(
-                                trailerPath: data.trailerPath,
-                              ),
-                            ),
-
-                            MovieOverview(overview: data.overview),
-                            const Divider(),
-                            Column(
-                              crossAxisAlignment: .start,
-                              spacing: AppSpacing.lg,
-                              children: [
-                                Text(
-                                  'Similar Movies',
-                                  style: context.textTheme.headlineSmall,
-                                ),
-                                PaginatedMoviesList(
-                                  fetchCallback: () => ref
-                                      .read(similarMoviesProvider(id).notifier)
-                                      .fetchMore(),
-                                  retryCallback: () => ref
-                                      .read(similarMoviesProvider(id).notifier)
-                                      .retry(),
-                                  state: similarMovies,
-                                  isScrollable: false,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
+                  ),
+                ],
+              ),
             );
           },
           loading: () => const MovieDetailsSkeleton(),

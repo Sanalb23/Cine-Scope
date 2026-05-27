@@ -1,5 +1,3 @@
-import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
-import 'package:cine_scope/features/pagination/models/paginated_state.dart';
 import 'package:flutter/material.dart';
 
 class PaginatedScrollHandler extends StatelessWidget {
@@ -7,18 +5,11 @@ class PaginatedScrollHandler extends StatelessWidget {
     super.key,
     required this.fetchCallback,
     required this.retryCallback,
-    required this.state,
-    required this.builder,
+    required this.child,
   });
   final VoidCallback fetchCallback;
   final VoidCallback retryCallback;
-  final PaginatedState<MovieSummary> state;
-  final Widget Function(
-    BuildContext context,
-    bool isFetchingMore,
-    bool hasError,
-  )
-  builder;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +22,7 @@ class PaginatedScrollHandler extends StatelessWidget {
 
         return false;
       },
-      child: builder(context, state.isLoading, state.hasError),
+      child: child,
     );
   }
 }

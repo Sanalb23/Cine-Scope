@@ -28,14 +28,14 @@ abstract class PaginatedNotifier<T> extends Notifier<PaginatedState<T>> {
       if (newItems.isEmpty) {
         state = state.copyWith(isLoading: false, hasMore: false);
       } else {
+        await preloadFn(newItems);
+
         state = state.copyWith(
           items: [...state.items, ...newItems],
           currentPage: state.currentPage + 1,
           isLoading: false,
           hasMore: true,
         );
-
-        await preloadFn(newItems);
       }
     } catch (e) {
       state = state.copyWith(isLoading: false, hasError: true);

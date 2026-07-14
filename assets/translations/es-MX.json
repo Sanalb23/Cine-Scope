@@ -41,6 +41,7 @@
     "premiere_is_today": "El estreno de {movie_title} es hoy.",
     "movie_releases": "Estrenos de películas",
     "notifications_must_be_enabled": "Las notificaciones deben estar activadas para programar recordatorios de películas.",
+    "background_execution_must_be_enabled": "La ejecución en segundo plano debe estar permitida para que los recordatorios funcionen correctamente.",
     "today": "hoy",
     "tomorrow": "mañana",
     "n_days": "{days} días",

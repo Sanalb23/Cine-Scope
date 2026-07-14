@@ -1,11 +1,12 @@
 import 'package:cine_scope/core/utils/init_timezone.dart';
 import 'package:cine_scope/core/providers/locale_provider.dart';
-import 'package:cine_scope/core/providers/notification_service_provider.dart';
+import 'package:cine_scope/features/notifications/providers/notification_service_provider.dart';
 import 'package:cine_scope/core/theme/app_theme_provider.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_screen.dart';
 import 'package:cine_scope/core/providers/prefs_instance_provider.dart';
-import 'package:cine_scope/core/features/notifications/notification_service.dart';
+import 'package:cine_scope/features/notifications/services/notification_service.dart';
+import 'package:cine_scope/features/notifications/services/notification_local_datasource.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -20,10 +21,11 @@ void main() async {
 
   await initTimeZone();
 
-  final notificationService = NotificationService();
-  await notificationService.initNotification();
-
   final prefs = await SharedPreferences.getInstance();
+
+  final notificationLocalDataSource = NotificationLocalDataSource(prefs);
+  final notificationService = NotificationService(notificationLocalDataSource);
+  await notificationService.initNotification();
 
   runApp(
     ProviderScope(

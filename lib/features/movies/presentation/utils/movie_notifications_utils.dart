@@ -1,4 +1,4 @@
-import 'package:cine_scope/core/features/notifications/notification_service.dart';
+import 'package:cine_scope/features/notifications/services/notification_service.dart';
 import 'package:cine_scope/features/movies/presentation/utils/days_until_release_date.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

@@ -1,4 +1,4 @@
-import 'package:cine_scope/core/providers/notification_service_provider.dart';
+import 'package:cine_scope/core/providers/permission_service_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_notification_utils_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,21 +35,27 @@ class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
         state = const AsyncData(false);
       } else {
         final notificationsEnabled = await ref
-            .read(notificationServiceProvider)
-            .areNotificationsEnabled();
+            .read(permissionServiceProvider)
+            .checkAndRequestNotificationPermission();
 
-        if (notificationsEnabled == null || !notificationsEnabled) {
-          final isGranted = await ref
-              .read(notificationServiceProvider)
-              .requestPermissions();
+        if (!notificationsEnabled) {
+          state = AsyncError(
+            'notifications_must_be_enabled'.tr(),
+            StackTrace.current,
+          );
+          return;
+        }
 
-          if (isGranted == null || !isGranted) {
-            state = AsyncError(
-              'notifications_must_be_enabled'.tr(),
-              StackTrace.current,
-            );
-            return;
-          }
+        final isBatteryOptimizationEnabled = await ref
+            .read(permissionServiceProvider)
+            .checkAndRequestBatteryOptimization();
+
+        if (!isBatteryOptimizationEnabled) {
+          state = AsyncError(
+            'background_execution_must_be_enabled'.tr(),
+            StackTrace.current,
+          );
+          return;
         }
 
         await utils.scheduleMovieNotifications(

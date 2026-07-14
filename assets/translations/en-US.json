@@ -41,6 +41,7 @@
     "premiere_is_today": "The premiere of {movie_title} is today.",
     "movie_releases": "Movie Releases",
     "notifications_must_be_enabled": "Notifications must be enabled to schedule movie reminders.",
+    "background_execution_must_be_enabled": "Background execution must be enabled for reminders to work correctly.",
     "today": "today",
     "tomorrow": "tomorrow",
     "n_days": "{days} days",

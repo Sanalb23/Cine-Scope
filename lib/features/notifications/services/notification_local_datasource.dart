@@ -1,4 +1,4 @@
-import 'package:cine_scope/core/models/scheduled_notification_model.dart';
+import 'package:cine_scope/features/notifications/models/scheduled_notification_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationLocalDataSource {

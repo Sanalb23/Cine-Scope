@@ -1,5 +1,5 @@
-import 'package:cine_scope/core/models/scheduled_notification_model.dart';
-import 'package:cine_scope/core/services/notification_local_datasource.dart';
+import 'package:cine_scope/features/notifications/models/scheduled_notification_model.dart';
+import 'package:cine_scope/features/notifications/services/notification_local_datasource.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 

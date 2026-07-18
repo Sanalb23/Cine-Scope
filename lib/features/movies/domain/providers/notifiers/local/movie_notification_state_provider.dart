@@ -5,24 +5,26 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final movieNotificationStateProvider = AsyncNotifierProvider.autoDispose
-    .family<MovieNotificationStateNotifier, bool, int>(
+    .family<MovieNotificationStateNotifier, MovieNotificationState, int>(
       MovieNotificationStateNotifier.new,
     );
 
-class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
+class MovieNotificationStateNotifier
+    extends AsyncNotifier<MovieNotificationState> {
   int movieId;
   MovieNotificationStateNotifier(this.movieId);
 
   @override
-  Future<bool> build() async {
+  Future<MovieNotificationState> build() async {
     final utils = ref.watch(movieNotificationUtilsProvider);
-    return await utils.isMovieNotificationScheduled(movieId);
+    final isScheduled = await utils.isMovieNotificationScheduled(movieId);
+    return MovieNotificationState.success(isScheduled: isScheduled);
   }
 
   Future<void> toggleState(String movieTitle, DateTime releaseDate) async {
     if (state.isLoading) return;
 
-    final isCurrentlyScheduled = state.value ?? false;
+    final isCurrentlyScheduled = state.value?.isScheduled ?? false;
 
     state = const AsyncLoading();
 
@@ -33,16 +35,18 @@ class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
 
       if (isCurrentlyScheduled) {
         await utils.cancelMovieNotifications(movieId: movieId);
-        state = const AsyncData(false);
+        state = AsyncData(MovieNotificationState.success(isScheduled: false));
       } else {
         final notificationsEnabled = await ref
             .read(permissionServiceProvider)
             .checkAndRequestNotificationPermission();
 
         if (!notificationsEnabled) {
-          state = AsyncError(
-            'notifications_must_be_enabled'.tr(),
-            StackTrace.current,
+          state = AsyncData(
+            MovieNotificationState.permissionError(
+              isScheduled: false,
+              errorMessage: 'notifications_must_be_enabled'.tr(),
+            ),
           );
           return;
         }
@@ -52,9 +56,11 @@ class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
             .checkAndRequestBatteryOptimization();
 
         if (!isBatteryOptimizationEnabled) {
-          state = AsyncError(
-            'background_execution_must_be_enabled'.tr(),
-            StackTrace.current,
+          state = AsyncData(
+            MovieNotificationState.permissionError(
+              isScheduled: false,
+              errorMessage: 'background_execution_must_be_enabled'.tr(),
+            ),
           );
           return;
         }
@@ -71,12 +77,65 @@ class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
           ref.read(isInWatchListProvider(movieId).notifier).toggleWatchList();
         }
 
-        state = const AsyncData(true);
+        state = AsyncData(MovieNotificationState.success(isScheduled: true));
       }
-    } catch (e, st) {
-      state = AsyncError(e, st);
+    } catch (e) {
+      state = AsyncData(
+        MovieNotificationState.codeError(
+          isScheduled: isCurrentlyScheduled,
+          errorMessage: e.toString(),
+        ),
+      );
     } finally {
       keepAliveLink.close();
     }
   }
+}
+
+enum MovieNotificationStatus { success, error }
+
+enum MovieNotificationErrorType { code, permission }
+
+class MovieNotificationState {
+  final MovieNotificationStatus status;
+  final MovieNotificationErrorType? errorType;
+  final bool isScheduled;
+  final String? errorMessage;
+
+  const MovieNotificationState({
+    required this.status,
+    this.errorType,
+    required this.isScheduled,
+    this.errorMessage,
+  });
+
+  const MovieNotificationState.success({required this.isScheduled})
+    : status = MovieNotificationStatus.success,
+      errorType = null,
+      errorMessage = null;
+
+  const MovieNotificationState.permissionError({
+    required this.isScheduled,
+    required this.errorMessage,
+  }) : status = MovieNotificationStatus.error,
+       errorType = MovieNotificationErrorType.permission;
+
+  const MovieNotificationState.codeError({
+    required this.isScheduled,
+    required this.errorMessage,
+  }) : status = MovieNotificationStatus.error,
+       errorType = MovieNotificationErrorType.code;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MovieNotificationState &&
+          runtimeType == other.runtimeType &&
+          status == other.status &&
+          errorType == other.errorType &&
+          isScheduled == other.isScheduled &&
+          errorMessage == other.errorMessage;
+
+  @override
+  int get hashCode => Object.hash(status, errorType, isScheduled, errorMessage);
 }

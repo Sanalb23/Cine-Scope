@@ -29,7 +29,7 @@ class WatchListButton extends ConsumerWidget {
 
     ref.listen(movieNotificationStateProvider(movieId), (previous, next) {
       if (!isInWatchList &&
-          (previous?.value == false && next.value == true) &&
+          (previous?.value?.isScheduled == false && next.value?.isScheduled == true) &&
           !hasSeenWatchlistTooltip) {
         showPopover(
           context: context,

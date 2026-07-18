@@ -40,20 +40,41 @@ class CountDownBanner extends ConsumerWidget {
                 onPressed: () => Navigator.pop(context),
                 child: Text('ok'.tr()),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  openAppSettings();
-                },
-                child: Text('open_settings'.tr()),
-              ),
             ],
           ),
         );
+        return;
+      }
+
+      if (next.hasValue && !next.isLoading) {
+        final stateValue = next.value;
+        if (stateValue != null && stateValue.status == MovieNotificationStatus.error) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('error'.tr()),
+              content: Text(stateValue.errorMessage ?? ''),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('ok'.tr()),
+                ),
+                if (stateValue.errorType == MovieNotificationErrorType.permission)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      openAppSettings();
+                    },
+                    child: Text('open_settings'.tr()),
+                  ),
+              ],
+            ),
+          );
+        }
       }
     });
 
-    final isActive = notificationState.value ?? false;
+    final isActive = notificationState.value?.isScheduled ?? false;
 
     final activeForegroundColor = Colors.green.shade50;
 

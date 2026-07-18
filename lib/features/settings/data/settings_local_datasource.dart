@@ -12,4 +12,12 @@ class SettingsLocalDatasource {
   Future<void> setTheme(String theme) async {
     await _prefs.setString('theme', theme);
   }
+
+  bool hasSeenWatchlistTooltip() {
+    return _prefs.getBool('has_seen_watchlist_tooltip') ?? false;
+  }
+
+  Future<void> setHasSeenWatchlistTooltip(bool seen) async {
+    await _prefs.setBool('has_seen_watchlist_tooltip', seen);
+  }
 }

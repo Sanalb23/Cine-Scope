@@ -3,6 +3,7 @@ import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_i
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/movie_notification_state_provider.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/confirm_removal_dialog.dart';
+import 'package:cine_scope/features/settings/domain/providers/settings_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:popover/popover.dart';
@@ -21,8 +22,14 @@ class WatchListButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isInWatchList = ref.watch(isInWatchListProvider(movieId));
 
+    final hasSeenWatchlistTooltip = ref
+        .watch(settingsRepositoryProvider)
+        .hasSeenWatchlistTooltip();
+
     ref.listen(movieNotificationStateProvider(movieId), (previous, next) {
-      if (!isInWatchList && (previous?.value == false && next.value == true)) {
+      if (!isInWatchList &&
+          (previous?.value == false && next.value == true) &&
+          !hasSeenWatchlistTooltip) {
         showPopover(
           context: context,
           width: (context.screenWidth * 0.9).clamp(200, 400),
@@ -34,6 +41,11 @@ class WatchListButton extends ConsumerWidget {
               'Setting a reminder automatically saves the movie to your Watchlist.',
             ),
           ),
+          onPop: () async {
+            await ref
+                .read(settingsRepositoryProvider)
+                .setHasSeenWatchlistTooltip(true);
+          },
         );
       }
     });

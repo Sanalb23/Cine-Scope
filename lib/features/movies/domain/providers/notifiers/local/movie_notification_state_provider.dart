@@ -21,14 +21,14 @@ class MovieNotificationStateNotifier extends AsyncNotifier<bool> {
   Future<void> toggleState(String movieTitle, DateTime releaseDate) async {
     if (state.isLoading) return;
 
+    final isCurrentlyScheduled = state.value ?? false;
+
     state = const AsyncLoading();
 
     final keepAliveLink = ref.keepAlive();
 
     try {
       final utils = ref.read(movieNotificationUtilsProvider);
-
-      final isCurrentlyScheduled = state.value ?? false;
 
       if (isCurrentlyScheduled) {
         await utils.cancelMovieNotifications(movieId: movieId);

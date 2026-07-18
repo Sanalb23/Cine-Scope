@@ -32,4 +32,12 @@ class SettingsRepository {
         await _settingsLocalDatasource.setTheme('dark');
     }
   }
+
+  bool hasSeenWatchlistTooltip() {
+    return _settingsLocalDatasource.hasSeenWatchlistTooltip();
+  }
+
+  Future<void> setHasSeenWatchlistTooltip(bool seen) async {
+    await _settingsLocalDatasource.setHasSeenWatchlistTooltip(seen);
+  }
 }

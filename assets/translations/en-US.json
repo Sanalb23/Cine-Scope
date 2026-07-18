@@ -45,5 +45,6 @@
     "today": "today",
     "tomorrow": "tomorrow",
     "n_days": "{days} days",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "reminder_saves_to_watchlist": "Setting a reminder saves the movie to your Watchlist."
 }

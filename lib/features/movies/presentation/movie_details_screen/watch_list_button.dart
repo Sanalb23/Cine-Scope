@@ -4,6 +4,7 @@ import 'package:cine_scope/features/movies/domain/providers/notifiers/local/movi
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/confirm_removal_dialog.dart';
 import 'package:cine_scope/features/settings/domain/providers/settings_repository_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:popover/popover.dart';
@@ -35,10 +36,10 @@ class WatchListButton extends ConsumerWidget {
           width: (context.screenWidth * 0.9).clamp(200, 400),
           backgroundColor: context.colors.surfaceContainerHigh,
           direction: PopoverDirection.bottom,
-          bodyBuilder: (context) => const Padding(
-            padding: EdgeInsets.all(16),
+          bodyBuilder: (context) => Padding(
+            padding: const EdgeInsets.all(16),
             child: Text(
-              'Setting a reminder automatically saves the movie to your Watchlist.',
+              'reminder_saves_to_watchlist'.tr(),
             ),
           ),
           onPop: () async {

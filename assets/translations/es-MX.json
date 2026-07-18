@@ -45,5 +45,6 @@
     "today": "hoy",
     "tomorrow": "mañana",
     "n_days": "{days} días",
-    "unknown": "Desconocido"
+    "unknown": "Desconocido",
+    "reminder_saves_to_watchlist": "Al activar un recordatorio, la película se guarda en tu lista Por ver."
 }

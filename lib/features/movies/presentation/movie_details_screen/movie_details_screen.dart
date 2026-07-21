@@ -40,6 +40,67 @@ class MovieDetailsScreen extends ConsumerWidget {
           data: (data) {
             final daysUntilRelease = daysUntilReleaseDate(data.releaseDate);
 
+            final isWideScreen = context.screenWidth > 600;
+
+            final overviewWidget = MovieOverview(overview: data.overview);
+
+            final trailerButtonWidget = SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: TrailerButton(trailerPath: data.trailerPath),
+            );
+
+            final countdownWidget = daysUntilRelease != null
+                ? CountDownBanner(
+                    movieId: id,
+                    movieTitle: data.title,
+                    releaseDate: data.releaseDate,
+                    daysUntilRelease: daysUntilRelease,
+                  )
+                : null;
+
+            final primaryInfoColumn = Column(
+              crossAxisAlignment: .start,
+              spacing: AppSpacing.md,
+              children: [
+                Text(
+                  '${data.title} (${data.releaseDate.year})',
+                  style: context.textTheme.headlineMedium,
+                ),
+                MovieRuntime(runtime: data.runtime),
+                MoviePopularity(popularity: data.popularity),
+                MovieRating(
+                  voteAverage: data.voteAverage,
+                  voteCount: data.voteCount,
+                ),
+                Wrap(
+                  spacing: AppSpacing.md,
+                  runSpacing: AppSpacing.md,
+                  children: data.genres
+                      .map((e) => GenreTag(genre: e.name))
+                      .toList(),
+                ),
+
+                if (isWideScreen) ...[
+                  overviewWidget,
+                  countdownWidget != null
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppSpacing.md,
+                          ),
+                          child: countdownWidget,
+                        )
+                      : SizedBox.shrink(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.md,
+                    ),
+                    child: trailerButtonWidget,
+                  ),
+                ],
+              ],
+            );
+
             return PaginatedScrollHandler(
               fetchCallback: () =>
                   ref.read(similarMoviesProvider(id).notifier).fetchMore(),
@@ -111,51 +172,24 @@ class MovieDetailsScreen extends ConsumerWidget {
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: .start,
-                                  spacing: AppSpacing.md,
-                                  children: [
-                                    Text(
-                                      '${data.title} (${data.releaseDate.year})',
-                                      style: context.textTheme.headlineMedium,
-                                    ),
-                                    MovieRuntime(runtime: data.runtime),
-                                    MoviePopularity(
-                                      popularity: data.popularity,
-                                    ),
-                                    MovieRating(
-                                      voteAverage: data.voteAverage,
-                                      voteCount: data.voteCount,
-                                    ),
-                                    Wrap(
-                                      spacing: AppSpacing.md,
-                                      runSpacing: AppSpacing.md,
-                                      children: data.genres
-                                          .map((e) => GenreTag(genre: e.name))
-                                          .toList(),
-                                    ),
-                                  ],
+
+                              if (isWideScreen) ...[
+                                SizedBox(
+                                  width: context.screenWidth * 0.3,
+                                  child: primaryInfoColumn,
                                 ),
-                              ),
+                              ] else ...[
+                                Expanded(child: primaryInfoColumn),
+                              ],
                             ],
                           ),
 
-                          if (daysUntilRelease != null)
-                            CountDownBanner(
-                              movieId: id,
-                              movieTitle: data.title,
-                              releaseDate: data.releaseDate,
-                              daysUntilRelease: daysUntilRelease,
-                            ),
+                          if (!isWideScreen) ...[
+                            countdownWidget ?? SizedBox.shrink(),
+                            trailerButtonWidget,
+                            overviewWidget,
+                          ],
 
-                          SizedBox(
-                            width: double.infinity,
-                            height: 44,
-                            child: TrailerButton(trailerPath: data.trailerPath),
-                          ),
-
-                          MovieOverview(overview: data.overview),
                           const Divider(),
                           Column(
                             crossAxisAlignment: .start,

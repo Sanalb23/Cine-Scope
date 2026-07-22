@@ -1,6 +1,8 @@
+import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/is_favorite_provider.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
 import 'package:cine_scope/features/movies/presentation/utils/confirm_removal_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,10 +18,17 @@ class FavoriteButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isWideScreen = context.screenWidth > 600;
+
     final isInFavorites = ref.watch(isFavoriteProvider(movieId));
 
     return AppBarButton(
       icon: isInFavorites ? Icons.bookmark : Icons.bookmark_border,
+      text: isWideScreen
+          ? (isInFavorites
+                ? 'remove_from'.tr(args: ['favorites'.tr()])
+                : 'add_to'.tr(args: ['favorites'.tr()]))
+          : null,
       onPressed: () async {
         if (isInFavorites &&
             !(await confirmRemoval(context, 'favorites', movieTitle))) {

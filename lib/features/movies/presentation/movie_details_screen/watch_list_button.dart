@@ -21,6 +21,8 @@ class WatchListButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isWideScreen = context.screenWidth > 600;
+
     final isInWatchList = ref.watch(isInWatchListProvider(movieId));
 
     final hasSeenWatchlistTooltip = ref
@@ -29,7 +31,8 @@ class WatchListButton extends ConsumerWidget {
 
     ref.listen(movieNotificationStateProvider(movieId), (previous, next) {
       if (!isInWatchList &&
-          (previous?.value?.isScheduled == false && next.value?.isScheduled == true) &&
+          (previous?.value?.isScheduled == false &&
+              next.value?.isScheduled == true) &&
           !hasSeenWatchlistTooltip) {
         showPopover(
           context: context,
@@ -38,9 +41,7 @@ class WatchListButton extends ConsumerWidget {
           direction: PopoverDirection.bottom,
           bodyBuilder: (context) => Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(
-              'reminder_saves_to_watchlist'.tr(),
-            ),
+            child: Text('reminder_saves_to_watchlist'.tr()),
           ),
           onPop: () async {
             await ref
@@ -53,6 +54,11 @@ class WatchListButton extends ConsumerWidget {
 
     return AppBarButton(
       icon: isInWatchList ? Icons.watch_later : Icons.watch_later_outlined,
+      text: isWideScreen
+          ? (isInWatchList
+                ? 'remove_from'.tr(args: ['watch_list'.tr()])
+                : 'add_to'.tr(args: ['watch_list'.tr()]))
+          : null,
       onPressed: () async {
         if (isInWatchList &&
             !(await confirmRemoval(context, 'watch_list', movieTitle))) {

@@ -21,7 +21,7 @@ class WatchListButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isWideScreen = context.screenWidth > 600;
+    final isWideScreen = context.isWideScreen;
 
     final isInWatchList = ref.watch(isInWatchListProvider(movieId));
 

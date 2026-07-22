@@ -10,7 +10,7 @@ class MovieDetailsSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWideScreen = context.screenWidth > 600;
+    final isWideScreen = context.isWideScreen;
 
     final trailerButtonWidget = const SkeletonPlaceholder(
       height: 50,

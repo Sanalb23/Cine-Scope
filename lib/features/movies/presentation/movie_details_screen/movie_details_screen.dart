@@ -40,7 +40,7 @@ class MovieDetailsScreen extends ConsumerWidget {
           data: (data) {
             final daysUntilRelease = daysUntilReleaseDate(data.releaseDate);
 
-            final isWideScreen = context.screenWidth > 600;
+            final isWideScreen = context.isWideScreen;
 
             final overviewWidget = MovieOverview(overview: data.overview);
 

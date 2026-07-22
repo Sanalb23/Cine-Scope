@@ -18,7 +18,7 @@ class FavoriteButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isWideScreen = context.screenWidth > 600;
+    final isWideScreen = context.isWideScreen;
 
     final isInFavorites = ref.watch(isFavoriteProvider(movieId));
 

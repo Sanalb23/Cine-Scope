@@ -8,24 +8,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePageBody extends ConsumerStatefulWidget {
+class HomePageBody extends ConsumerWidget {
   const HomePageBody({super.key});
 
-  @override
-  ConsumerState<HomePageBody> createState() => _HomePageBodyState();
-}
-
-class _HomePageBodyState extends ConsumerState<HomePageBody> {
-  late MovieListCategory _movieListCategory;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _movieListCategory = MovieListCategory.popular;
-  }
-
-  PopupMenuItem _buildPopupMenuItem(MovieListCategory category) {
+  PopupMenuItem<MovieListCategory> _buildPopupMenuItem(
+    MovieListCategory category,
+  ) {
     return PopupMenuItem(
       value: category,
       child: Row(
@@ -36,8 +24,8 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final listState = ref.watch(moviesByCategoryProvider(_movieListCategory));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final listState = ref.watch(moviesByCategoryProvider);
 
     return Column(
       spacing: AppSpacing.xl,
@@ -46,13 +34,13 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
         Row(
           children: [
             Text(
-              _movieListCategory.title,
+              listState.category.title,
               style: context.textTheme.headlineSmall,
             ),
-            Spacer(),
-            PopupMenuButton(
+            const Spacer(),
+            PopupMenuButton<MovieListCategory>(
               tooltip: 'explore_movies'.tr(),
-              icon: Icon(Icons.filter_list),
+              icon: const Icon(Icons.filter_list),
               itemBuilder: (context) {
                 return [
                   _buildPopupMenuItem(MovieListCategory.popular),
@@ -61,9 +49,9 @@ class _HomePageBodyState extends ConsumerState<HomePageBody> {
                 ];
               },
               onSelected: (value) {
-                setState(() {
-                  _movieListCategory = value;
-                });
+                ref
+                    .read(moviesByCategoryProvider.notifier)
+                    .switchCategory(value);
               },
             ),
           ],

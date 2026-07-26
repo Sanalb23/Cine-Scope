@@ -26,7 +26,6 @@ class HomePageBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listState = ref.watch(moviesByCategoryProvider);
-
     return Column(
       spacing: AppSpacing.xl,
       crossAxisAlignment: CrossAxisAlignment.start,

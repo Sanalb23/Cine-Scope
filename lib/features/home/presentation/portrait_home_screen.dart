@@ -2,10 +2,10 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
 import 'package:cine_scope/features/home/presentation/search_page_body.dart';
+import 'package:cine_scope/features/home/presentation/utils/favorites_list_tile.dart';
 import 'package:cine_scope/features/home/presentation/utils/language_dropdown_menu.dart';
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
-import 'package:cine_scope/features/movies/presentation/favorite_movies_screen/favorite_movies_screen.dart';
-import 'package:cine_scope/features/movies/presentation/watch_list_screen/watch_list_screen.dart';
+import 'package:cine_scope/features/home/presentation/utils/watch_list_list_tile.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -64,30 +64,8 @@ class _PortraitHomeScreenState extends State<PortraitHomeScreen> {
                 ),
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.bookmark),
-              title: Text('favorites'.tr()),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FavoriteMoviesScreen(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.watch_later),
-              title: Text('watch_list'.tr()),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WatchListScreen(),
-                  ),
-                );
-              },
-            ),
+            const FavoritesListTile(),
+            const WatchListListTile(),
             const Divider(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),

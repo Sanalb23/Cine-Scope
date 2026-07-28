@@ -1,4 +1,3 @@
-import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -9,19 +8,23 @@ class MoviesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final crossAxisCount = ((context.screenDiagonal / 350).floor().clamp(2, 7));
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final crossAxisCount = (constraints.maxWidth / 130).floor().clamp(2, 7);
 
-    return GridView(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: 0.55,
-        mainAxisSpacing: AppSpacing.lg,
-        crossAxisSpacing: AppSpacing.lg,
-      ),
-      children: children,
+        return GridView(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            childAspectRatio: 0.55,
+            mainAxisSpacing: AppSpacing.lg,
+            crossAxisSpacing: AppSpacing.lg,
+          ),
+          children: children,
+        );
+      },
     );
   }
 }

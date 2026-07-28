@@ -2,6 +2,7 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
 import 'package:cine_scope/features/home/presentation/utils/favorites_list_tile.dart';
+import 'package:cine_scope/features/home/presentation/utils/home_drawer.dart';
 import 'package:cine_scope/features/home/presentation/utils/language_dropdown_menu.dart';
 import 'package:cine_scope/features/home/presentation/utils/movie_search_bar.dart';
 import 'package:cine_scope/features/home/presentation/utils/search_movies_list.dart';
@@ -19,6 +20,11 @@ class LandscapeHomeBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSearching = ref.watch(searchQueryProvider).isNotEmpty;
 
+    var body = Padding(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: isSearching ? const SearchMoviesList() : const HomePageBody(),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('app_name'.tr(), style: context.textTheme.displayMedium),
@@ -34,24 +40,22 @@ class LandscapeHomeBody extends ConsumerWidget {
           const LanguageDropdownMenu(),
         ],
       ),
-      body: Row(
-        children: [
-          SizedBox(
-            width: context.screenWidth * 0.2,
-            child: NavigationDrawer(
-              children: [FavoritesListTile(), WatchListListTile()],
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              child: isSearching
-                  ? const SearchMoviesList()
-                  : const HomePageBody(),
-            ),
-          ),
-        ],
-      ),
+
+      drawer: context.isWideScreen ? null : const HomeDrawer(),
+
+      body: context.isWideScreen
+          ? Row(
+              children: [
+                SizedBox(
+                  width: (context.screenWidth * 0.15).clamp(180, 300),
+                  child: const NavigationDrawer(
+                    children: [FavoritesListTile(), WatchListListTile()],
+                  ),
+                ),
+                Expanded(child: body),
+              ],
+            )
+          : body,
     );
   }
 }

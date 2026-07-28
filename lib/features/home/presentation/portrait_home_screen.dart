@@ -2,10 +2,8 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
 import 'package:cine_scope/features/home/presentation/search_page_body.dart';
-import 'package:cine_scope/features/home/presentation/utils/favorites_list_tile.dart';
-import 'package:cine_scope/features/home/presentation/utils/language_dropdown_menu.dart';
+import 'package:cine_scope/features/home/presentation/utils/home_drawer.dart';
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
-import 'package:cine_scope/features/home/presentation/utils/watch_list_list_tile.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -53,27 +51,7 @@ class _PortraitHomeScreenState extends State<PortraitHomeScreen> {
         actions: [const SwitchThemeButton()],
       ),
 
-      drawer: Drawer(
-        child: Column(
-          children: [
-            DrawerHeader(
-              child: Center(
-                child: Text(
-                  'app_name'.tr(),
-                  style: context.textTheme.headlineMedium,
-                ),
-              ),
-            ),
-            const FavoritesListTile(),
-            const WatchListListTile(),
-            const Divider(),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: LanguageDropdownMenu(),
-            ),
-          ],
-        ),
-      ),
+      drawer: const HomeDrawer(),
 
       body: PageView(
         controller: _pageController,

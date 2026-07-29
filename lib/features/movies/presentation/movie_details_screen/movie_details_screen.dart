@@ -34,13 +34,13 @@ class MovieDetailsScreen extends ConsumerWidget {
 
     final similarMovies = ref.watch(similarMoviesProvider(id));
 
+    final isLandscape = context.isLandscape;
+
     return Scaffold(
       body: SafeArea(
         child: movie.when(
           data: (data) {
             final daysUntilRelease = daysUntilReleaseDate(data.releaseDate);
-
-            final isWideScreen = context.isWideScreen;
 
             final overviewWidget = MovieOverview(overview: data.overview);
 
@@ -81,7 +81,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                       .toList(),
                 ),
 
-                if (isWideScreen) ...[
+                if (isLandscape) ...[
                   overviewWidget,
                   countdownWidget != null
                       ? Padding(
@@ -173,7 +173,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                                 ),
                               ),
 
-                              if (isWideScreen) ...[
+                              if (context.screenWidth >= 1200) ...[
                                 SizedBox(
                                   width: context.screenWidth * 0.3,
                                   child: primaryInfoColumn,
@@ -184,7 +184,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                             ],
                           ),
 
-                          if (!isWideScreen) ...[
+                          if (!isLandscape) ...[
                             countdownWidget ?? SizedBox.shrink(),
                             trailerButtonWidget,
                             overviewWidget,

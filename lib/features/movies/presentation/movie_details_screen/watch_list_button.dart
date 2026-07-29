@@ -21,7 +21,7 @@ class WatchListButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isWideScreen = context.isWideScreen;
+    final isLandscape = context.isLandscape;
 
     final isInWatchList = ref.watch(isInWatchListProvider(movieId));
 
@@ -54,7 +54,7 @@ class WatchListButton extends ConsumerWidget {
 
     return AppBarButton(
       icon: isInWatchList ? Icons.watch_later : Icons.watch_later_outlined,
-      text: isWideScreen
+      text: isLandscape
           ? (isInWatchList
                 ? 'remove_from'.tr(args: ['watch_list'.tr()])
                 : 'add_to'.tr(args: ['watch_list'.tr()]))

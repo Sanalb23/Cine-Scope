@@ -8,8 +8,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWideScreen = context.isLandscape;
+    final isLandscape = context.isLandscape;
 
-    return isWideScreen ? const LandscapeHomeBody() : const PortraitHomeScreen();
+    return isLandscape ? const LandscapeHomeBody() : const PortraitHomeScreen();
   }
 }

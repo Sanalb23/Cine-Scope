@@ -18,13 +18,13 @@ class FavoriteButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isWideScreen = context.isWideScreen;
+    final isLandscape = context.isLandscape;
 
     final isInFavorites = ref.watch(isFavoriteProvider(movieId));
 
     return AppBarButton(
       icon: isInFavorites ? Icons.bookmark : Icons.bookmark_border,
-      text: isWideScreen
+      text: isLandscape
           ? (isInFavorites
                 ? 'remove_from'.tr(args: ['favorites'.tr()])
                 : 'add_to'.tr(args: ['favorites'.tr()]))

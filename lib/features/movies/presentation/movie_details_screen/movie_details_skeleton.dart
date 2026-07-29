@@ -11,7 +11,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLandscape = context.isLandscape;
-    final isWideScreen = context.isWideScreen;
 
     final trailerButtonWidget = const SkeletonPlaceholder(
       height: 50,
@@ -93,18 +92,18 @@ class MovieDetailsSkeleton extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: SkeletonPlaceholder(
-                width: isWideScreen ? 180 : 40,
+                width: isLandscape ? 180 : 40,
                 height: 40,
-                isCircle: !isWideScreen,
+                isCircle: !isLandscape,
               ),
             ),
             const SizedBox(width: AppSpacing.md),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: SkeletonPlaceholder(
-                width: isWideScreen ? 180 : 40,
+                width: isLandscape ? 180 : 40,
                 height: 40,
-                isCircle: !isWideScreen,
+                isCircle: !isLandscape,
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/appbar_button.dart';
@@ -9,10 +10,76 @@ class MovieDetailsSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape = context.isLandscape;
+
+    final trailerButtonWidget = const SkeletonPlaceholder(
+      height: 50,
+      width: double.infinity,
+    );
+
+    final overviewWidget = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: AppSpacing.sm,
+      children: [
+        const SkeletonPlaceholder(height: 28, width: 150),
+        ...List.generate(
+          4,
+          (index) => SkeletonPlaceholder(
+            height: 16,
+            width: index == 3 ? 200 : double.infinity,
+          ),
+        ),
+      ],
+    );
+
+    final primaryInfoColumn = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: AppSpacing.md,
+      children: [
+        // Title
+        const SkeletonPlaceholder(width: 220, height: 32),
+
+        // Runtime
+        const SkeletonPlaceholder(width: 80, height: 18),
+
+        // Popularity
+        const SkeletonPlaceholder(width: 160, height: 30),
+
+        // Rating
+        const SkeletonPlaceholder(width: 80, height: 20),
+
+        // Quick info
+        const SkeletonPlaceholder(width: 120, height: 20),
+
+        // Genres
+        Wrap(
+          spacing: AppSpacing.md,
+          runSpacing: AppSpacing.md,
+          children: List.generate(
+            3,
+            (index) => const SkeletonPlaceholder(
+              width: 70,
+              height: 20,
+            ),
+          ),
+        ),
+
+        if (isLandscape) ...[
+          overviewWidget,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.md,
+            ),
+            child: trailerButtonWidget,
+          ),
+        ],
+      ],
+    );
+
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          expandedHeight: 200,
+          expandedHeight: context.screenDiagonal * 0.175,
           pinned: true,
           leading: Center(
             child: AppBarButton(
@@ -21,15 +88,23 @@ class MovieDetailsSkeleton extends StatelessWidget {
             ),
           ),
           actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
-          actions: const [
+          actions: [
             Padding(
-              padding: EdgeInsets.all(4.0),
-              child: SkeletonPlaceholder(width: 40, height: 40, isCircle: true),
+              padding: const EdgeInsets.all(4.0),
+              child: SkeletonPlaceholder(
+                width: isLandscape ? 180 : 40,
+                height: 40,
+                isCircle: !isLandscape,
+              ),
             ),
-            SizedBox(width: AppSpacing.md),
+            const SizedBox(width: AppSpacing.md),
             Padding(
-              padding: EdgeInsets.all(4.0),
-              child: SkeletonPlaceholder(width: 40, height: 40, isCircle: true),
+              padding: const EdgeInsets.all(4.0),
+              child: SkeletonPlaceholder(
+                width: isLandscape ? 180 : 40,
+                height: 40,
+                isCircle: !isLandscape,
+              ),
             ),
           ],
           flexibleSpace: FlexibleSpaceBar(background: SkeletonPlaceholder()),
@@ -39,71 +114,36 @@ class MovieDetailsSkeleton extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: AppSpacing.md,
+              spacing: AppSpacing.xxl,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: AppSpacing.xl,
                   children: [
                     // Poster
-                    const SkeletonPlaceholder(width: 135, height: 200),
-
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: AppSpacing.md,
-                        children: [
-                          // Title
-                          const SkeletonPlaceholder(width: 220, height: 32),
-
-                          // Runtime
-                          const SkeletonPlaceholder(width: 80, height: 18),
-
-                          // Popularity
-                          const SkeletonPlaceholder(width: 160, height: 30),
-
-                          // Rating
-                          const SkeletonPlaceholder(width: 80, height: 20),
-
-                          // Quick info
-                          const SkeletonPlaceholder(width: 120, height: 20),
-
-                          // Genres
-                          Wrap(
-                            spacing: AppSpacing.md,
-                            runSpacing: AppSpacing.md,
-                            children: List.generate(
-                              3,
-                              (index) => const SkeletonPlaceholder(
-                                width: 70,
-                                height: 20,
-                              ),
-                            ),
-                          ),
-                        ],
+                    SizedBox(
+                      width: context.screenDiagonal * 0.15,
+                      child: const AspectRatio(
+                        aspectRatio: 2 / 3,
+                        child: SkeletonPlaceholder(),
                       ),
                     ),
+
+                    if (context.screenWidth >= 1200) ...[
+                      SizedBox(
+                        width: context.screenWidth * 0.3,
+                        child: primaryInfoColumn,
+                      ),
+                    ] else ...[
+                      Expanded(child: primaryInfoColumn),
+                    ],
                   ],
                 ),
-                const SizedBox(height: AppSpacing.md),
 
-                // Trailer button
-                const SkeletonPlaceholder(height: 50, width: double.infinity),
-
-                const SizedBox(height: AppSpacing.xl),
-
-                // overview
-                const SkeletonPlaceholder(height: 28, width: 150),
-                const SizedBox(height: AppSpacing.sm),
-                ...List.generate(
-                  4,
-                  (index) => SkeletonPlaceholder(
-                    height: 16,
-                    width: index == 3 ? 200 : double.infinity,
-                  ),
-                ),
-
-                const SizedBox(height: AppSpacing.xl),
+                if (!isLandscape) ...[
+                  trailerButtonWidget,
+                  overviewWidget,
+                ],
 
                 // Similar movies title
                 const SkeletonPlaceholder(height: 28, width: 150),

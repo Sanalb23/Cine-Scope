@@ -1,7 +1,6 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/core/utils/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
-import 'package:cine_scope/features/movies/presentation/utils/movie_list_skeleton.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
 import 'package:cine_scope/features/pagination/models/paginated_state.dart';
 import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
@@ -31,12 +30,12 @@ class PaginatedMoviesList extends StatelessWidget {
             : NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
-          if (state.items.isNotEmpty) ...[
-            MoviesList(movies: state.items),
+          MoviesList(movies: state.items, isLoading: state.isLoading),
+
+          if (state.hasError) ...[
             const SizedBox(height: AppSpacing.lg),
+            TryAgainLater(onPressed: retryCallback),
           ],
-          if (state.isLoading) const MovieListSkeleton(),
-          if (state.hasError) TryAgainLater(onPressed: retryCallback),
         ],
       ),
     );

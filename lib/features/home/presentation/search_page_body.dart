@@ -1,73 +1,25 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_movies_provider.dart';
-import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
-import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:cine_scope/features/home/presentation/utils/movie_search_bar.dart';
+import 'package:cine_scope/features/home/presentation/utils/search_movies_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchPageBody extends ConsumerStatefulWidget {
+class SearchPageBody extends StatelessWidget {
   const SearchPageBody({super.key});
-
-  @override
-  ConsumerState<SearchPageBody> createState() => _SearchPageBodyState();
-}
-
-class _SearchPageBodyState extends ConsumerState<SearchPageBody> {
-  final _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: AppSpacing.lg,
       children: [
-        SearchBar(
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
           ),
-          controller: _searchController,
-          trailing: [const Icon(Icons.search)],
-          hintText: 'search_ellipsis'.tr(),
-          onChanged: (value) {
-            ref.read(searchQueryProvider.notifier).setSearchQuery(value);
-          },
+          child: const MovieSearchBar(),
         ),
-
-        const Expanded(child: _MoviesList()),
+        const Expanded(child: SearchMoviesList()),
       ],
     );
-  }
-}
-
-class _MoviesList extends ConsumerWidget {
-  const _MoviesList();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final query = ref.watch(searchQueryProvider);
-
-    final results = ref.watch(searchMoviesProvider(query));
-
-    return results.items.isEmpty
-        ? Center(
-            child: Text(
-              results.hasMore
-                  ? 'search_for_a_movie'.tr()
-                  : 'no_movies_found'.tr(),
-            ),
-          )
-        : PaginatedMoviesList(
-            fetchCallback: () =>
-                ref.read(searchMoviesProvider(query).notifier).fetchMore(),
-            retryCallback: () =>
-                ref.read(searchMoviesProvider(query).notifier).retry(),
-            state: results,
-          );
   }
 }

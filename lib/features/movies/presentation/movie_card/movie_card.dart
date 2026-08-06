@@ -73,7 +73,6 @@ class MovieCard extends ConsumerWidget {
         spacing: AppSpacing.sm,
         children: [
           Expanded(
-            flex: 14,
             child: Stack(
               children: [
                 MoviePoster(posterPath: movie.posterPath),
@@ -171,25 +170,14 @@ class MovieCard extends ConsumerWidget {
             ),
           ),
 
-          Expanded(
-            flex: 2,
-            child: Align(
-              alignment: .centerLeft,
-              child: Text(
-                movie.title,
-                style: context.textTheme.titleLarge,
-                maxLines: 1,
-                overflow: .ellipsis,
-              ),
-            ),
+          Text(
+            movie.title,
+            style: context.textTheme.titleLarge,
+            maxLines: 1,
+            overflow: .ellipsis,
           ),
 
-          Expanded(
-            child: Align(
-              alignment: .centerLeft,
-              child: GenreTagsRow(genreIds: movie.genreIds),
-            ),
-          ),
+          GenreTagsRow(genreIds: movie.genreIds),
         ],
       ),
     );

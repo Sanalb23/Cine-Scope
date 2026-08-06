@@ -34,11 +34,72 @@ class MovieDetailsScreen extends ConsumerWidget {
 
     final similarMovies = ref.watch(similarMoviesProvider(id));
 
+    final isLandscape = context.isLandscape;
+
     return Scaffold(
       body: SafeArea(
         child: movie.when(
           data: (data) {
             final daysUntilRelease = daysUntilReleaseDate(data.releaseDate);
+
+            final overviewWidget = MovieOverview(overview: data.overview);
+
+            final trailerButtonWidget = SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: TrailerButton(trailerPath: data.trailerPath),
+            );
+
+            final countdownWidget = daysUntilRelease != null
+                ? CountDownBanner(
+                    movieId: id,
+                    movieTitle: data.title,
+                    releaseDate: data.releaseDate,
+                    daysUntilRelease: daysUntilRelease,
+                  )
+                : null;
+
+            final primaryInfoColumn = Column(
+              crossAxisAlignment: .start,
+              spacing: AppSpacing.md,
+              children: [
+                Text(
+                  '${data.title} (${data.releaseDate.year})',
+                  style: context.textTheme.headlineMedium,
+                ),
+                MovieRuntime(runtime: data.runtime),
+                MoviePopularity(popularity: data.popularity),
+                MovieRating(
+                  voteAverage: data.voteAverage,
+                  voteCount: data.voteCount,
+                ),
+                Wrap(
+                  spacing: AppSpacing.md,
+                  runSpacing: AppSpacing.md,
+                  children: data.genres
+                      .map((e) => GenreTag(genre: e.name))
+                      .toList(),
+                ),
+
+                if (isLandscape) ...[
+                  overviewWidget,
+                  countdownWidget != null
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppSpacing.md,
+                          ),
+                          child: countdownWidget,
+                        )
+                      : SizedBox.shrink(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.md,
+                    ),
+                    child: trailerButtonWidget,
+                  ),
+                ],
+              ],
+            );
 
             return PaginatedScrollHandler(
               fetchCallback: () =>
@@ -46,7 +107,7 @@ class MovieDetailsScreen extends ConsumerWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    expandedHeight: 200,
+                    expandedHeight: context.screenDiagonal * 0.175,
                     pinned: true,
                     leading: Center(
                       child: AppBarButton(
@@ -103,55 +164,32 @@ class MovieDetailsScreen extends ConsumerWidget {
                             spacing: AppSpacing.xl,
                             children: [
                               SizedBox(
-                                width: 135,
-                                height: 200,
-                                child: MoviePoster(posterPath: data.posterPath),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: .start,
-                                  spacing: AppSpacing.md,
-                                  children: [
-                                    Text(
-                                      '${data.title} (${data.releaseDate.year})',
-                                      style: context.textTheme.headlineMedium,
-                                    ),
-                                    MovieRuntime(runtime: data.runtime),
-                                    MoviePopularity(
-                                      popularity: data.popularity,
-                                    ),
-                                    MovieRating(
-                                      voteAverage: data.voteAverage,
-                                      voteCount: data.voteCount,
-                                    ),
-                                    Wrap(
-                                      spacing: AppSpacing.md,
-                                      runSpacing: AppSpacing.md,
-                                      children: data.genres
-                                          .map((e) => GenreTag(genre: e.name))
-                                          .toList(),
-                                    ),
-                                  ],
+                                width: context.screenDiagonal * 0.15,
+                                child: AspectRatio(
+                                  aspectRatio: 2 / 3,
+                                  child: MoviePoster(
+                                    posterPath: data.posterPath,
+                                  ),
                                 ),
                               ),
+
+                              if (context.screenWidth >= 1200) ...[
+                                SizedBox(
+                                  width: context.screenWidth * 0.3,
+                                  child: primaryInfoColumn,
+                                ),
+                              ] else ...[
+                                Expanded(child: primaryInfoColumn),
+                              ],
                             ],
                           ),
 
-                          if (daysUntilRelease != null)
-                            CountDownBanner(
-                              movieId: id,
-                              movieTitle: data.title,
-                              releaseDate: data.releaseDate,
-                              daysUntilRelease: daysUntilRelease,
-                            ),
+                          if (!isLandscape) ...[
+                            countdownWidget ?? SizedBox.shrink(),
+                            trailerButtonWidget,
+                            overviewWidget,
+                          ],
 
-                          SizedBox(
-                            width: double.infinity,
-                            height: 44,
-                            child: TrailerButton(trailerPath: data.trailerPath),
-                          ),
-
-                          MovieOverview(overview: data.overview),
                           const Divider(),
                           Column(
                             crossAxisAlignment: .start,

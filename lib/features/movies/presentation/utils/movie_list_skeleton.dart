@@ -1,6 +1,5 @@
-import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
-import 'package:cine_scope/features/movies/presentation/utils/genre_tags_skeleton.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movie_card_skeleton.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movies_grid.dart';
 import 'package:flutter/material.dart';
 
 class MovieListSkeleton extends StatelessWidget {
@@ -8,30 +7,8 @@ class MovieListSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.6,
-        mainAxisSpacing: AppSpacing.lg,
-        crossAxisSpacing: AppSpacing.lg,
-      ),
-      itemCount: 8,
-      itemBuilder: (_, __) {
-        return Column(
-          spacing: AppSpacing.sm,
-          crossAxisAlignment: .start,
-          children: [
-            Expanded(flex: 14, child: const SkeletonPlaceholder()),
-
-            const Expanded(flex: 2, child: SkeletonPlaceholder()),
-
-            const Expanded(child: GenreTagsSkeleton()),
-          ],
-        );
-      },
+    return MoviesGrid(
+      children: List.generate(8, (_) => const MovieCardSkeleton()),
     );
   }
 }

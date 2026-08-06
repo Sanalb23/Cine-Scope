@@ -24,25 +24,21 @@ class PaginatedMoviesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return PaginatedScrollHandler(
       fetchCallback: fetchCallback,
-      retryCallback: retryCallback,
-      state: state,
-      builder: (context, isFetchingMore, hasError) {
-        return ListView(
-          padding: EdgeInsets.zero,
-          physics: isScrollable
-              ? AlwaysScrollableScrollPhysics()
-              : NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          children: [
-            if (state.items.isNotEmpty) ...[
-              MoviesList(movies: state.items),
-              const SizedBox(height: AppSpacing.lg),
-            ],
-            if (state.isLoading) const MovieListSkeleton(),
-            if (state.hasError) TryAgainLater(onPressed: retryCallback),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        physics: isScrollable
+            ? AlwaysScrollableScrollPhysics()
+            : NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          if (state.items.isNotEmpty) ...[
+            MoviesList(movies: state.items),
+            const SizedBox(height: AppSpacing.lg),
           ],
-        );
-      },
+          if (state.isLoading) const MovieListSkeleton(),
+          if (state.hasError) TryAgainLater(onPressed: retryCallback),
+        ],
+      ),
     );
   }
 }

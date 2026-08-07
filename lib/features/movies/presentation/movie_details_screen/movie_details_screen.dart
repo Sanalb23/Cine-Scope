@@ -59,14 +59,13 @@ class MovieDetailsScreen extends ConsumerWidget {
                   )
                 : null;
 
+            var movieTitle = '${data.title} (${data.releaseDate.year})';
+
             final primaryInfoColumn = Column(
               crossAxisAlignment: .start,
               spacing: AppSpacing.md,
               children: [
-                Text(
-                  '${data.title} (${data.releaseDate.year})',
-                  style: context.textTheme.headlineMedium,
-                ),
+                Text(movieTitle, style: context.textTheme.headlineMedium),
                 MovieRuntime(runtime: data.runtime),
                 MoviePopularity(popularity: data.popularity),
                 MovieRating(
@@ -121,34 +120,45 @@ class MovieDetailsScreen extends ConsumerWidget {
                       const SizedBox(width: AppSpacing.md),
                       WatchListButton(movieId: id, movieTitle: data.title),
                     ],
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          data.backdropPath != null
-                              ? CachedNetworkImage(
-                                  imageUrl: data.backdropPath!,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      const SkeletonPlaceholder(),
-                                  errorWidget: (context, url, error) =>
-                                      const _BackdropErrorWidget(),
-                                )
-                              : const _BackdropErrorWidget(),
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  context.theme.scaffoldBackgroundColor,
-                                ],
+                    flexibleSpace: LayoutBuilder(
+                      builder: (context, constraints) {
+                        double topPadding = MediaQuery.of(context).padding.top;
+
+                        final isCollapsed =
+                            constraints.maxHeight <=
+                            kToolbarHeight + topPadding;
+
+                        return FlexibleSpaceBar(
+                          title: isCollapsed ? Text(movieTitle) : null,
+                          background: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              data.backdropPath != null
+                                  ? CachedNetworkImage(
+                                      imageUrl: data.backdropPath!,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          const SkeletonPlaceholder(),
+                                      errorWidget: (context, url, error) =>
+                                          const _BackdropErrorWidget(),
+                                    )
+                                  : const _BackdropErrorWidget(),
+                              DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Colors.transparent,
+                                      context.theme.scaffoldBackgroundColor,
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
 

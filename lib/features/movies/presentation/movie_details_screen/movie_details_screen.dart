@@ -100,6 +100,48 @@ class MovieDetailsScreen extends ConsumerWidget {
               ],
             );
 
+            final moviePoster = InkWell(
+              onTap: () => showDialog(
+                context: context,
+                builder: (context) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(AppSpacing.xxl),
+                      child: Stack(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 2 / 3,
+                            child: MoviePoster(posterPath: data.posterPath),
+                          ),
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton.filled(
+                                style: IconButton.styleFrom(
+                                  backgroundColor: context.colors.surface
+                                      .withValues(alpha: 0.5),
+                                  foregroundColor: context.colors.onSurface,
+                                ),
+                                icon: const Icon(Icons.close),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              child: SizedBox(
+                width: context.screenDiagonal * 0.15,
+                child: AspectRatio(
+                  aspectRatio: 2 / 3,
+                  child: MoviePoster(posterPath: data.posterPath),
+                ),
+              ),
+            );
+
             return PaginatedScrollHandler(
               fetchCallback: () =>
                   ref.read(similarMoviesProvider(id).notifier).fetchMore(),
@@ -173,15 +215,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                             crossAxisAlignment: .start,
                             spacing: AppSpacing.xl,
                             children: [
-                              SizedBox(
-                                width: context.screenDiagonal * 0.15,
-                                child: AspectRatio(
-                                  aspectRatio: 2 / 3,
-                                  child: MoviePoster(
-                                    posterPath: data.posterPath,
-                                  ),
-                                ),
-                              ),
+                              moviePoster,
 
                               if (context.screenWidth >= 1200) ...[
                                 SizedBox(

@@ -1,27 +1,29 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
-import 'package:cine_scope/features/home/presentation/home_page_body.dart';
+import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
+import 'package:cine_scope/features/home/presentation/home_body_content.dart';
 import 'package:cine_scope/features/home/presentation/search_page_body.dart';
 import 'package:cine_scope/features/home/presentation/utils/home_drawer.dart';
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PortraitHomeScreen extends StatefulWidget {
+class PortraitHomeScreen extends ConsumerStatefulWidget {
   const PortraitHomeScreen({super.key});
 
   @override
-  State<PortraitHomeScreen> createState() => _PortraitHomeScreenState();
+  ConsumerState<PortraitHomeScreen> createState() => _PortraitHomeScreenState();
 }
 
-class _PortraitHomeScreenState extends State<PortraitHomeScreen> {
+class _PortraitHomeScreenState extends ConsumerState<PortraitHomeScreen> {
   late final PageController _pageController;
   int _selectedPage = 0;
 
   final _pages = [
     Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
-      child: const HomePageBody(),
+      child: const HomeBodyContent(),
     ),
     Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -43,6 +45,15 @@ class _PortraitHomeScreenState extends State<PortraitHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<HomeBody>(homeBodyProvider, (previous, next) {
+      if (_selectedPage != 0) {
+        setState(() {
+          animateToPage(0);
+          _selectedPage = 0;
+        });
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('app_name'.tr(), style: context.textTheme.displaySmall),
@@ -76,17 +87,24 @@ class _PortraitHomeScreenState extends State<PortraitHomeScreen> {
         ],
         selectedIndex: _selectedPage,
         onDestinationSelected: (index) {
+          if (index == 0) {
+            ref.read(homeBodyProvider.notifier).switchHomeBody(HomeBody.home);
+          }
           setState(() {
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.ease,
-            );
+            animateToPage(index);
 
             _selectedPage = index;
           });
         },
       ),
+    );
+  }
+
+  void animateToPage(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
     );
   }
 }

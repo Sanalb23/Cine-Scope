@@ -6,28 +6,31 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FavoriteMoviesScreen extends ConsumerWidget {
-  const FavoriteMoviesScreen({super.key});
+class FavoritesBody extends ConsumerWidget {
+  const FavoritesBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final movies = ref.watch(favoriteMoviesProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('favorites'.tr(), style: context.textTheme.headlineSmall),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: PaginatedMoviesList(
-          fetchCallback: () =>
-              ref.read(favoriteMoviesProvider.notifier).fetchMore(),
-          retryCallback: () =>
-              ref.read(favoriteMoviesProvider.notifier).retry(),
-          state: movies,
+    return Column(
+      spacing: AppSpacing.xl,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'favorites'.tr(),
+          style: context.textTheme.headlineSmall,
         ),
-      ),
+        Expanded(
+          child: PaginatedMoviesList(
+            fetchCallback: () =>
+                ref.read(favoriteMoviesProvider.notifier).fetchMore(),
+            retryCallback: () =>
+                ref.read(favoriteMoviesProvider.notifier).retry(),
+            state: movies,
+          ),
+        ),
+      ],
     );
   }
 }

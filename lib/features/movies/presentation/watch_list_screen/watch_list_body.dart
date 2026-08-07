@@ -6,28 +6,31 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WatchListScreen extends ConsumerWidget {
-  const WatchListScreen({super.key});
+class WatchListBody extends ConsumerWidget {
+  const WatchListBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final movies = ref.watch(watchListMoviesProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('watch_list'.tr(), style: context.textTheme.headlineSmall),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: PaginatedMoviesList(
-          fetchCallback: () =>
-              ref.read(watchListMoviesProvider.notifier).fetchMore(),
-          retryCallback: () =>
-              ref.read(watchListMoviesProvider.notifier).retry(),
-          state: movies,
+    return Column(
+      spacing: AppSpacing.xl,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'watch_list'.tr(),
+          style: context.textTheme.headlineSmall,
         ),
-      ),
+        Expanded(
+          child: PaginatedMoviesList(
+            fetchCallback: () =>
+                ref.read(watchListMoviesProvider.notifier).fetchMore(),
+            retryCallback: () =>
+                ref.read(watchListMoviesProvider.notifier).retry(),
+            state: movies,
+          ),
+        ),
+      ],
     );
   }
 }

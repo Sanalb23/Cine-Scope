@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/features/home/presentation/utils/favorites_list_tile.dart';
+import 'package:cine_scope/features/home/presentation/utils/home_list_tile.dart';
 import 'package:cine_scope/features/home/presentation/utils/language_dropdown_menu.dart';
 import 'package:cine_scope/features/home/presentation/utils/watch_list_list_tile.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,6 +22,7 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
           ),
+          const HomeListTile(),
           const FavoritesListTile(),
           const WatchListListTile(),
           const Divider(),

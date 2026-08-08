@@ -46,5 +46,6 @@
     "tomorrow": "tomorrow",
     "n_days": "{days} days",
     "unknown": "Unknown",
-    "reminder_saves_to_watchlist": "Setting a reminder saves the movie to your Watchlist."
+    "reminder_saves_to_watchlist": "Setting a reminder saves the movie to your Watchlist.",
+    "release_date": "Release date"
 }

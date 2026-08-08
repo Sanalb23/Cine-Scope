@@ -46,5 +46,6 @@
     "tomorrow": "mañana",
     "n_days": "{days} días",
     "unknown": "Desconocido",
-    "reminder_saves_to_watchlist": "Al activar un recordatorio, la película se guarda en tu lista Por ver."
+    "reminder_saves_to_watchlist": "Al activar un recordatorio, la película se guarda en tu lista Por ver.",
+    "release_date": "Fecha de estreno"
 }

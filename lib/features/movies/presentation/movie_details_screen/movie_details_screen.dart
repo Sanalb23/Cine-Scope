@@ -16,6 +16,7 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/wat
 import 'package:cine_scope/features/movies/presentation/utils/days_until_release_date.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movie_release_date.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_runtime.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
@@ -59,13 +60,14 @@ class MovieDetailsScreen extends ConsumerWidget {
                   )
                 : null;
 
-            var movieTitle = '${data.title} (${data.releaseDate.year})';
+            final movieTitle = data.title;
 
             final primaryInfoColumn = Column(
               crossAxisAlignment: .start,
               spacing: AppSpacing.md,
               children: [
                 Text(movieTitle, style: context.textTheme.headlineMedium),
+                MovieReleaseDate(releaseDate: data.releaseDate),
                 MovieRuntime(runtime: data.runtime),
                 MoviePopularity(popularity: data.popularity),
                 MovieRating(

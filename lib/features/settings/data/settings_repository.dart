@@ -40,4 +40,12 @@ class SettingsRepository {
   Future<void> setHasSeenWatchlistTooltip(bool seen) async {
     await _settingsLocalDatasource.setHasSeenWatchlistTooltip(seen);
   }
+
+  bool hasSeenMobileNotificationDialog() {
+    return _settingsLocalDatasource.hasSeenMobileNotificationDialog();
+  }
+
+  Future<void> setHasSeenMobileNotificationDialog(bool seen) async {
+    await _settingsLocalDatasource.setHasSeenMobileNotificationDialog(seen);
+  }
 }

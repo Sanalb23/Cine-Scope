@@ -22,6 +22,8 @@ import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
 import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
 import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
+import 'package:cine_scope/features/settings/domain/providers/settings_repository_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -144,6 +146,44 @@ class MovieDetailsScreen extends ConsumerWidget {
                 ),
               ),
             );
+
+            if (daysUntilRelease != null && kIsWeb) {
+              final hasSeenMobileNotificationDialog = ref
+                  .read(settingsRepositoryProvider)
+                  .hasSeenMobileNotificationDialog();
+
+              if (!hasSeenMobileNotificationDialog) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Row(
+                        spacing: AppSpacing.md,
+                        children: [
+                          const Icon(
+                            Icons.notifications_active,
+                            color: Colors.amberAccent,
+                            size: 32,
+                          ),
+                          Text('native_reminders'.tr()),
+                        ],
+                      ),
+                      content: Text('native_reminders_description'.tr()),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('ok'.tr()),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+
+                ref
+                    .read(settingsRepositoryProvider)
+                    .setHasSeenMobileNotificationDialog(true);
+              }
+            }
 
             return PaginatedScrollHandler(
               fetchCallback: () =>

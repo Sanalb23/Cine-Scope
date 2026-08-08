@@ -20,4 +20,12 @@ class SettingsLocalDatasource {
   Future<void> setHasSeenWatchlistTooltip(bool seen) async {
     await _prefs.setBool('has_seen_watchlist_tooltip', seen);
   }
+
+  bool hasSeenMobileNotificationDialog() {
+    return _prefs.getBool('has_seen_mobile_notification_dialog') ?? false;
+  }
+
+  Future<void> setHasSeenMobileNotificationDialog(bool seen) async {
+    await _prefs.setBool('has_seen_mobile_notification_dialog', seen);
+  }
 }

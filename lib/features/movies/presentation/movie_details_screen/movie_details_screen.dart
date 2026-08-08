@@ -24,6 +24,7 @@ import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_l
 import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class MovieDetailsScreen extends ConsumerWidget {
   const MovieDetailsScreen({super.key, required this.id});
@@ -51,7 +52,7 @@ class MovieDetailsScreen extends ConsumerWidget {
               child: TrailerButton(trailerPath: data.trailerPath),
             );
 
-            final countdownWidget = daysUntilRelease != null
+            final countdownWidget = !kIsWeb && daysUntilRelease != null
                 ? CountDownBanner(
                     movieId: id,
                     movieTitle: data.title,

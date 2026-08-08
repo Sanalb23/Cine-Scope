@@ -13,11 +13,11 @@ class MovieCardSkeleton extends StatelessWidget {
       mainAxisSize: .min,
       spacing: AppSpacing.sm,
       children: [
-        Expanded(flex: 14, child: const SkeletonPlaceholder()),
+        const Expanded(flex: 14, child: SkeletonPlaceholder()),
 
         const Expanded(flex: 2, child: SkeletonPlaceholder()),
 
-        const Expanded(child: GenreTagsSkeleton()),
+        const GenreTagsSkeleton(),
       ],
     );
   }

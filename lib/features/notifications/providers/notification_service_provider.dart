@@ -1,7 +1,14 @@
+import 'package:cine_scope/features/notifications/providers/notification_local_datasource_provider.dart';
 import 'package:cine_scope/features/notifications/services/notification_service.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final notificationServiceProvider = Provider<NotificationService>((ref) {
-  throw UnimplementedError('notification_service_not_initialized'.tr());
+final notificationServiceProvider = FutureProvider<NotificationService>((
+  ref,
+) async {
+  final notificationLocalDataSource = ref.watch(
+    notificationLocalDataSourceProvider,
+  );
+  final notificationService = NotificationService(notificationLocalDataSource);
+  await notificationService.initNotification();
+  return notificationService;
 });

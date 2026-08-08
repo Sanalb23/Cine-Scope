@@ -16,7 +16,7 @@ class MovieNotificationStateNotifier
 
   @override
   Future<MovieNotificationState> build() async {
-    final utils = ref.watch(movieNotificationUtilsProvider);
+    final utils = await ref.watch(movieNotificationUtilsProvider.future);
     final isScheduled = await utils.isMovieNotificationScheduled(movieId);
     return MovieNotificationState.success(isScheduled: isScheduled);
   }
@@ -31,7 +31,7 @@ class MovieNotificationStateNotifier
     final keepAliveLink = ref.keepAlive();
 
     try {
-      final utils = ref.read(movieNotificationUtilsProvider);
+      final utils = await ref.read(movieNotificationUtilsProvider.future);
 
       if (isCurrentlyScheduled) {
         await utils.cancelMovieNotifications(movieId: movieId);

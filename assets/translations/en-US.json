@@ -49,5 +49,5 @@
     "reminder_saves_to_watchlist": "Setting a reminder saves the movie to your Watchlist.",
     "release_date": "Release date",
     "native_reminders": "Native Reminders",
-    "native_reminders_description": "The feature of setting reminders for movie releases is exclusive to the mobile application of CineScope.\n\n You can see a demonstration of this feature in the project repository."
+    "native_reminders_description": "The feature of setting reminders for movie releases is exclusive to the mobile application of CineScope.\nYou can see a demonstration of this feature in the project repository."
 }

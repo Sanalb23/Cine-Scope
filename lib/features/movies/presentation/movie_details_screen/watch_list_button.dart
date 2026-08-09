@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:popover/popover.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class WatchListButton extends ConsumerWidget {
   const WatchListButton({
@@ -25,33 +26,34 @@ class WatchListButton extends ConsumerWidget {
 
     final isInWatchList = ref.watch(isInWatchListProvider(movieId));
 
-    final hasSeenWatchlistTooltip = ref
-        .watch(settingsRepositoryProvider)
-        .hasSeenWatchlistTooltip();
+    if (!kIsWeb) {
+      final hasSeenWatchlistTooltip = ref
+          .watch(settingsRepositoryProvider)
+          .hasSeenWatchlistTooltip();
 
-    ref.listen(movieNotificationStateProvider(movieId), (previous, next) {
-      if (!isInWatchList &&
-          (previous?.value?.isScheduled == false &&
-              next.value?.isScheduled == true) &&
-          !hasSeenWatchlistTooltip) {
-        showPopover(
-          context: context,
-          width: (context.screenWidth * 0.9).clamp(200, 400),
-          backgroundColor: context.colors.surfaceContainerHigh,
-          direction: PopoverDirection.bottom,
-          bodyBuilder: (context) => Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text('reminder_saves_to_watchlist'.tr()),
-          ),
-          onPop: () async {
-            await ref
-                .read(settingsRepositoryProvider)
-                .setHasSeenWatchlistTooltip(true);
-          },
-        );
-      }
-    });
-
+      ref.listen(movieNotificationStateProvider(movieId), (previous, next) {
+        if (!isInWatchList &&
+            (previous?.value?.isScheduled == false &&
+                next.value?.isScheduled == true) &&
+            !hasSeenWatchlistTooltip) {
+          showPopover(
+            context: context,
+            width: (context.screenWidth * 0.9).clamp(200, 400),
+            backgroundColor: context.colors.surfaceContainerHigh,
+            direction: PopoverDirection.bottom,
+            bodyBuilder: (context) => Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text('reminder_saves_to_watchlist'.tr()),
+            ),
+            onPop: () async {
+              await ref
+                  .read(settingsRepositoryProvider)
+                  .setHasSeenWatchlistTooltip(true);
+            },
+          );
+        }
+      });
+    }
     return AppBarButton(
       icon: isInWatchList ? Icons.watch_later : Icons.watch_later_outlined,
       text: isLandscape

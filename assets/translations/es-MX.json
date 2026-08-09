@@ -47,5 +47,7 @@
     "n_days": "{days} días",
     "unknown": "Desconocido",
     "reminder_saves_to_watchlist": "Al activar un recordatorio, la película se guarda en tu lista Por ver.",
-    "release_date": "Fecha de estreno"
+    "release_date": "Fecha de estreno",
+    "native_reminders": "Recordatorios Nativos",
+    "native_reminders_description": "La función de programar alarmas para estrenos es exclusiva de la aplicación móvil de CineScope. \nPuedes ver una demostración de esta función en el repositorio del proyecto."
 }

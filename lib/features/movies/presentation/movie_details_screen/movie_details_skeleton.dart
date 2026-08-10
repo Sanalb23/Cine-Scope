@@ -57,19 +57,14 @@ class MovieDetailsSkeleton extends StatelessWidget {
           runSpacing: AppSpacing.md,
           children: List.generate(
             3,
-            (index) => const SkeletonPlaceholder(
-              width: 70,
-              height: 20,
-            ),
+            (index) => const SkeletonPlaceholder(width: 70, height: 20),
           ),
         ),
 
         if (isLandscape) ...[
           overviewWidget,
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.md,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
             child: trailerButtonWidget,
           ),
         ],
@@ -140,14 +135,10 @@ class MovieDetailsSkeleton extends StatelessWidget {
                   ],
                 ),
 
-                if (!isLandscape) ...[
-                  trailerButtonWidget,
-                  overviewWidget,
-                ],
+                if (!isLandscape) ...[trailerButtonWidget, overviewWidget],
 
                 // Similar movies title
                 const SkeletonPlaceholder(height: 28, width: 150),
-                const SizedBox(height: AppSpacing.sm),
 
                 // Similar movies grid skeleton
                 const MovieListSkeleton(),

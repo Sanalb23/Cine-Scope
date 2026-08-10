@@ -72,25 +72,25 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   }
 
   @override
-  Future<List<MovieSummaryModel>> getPopularMovies({int page = 1}) async {
-    return await getMoviesList(
+  Future<List<MovieSummaryModel>> fetchPopularMovies({int page = 1}) async {
+    return await fetchMoviesList(
       path:
           '/discover/movie?api_key=$_apiKey&sort_by=popularity.desc&language=$_language&page=$page',
     );
   }
 
   @override
-  Future<List<MovieSummaryModel>> getTopRatedMovies({int page = 1}) async {
+  Future<List<MovieSummaryModel>> fetchTopRatedMovies({int page = 1}) async {
     const int minVoteCount = 300;
 
-    return await getMoviesList(
+    return await fetchMoviesList(
       path:
           '/discover/movie?api_key=$_apiKey&sort_by=vote_average.desc&vote_count.gte=$minVoteCount&language=$_language&page=$page',
     );
   }
 
   @override
-  Future<List<MovieSummaryModel>> getUpcomingMovies({int page = 1}) async {
+  Future<List<MovieSummaryModel>> fetchUpcomingMovies({int page = 1}) async {
     final DateTime now = DateTime.now();
 
     final String gte = '${now.year}-${now.month}-${now.day}';
@@ -99,7 +99,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     final String lte =
         '${lteDateTime.year}-${lteDateTime.month}-${lteDateTime.day}';
 
-    return await getMoviesList(
+    return await fetchMoviesList(
       path:
           '/discover/movie?api_key=$_apiKey&language=$_language&primary_release_date.gte=$gte&primary_release_date.lte=$lte&sort_by=popularity.desc&page=$page',
     );
@@ -110,14 +110,14 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     required String query,
     int page = 1,
   }) async {
-    return await getMoviesList(
+    return await fetchMoviesList(
       path:
           '/search/movie?api_key=$_apiKey&language=$_language&query=$query&page=$page',
     );
   }
 
   @override
-  Future<MovieModel> getMovieById({required int id}) async {
+  Future<MovieModel> fetchMovieById({required int id}) async {
     final response = await _httpClient.get(
       Uri.parse(
         '$_baseUrl/movie/$id?api_key=$_apiKey&language=$_language&append_to_response=videos',
@@ -136,17 +136,17 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   }
 
   @override
-  Future<List<MovieSummaryModel>> getSimilarMovies({
+  Future<List<MovieSummaryModel>> fetchSimilarMovies({
     required int id,
     int page = 1,
   }) async {
-    return await getMoviesList(
+    return await fetchMoviesList(
       path:
           '/movie/$id/similar?api_key=$_apiKey&language=$_language&page=$page',
     );
   }
 
-  Future<List<MovieSummaryModel>> getMoviesList({required String path}) async {
+  Future<List<MovieSummaryModel>> fetchMoviesList({required String path}) async {
     MovieSummaryModel buildMovieSummaryModel(Map<String, dynamic> json) {
       final movie = MovieSummaryModel.fromJson(json);
       return movie.copyWith(

@@ -12,6 +12,6 @@ final popularMoviesProvider =
 class PopularMoviesNotifier extends BasePaginatedMoviesNotifier {
   @override
   Future<List<MovieSummary>> fetchItems(int page) async {
-    return await ref.read(movieRepositoryProvider).getPopularMovies(page: page);
+    return await ref.read(movieRepositoryProvider).fetchPopularMovies(page: page);
   }
 }

@@ -19,7 +19,7 @@ final movieProvider = FutureProvider.autoDispose.family<Movie, int>((
 
   ref.onDispose(() => timer.cancel());
 
-  final movie = await ref.read(movieRepositoryProvider).getMovieById(id: id);
+  final movie = await ref.read(movieRepositoryProvider).fetchMovieById(id: id);
 
   await preloadBackdrop(movie.backdropPath);
 

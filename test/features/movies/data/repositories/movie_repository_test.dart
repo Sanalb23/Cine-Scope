@@ -43,15 +43,15 @@ void main() {
       );
 
       when(
-        () => mockMovieRemoteDatasource.getMovieById(id: 1),
+        () => mockMovieRemoteDatasource.fetchMovieById(id: 1),
       ).thenAnswer((_) async => fakeMovie);
 
       when(
-        () => mockMovieRemoteDatasource.getMovieById(id: 2),
+        () => mockMovieRemoteDatasource.fetchMovieById(id: 2),
       ).thenAnswer((_) async => fakeMovie);
 
       //act
-      final result = await movieRepository.getFavoriteMovies();
+      final result = await movieRepository.fetchFavoriteMovies();
 
       //assert
       expect(result, isA<List<MovieSummary>>());
@@ -64,12 +64,12 @@ void main() {
 
       final fakeMovie = fixture('movie_details');
 
-      when(() => mockMovieRemoteDatasource.getMovieById(id: 1)).thenAnswer(
+      when(() => mockMovieRemoteDatasource.fetchMovieById(id: 1)).thenAnswer(
         (_) async => MovieModel.fromJson(jsonDecode(fakeInvalidMovie)),
       );
 
       when(
-        () => mockMovieRemoteDatasource.getMovieById(id: 2),
+        () => mockMovieRemoteDatasource.fetchMovieById(id: 2),
       ).thenAnswer((_) async => MovieModel.fromJson(jsonDecode(fakeMovie)));
 
       when(
@@ -77,7 +77,7 @@ void main() {
       ).thenAnswer((_) => [1, 2]);
 
       //act
-      final result = await movieRepository.getFavoriteMovies();
+      final result = await movieRepository.fetchFavoriteMovies();
 
       //assert
       expect(result, isA<List<MovieSummary>>());
@@ -97,15 +97,15 @@ void main() {
     final fakeMovie = MovieModel.fromJson(jsonDecode(fixture('movie_details')));
 
     when(
-      () => mockMovieRemoteDatasource.getMovieById(id: 1),
+      () => mockMovieRemoteDatasource.fetchMovieById(id: 1),
     ).thenAnswer((_) async => fakeMovie);
 
     when(
-      () => mockMovieRemoteDatasource.getMovieById(id: 2),
+      () => mockMovieRemoteDatasource.fetchMovieById(id: 2),
     ).thenAnswer((_) async => fakeMovie);
 
     //act
-    final result = await movieRepository.getWatchListMovies();
+    final result = await movieRepository.fetchWatchListMovies();
 
     //assert
     expect(result, isA<List<MovieSummary>>());

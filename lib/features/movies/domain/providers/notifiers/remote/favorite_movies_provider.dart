@@ -15,6 +15,6 @@ class FavoriteMoviesNotifier extends BasePaginatedMoviesNotifier {
   Future<List<MovieSummary>> fetchItems(int page) async {
     return await ref
         .read(movieRepositoryProvider)
-        .getFavoriteMovies(page: page);
+        .fetchFavoriteMovies(page: page);
   }
 }

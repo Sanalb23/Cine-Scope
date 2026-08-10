@@ -35,6 +35,6 @@ class SimilarMoviesNotifier extends BasePaginatedMoviesNotifier {
   Future<List<MovieSummary>> fetchItems(int page) async {
     return await ref
         .read(movieRepositoryProvider)
-        .getSimilarMovies(page: page, id: movieId);
+        .fetchSimilarMovies(page: page, id: movieId);
   }
 }

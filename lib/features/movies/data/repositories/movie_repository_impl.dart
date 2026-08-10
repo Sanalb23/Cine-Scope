@@ -15,20 +15,20 @@ class MovieRepositoryImpl implements MovieRepository {
        _localDatasource = localDatasource;
 
   @override
-  Future<List<MovieSummary>> getPopularMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.getPopularMovies(page: page);
+  Future<List<MovieSummary>> fetchPopularMovies({int page = 1}) async {
+    final movies = await _remoteDatasource.fetchPopularMovies(page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieSummary>> getTopRatedMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.getTopRatedMovies(page: page);
+  Future<List<MovieSummary>> fetchTopRatedMovies({int page = 1}) async {
+    final movies = await _remoteDatasource.fetchTopRatedMovies(page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieSummary>> getUpcomingMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.getUpcomingMovies(page: page);
+  Future<List<MovieSummary>> fetchUpcomingMovies({int page = 1}) async {
+    final movies = await _remoteDatasource.fetchUpcomingMovies(page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
@@ -45,18 +45,18 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Movie> getMovieById({required int id}) async {
+  Future<Movie> fetchMovieById({required int id}) async {
     return await _remoteDatasource
-        .getMovieById(id: id)
+        .fetchMovieById(id: id)
         .then((x) => x.toDomain());
   }
 
   @override
-  Future<List<MovieSummary>> getSimilarMovies({
+  Future<List<MovieSummary>> fetchSimilarMovies({
     required int id,
     int page = 1,
   }) async {
-    final movies = await _remoteDatasource.getSimilarMovies(id: id, page: page);
+    final movies = await _remoteDatasource.fetchSimilarMovies(id: id, page: page);
     return movies.map((x) => x.toDomain()).toList();
   }
 
@@ -71,14 +71,14 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> getFavoriteMovies({int page = 1}) async {
+  Future<List<MovieSummary>> fetchFavoriteMovies({int page = 1}) async {
     final ids = _localDatasource.getFavorites();
 
     final paginatedIds = _paginatedList(page, ids);
 
     final futures = paginatedIds.map((id) async {
       try {
-        final movie = await _remoteDatasource.getMovieById(id: id);
+        final movie = await _remoteDatasource.fetchMovieById(id: id);
         return movie.toMovieSummaryModel().toDomain();
       } catch (_) {
         // Return null if fetching the movie fails
@@ -107,14 +107,14 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> getWatchListMovies({int page = 1}) async {
+  Future<List<MovieSummary>> fetchWatchListMovies({int page = 1}) async {
     final ids = _localDatasource.getWatchList();
 
     final paginatedIds = _paginatedList(page, ids);
 
     final futures = paginatedIds.map((id) async {
       try {
-        final movie = await _remoteDatasource.getMovieById(id: id);
+        final movie = await _remoteDatasource.fetchMovieById(id: id);
         return movie.toMovieSummaryModel().toDomain();
       } catch (_) {
         // Return null if fetching the movie fails

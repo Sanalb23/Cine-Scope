@@ -36,7 +36,7 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response(fakeResponse, 200));
 
-      final result = await movieRemoteDatasource.getPopularMovies();
+      final result = await movieRemoteDatasource.fetchPopularMovies();
 
       expect(result, isA<List<MovieSummaryModel>>());
       expect(result.length, 2);
@@ -47,7 +47,7 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response('error', 400));
 
-      expect(() => movieRemoteDatasource.getPopularMovies(), throwsException);
+      expect(() => movieRemoteDatasource.fetchPopularMovies(), throwsException);
     });
 
     test('should return only valid movies when json is invalid', () async {
@@ -57,7 +57,7 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response(fakeResponse, 200));
 
-      final result = await movieRemoteDatasource.getPopularMovies();
+      final result = await movieRemoteDatasource.fetchPopularMovies();
 
       expect(result, isA<List<MovieSummaryModel>>());
       expect(result.length, 2);
@@ -72,7 +72,7 @@ void main() {
           () => mockHttpClient.get(any()),
         ).thenAnswer((_) async => http.Response(fakeResponse, 400));
 
-        final result = await movieRemoteDatasource.getPopularMovies(page: 501);
+        final result = await movieRemoteDatasource.fetchPopularMovies(page: 501);
 
         expect(result.length, 0);
       },
@@ -87,7 +87,7 @@ void main() {
         () => mockHttpClient.get(any()),
       ).thenAnswer((_) async => http.Response(fakeResponse, 200));
 
-      final result = await movieRemoteDatasource.getMovieById(id: 550);
+      final result = await movieRemoteDatasource.fetchMovieById(id: 550);
 
       expect(result, isA<MovieModel>());
       expect(result.id, 550);
@@ -100,7 +100,7 @@ void main() {
       ).thenAnswer((_) async => http.Response('error', 400));
 
       expect(
-        () => movieRemoteDatasource.getMovieById(id: 550),
+        () => movieRemoteDatasource.fetchMovieById(id: 550),
         throwsException,
       );
     });

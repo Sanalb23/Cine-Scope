@@ -22,6 +22,7 @@ import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
 import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -245,7 +246,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                             spacing: AppSpacing.lg,
                             children: [
                               Text(
-                                'Similar Movies',
+                                'similar_movies'.tr(),
                                 style: context.textTheme.headlineSmall,
                               ),
                               MoviesList(

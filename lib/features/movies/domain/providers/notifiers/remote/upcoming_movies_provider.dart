@@ -4,6 +4,8 @@ import 'package:cine_scope/features/pagination/models/paginated_state.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/base_paginated_movies_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:cine_scope/features/movies/domain/providers/notifiers/local/selected_genres_provider.dart';
+
 final upcomingMoviesProvider =
     NotifierProvider<UpcomingMoviesNotifier, PaginatedState<MovieSummary>>(
       UpcomingMoviesNotifier.new,
@@ -11,9 +13,16 @@ final upcomingMoviesProvider =
 
 class UpcomingMoviesNotifier extends BasePaginatedMoviesNotifier {
   @override
+  PaginatedState<MovieSummary> build() {
+    ref.watch(selectedGenresProvider);
+    return super.build();
+  }
+
+  @override
   Future<List<MovieSummary>> fetchItems(int page) async {
+    final genreIds = ref.read(selectedGenresProvider);
     return await ref
         .read(movieRepositoryProvider)
-        .fetchUpcomingMovies(page: page);
+        .fetchUpcomingMovies(page: page, genreIds: genreIds);
   }
 }

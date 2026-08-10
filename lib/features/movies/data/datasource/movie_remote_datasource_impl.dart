@@ -72,26 +72,37 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   }
 
   @override
-  Future<List<MovieSummaryModel>> fetchPopularMovies({int page = 1}) async {
+  Future<List<MovieSummaryModel>> fetchPopularMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
     return await fetchMoviesList(
       endpoint: '/discover/movie?sort_by=popularity.desc',
       page: page,
+      genreIds: genreIds,
     );
   }
 
   @override
-  Future<List<MovieSummaryModel>> fetchTopRatedMovies({int page = 1}) async {
+  Future<List<MovieSummaryModel>> fetchTopRatedMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
     const int minVoteCount = 300;
 
     return await fetchMoviesList(
       endpoint:
           '/discover/movie?sort_by=vote_average.desc&vote_count.gte=$minVoteCount',
       page: page,
+      genreIds: genreIds,
     );
   }
 
   @override
-  Future<List<MovieSummaryModel>> fetchUpcomingMovies({int page = 1}) async {
+  Future<List<MovieSummaryModel>> fetchUpcomingMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
     final DateTime now = DateTime.now();
 
     final String gte = '${now.year}-${now.month}-${now.day}';
@@ -104,6 +115,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       endpoint:
           '/discover/movie?primary_release_date.gte=$gte&primary_release_date.lte=$lte&sort_by=popularity.desc',
       page: page,
+      genreIds: genreIds,
     );
   }
 
@@ -148,6 +160,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   Future<List<MovieSummaryModel>> fetchMoviesList({
     required String endpoint,
     int page = 1,
+    List<int>? genreIds,
   }) async {
     MovieSummaryModel buildMovieSummaryModel(Map<String, dynamic> json) {
       final movie = MovieSummaryModel.fromJson(json);
@@ -158,11 +171,16 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       );
     }
 
+    String genreQuery = '';
+    if (genreIds != null && genreIds.isNotEmpty) {
+      genreQuery = '&with_genres=${genreIds.join(',')}';
+    }
+
     // Use '&' if the endpoint already has query parameters (contains '?'), otherwise start them with '?'
     final String separator = endpoint.contains('?') ? '&' : '?';
 
     final String fullPath =
-        '$endpoint${separator}api_key=$_apiKey&language=$_language&page=$page';
+        '$endpoint${separator}api_key=$_apiKey&language=$_language&page=$page$genreQuery';
 
     final response = await _httpClient.get(Uri.parse('$_baseUrl$fullPath'));
     if (response.statusCode == 200) {

@@ -15,20 +15,38 @@ class MovieRepositoryImpl implements MovieRepository {
        _localDatasource = localDatasource;
 
   @override
-  Future<List<MovieSummary>> fetchPopularMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.fetchPopularMovies(page: page);
+  Future<List<MovieSummary>> fetchPopularMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
+    final movies = await _remoteDatasource.fetchPopularMovies(
+      page: page,
+      genreIds: genreIds,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieSummary>> fetchTopRatedMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.fetchTopRatedMovies(page: page);
+  Future<List<MovieSummary>> fetchTopRatedMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
+    final movies = await _remoteDatasource.fetchTopRatedMovies(
+      page: page,
+      genreIds: genreIds,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieSummary>> fetchUpcomingMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.fetchUpcomingMovies(page: page);
+  Future<List<MovieSummary>> fetchUpcomingMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
+    final movies = await _remoteDatasource.fetchUpcomingMovies(
+      page: page,
+      genreIds: genreIds,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 

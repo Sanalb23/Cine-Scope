@@ -74,14 +74,18 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   @override
   Future<List<MovieSummaryModel>> getPopularMovies({int page = 1}) async {
     return await getMoviesList(
-      path: '/movie/popular?api_key=$_apiKey&language=$_language&page=$page',
+      path:
+          '/discover/movie?api_key=$_apiKey&sort_by=popularity.desc&language=$_language&page=$page',
     );
   }
 
   @override
   Future<List<MovieSummaryModel>> getTopRatedMovies({int page = 1}) async {
+    const int minVoteCount = 300;
+
     return await getMoviesList(
-      path: '/movie/top_rated?api_key=$_apiKey&language=$_language&page=$page',
+      path:
+          '/discover/movie?api_key=$_apiKey&sort_by=vote_average.desc&vote_count.gte=$minVoteCount&language=$_language&page=$page',
     );
   }
 
@@ -91,13 +95,13 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
 
     final String gte = '${now.year}-${now.month}-${now.day}';
 
-    final DateTime lteDateTime = now.add(const Duration(days: 30));
+    final DateTime lteDateTime = now.add(const Duration(days: 60));
     final String lte =
         '${lteDateTime.year}-${lteDateTime.month}-${lteDateTime.day}';
 
     return await getMoviesList(
       path:
-          '/discover/movie?api_key=$_apiKey&language=$_language&primary_release_date.gte=$gte&primary_release_date.lte=$lte&page=$page',
+          '/discover/movie?api_key=$_apiKey&language=$_language&primary_release_date.gte=$gte&primary_release_date.lte=$lte&sort_by=popularity.desc&page=$page',
     );
   }
 

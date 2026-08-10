@@ -11,8 +11,8 @@ import 'package:cine_scope/features/home/presentation/utils/search_movies_list.d
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
 import 'package:cine_scope/features/home/presentation/utils/watch_list_list_tile.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
-import 'package:cine_scope/features/movies/presentation/favorite_movies_screen/favorites_body.dart';
-import 'package:cine_scope/features/movies/presentation/watch_list_screen/watch_list_body.dart';
+import 'package:cine_scope/features/movies/presentation/favorites_body.dart';
+import 'package:cine_scope/features/movies/presentation/watch_list_body.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

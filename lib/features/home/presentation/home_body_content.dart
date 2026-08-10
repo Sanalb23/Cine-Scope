@@ -1,7 +1,7 @@
 import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
-import 'package:cine_scope/features/movies/presentation/favorite_movies_screen/favorites_body.dart';
-import 'package:cine_scope/features/movies/presentation/watch_list_screen/watch_list_body.dart';
+import 'package:cine_scope/features/movies/presentation/favorites_body.dart';
+import 'package:cine_scope/features/movies/presentation/watch_list_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

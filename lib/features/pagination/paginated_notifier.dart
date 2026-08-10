@@ -38,7 +38,9 @@ abstract class PaginatedNotifier<T> extends Notifier<PaginatedState<T>> {
         );
       }
     } catch (e) {
-      state = state.copyWith(isLoading: false, hasError: true);
+      if (ref.mounted) {
+        state = state.copyWith(isLoading: false, hasError: true);
+      }
     }
   }
 

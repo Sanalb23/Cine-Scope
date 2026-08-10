@@ -74,8 +74,8 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   @override
   Future<List<MovieSummaryModel>> fetchPopularMovies({int page = 1}) async {
     return await fetchMoviesList(
-      path:
-          '/discover/movie?api_key=$_apiKey&sort_by=popularity.desc&language=$_language&page=$page',
+      endpoint: '/discover/movie?sort_by=popularity.desc',
+      page: page,
     );
   }
 
@@ -84,8 +84,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     const int minVoteCount = 300;
 
     return await fetchMoviesList(
-      path:
-          '/discover/movie?api_key=$_apiKey&sort_by=vote_average.desc&vote_count.gte=$minVoteCount&language=$_language&page=$page',
+      endpoint:
+          '/discover/movie?sort_by=vote_average.desc&vote_count.gte=$minVoteCount',
+      page: page,
     );
   }
 
@@ -100,8 +101,9 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
         '${lteDateTime.year}-${lteDateTime.month}-${lteDateTime.day}';
 
     return await fetchMoviesList(
-      path:
-          '/discover/movie?api_key=$_apiKey&language=$_language&primary_release_date.gte=$gte&primary_release_date.lte=$lte&sort_by=popularity.desc&page=$page',
+      endpoint:
+          '/discover/movie?primary_release_date.gte=$gte&primary_release_date.lte=$lte&sort_by=popularity.desc',
+      page: page,
     );
   }
 
@@ -111,8 +113,8 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     int page = 1,
   }) async {
     return await fetchMoviesList(
-      path:
-          '/search/movie?api_key=$_apiKey&language=$_language&query=$query&page=$page',
+      endpoint: '/search/movie?query=$query',
+      page: page,
     );
   }
 
@@ -140,13 +142,13 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     required int id,
     int page = 1,
   }) async {
-    return await fetchMoviesList(
-      path:
-          '/movie/$id/similar?api_key=$_apiKey&language=$_language&page=$page',
-    );
+    return await fetchMoviesList(endpoint: '/movie/$id/similar', page: page);
   }
 
-  Future<List<MovieSummaryModel>> fetchMoviesList({required String path}) async {
+  Future<List<MovieSummaryModel>> fetchMoviesList({
+    required String endpoint,
+    int page = 1,
+  }) async {
     MovieSummaryModel buildMovieSummaryModel(Map<String, dynamic> json) {
       final movie = MovieSummaryModel.fromJson(json);
       return movie.copyWith(
@@ -156,7 +158,13 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
       );
     }
 
-    final response = await _httpClient.get(Uri.parse('$_baseUrl$path'));
+    // Use '&' if the endpoint already has query parameters (contains '?'), otherwise start them with '?'
+    final String separator = endpoint.contains('?') ? '&' : '?';
+
+    final String fullPath =
+        '$endpoint${separator}api_key=$_apiKey&language=$_language&page=$page';
+
+    final response = await _httpClient.get(Uri.parse('$_baseUrl$fullPath'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
 

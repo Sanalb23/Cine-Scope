@@ -6,6 +6,8 @@ import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_l
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cine_scope/features/movies/presentation/utils/genre_filter_button.dart';
+import 'package:cine_scope/features/movies/presentation/utils/selected_genres_chips.dart';
 
 class HomePageBody extends ConsumerWidget {
   const HomePageBody({super.key});
@@ -46,7 +48,8 @@ class HomePageBody extends ConsumerWidget {
       retryCallback: listState.retryCallback,
       state: listState.state,
       title: listState.category.title,
-      actions: [popupMenuButton],
+      actions: [const GenreFilterButton(), popupMenuButton],
+      tags: const SelectedGenresChips(),
     );
   }
 }

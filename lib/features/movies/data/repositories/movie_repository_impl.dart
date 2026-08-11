@@ -15,20 +15,38 @@ class MovieRepositoryImpl implements MovieRepository {
        _localDatasource = localDatasource;
 
   @override
-  Future<List<MovieSummary>> fetchPopularMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.fetchPopularMovies(page: page);
+  Future<List<MovieSummary>> fetchPopularMovies({
+    int page = 1,
+    List<int> genreIds = const [],
+  }) async {
+    final movies = await _remoteDatasource.fetchPopularMovies(
+      page: page,
+      genreIds: genreIds,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieSummary>> fetchTopRatedMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.fetchTopRatedMovies(page: page);
+  Future<List<MovieSummary>> fetchTopRatedMovies({
+    int page = 1,
+    List<int> genreIds = const [],
+  }) async {
+    final movies = await _remoteDatasource.fetchTopRatedMovies(
+      page: page,
+      genreIds: genreIds,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
   @override
-  Future<List<MovieSummary>> fetchUpcomingMovies({int page = 1}) async {
-    final movies = await _remoteDatasource.fetchUpcomingMovies(page: page);
+  Future<List<MovieSummary>> fetchUpcomingMovies({
+    int page = 1,
+    List<int> genreIds = const [],
+  }) async {
+    final movies = await _remoteDatasource.fetchUpcomingMovies(
+      page: page,
+      genreIds: genreIds,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
@@ -56,7 +74,10 @@ class MovieRepositoryImpl implements MovieRepository {
     required int id,
     int page = 1,
   }) async {
-    final movies = await _remoteDatasource.fetchSimilarMovies(id: id, page: page);
+    final movies = await _remoteDatasource.fetchSimilarMovies(
+      id: id,
+      page: page,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
@@ -71,7 +92,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> fetchFavoriteMovies({int page = 1}) async {
+  Future<List<MovieSummary>> fetchFavoriteMovies({
+    int page = 1,
+    List<int> genreIds = const [],
+  }) async {
     final ids = _localDatasource.getFavorites();
 
     final paginatedIds = _paginatedList(page, ids);
@@ -87,8 +111,20 @@ class MovieRepositoryImpl implements MovieRepository {
     });
 
     final results = await Future.wait(futures);
+
     // Filter out the nulls
-    return results.whereType<MovieSummary>().toList();
+    List<MovieSummary> filteredResults = results
+        .whereType<MovieSummary>()
+        .toList();
+
+    // Filter by genre if genreIds are provided
+    if (genreIds.isNotEmpty) {
+      filteredResults = filteredResults
+          .where((x) => x.genreIds.any((id) => genreIds.contains(id)))
+          .toList();
+    }
+
+    return filteredResults;
   }
 
   @override
@@ -107,7 +143,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> fetchWatchListMovies({int page = 1}) async {
+  Future<List<MovieSummary>> fetchWatchListMovies({
+    int page = 1,
+    List<int> genreIds = const [],
+  }) async {
     final ids = _localDatasource.getWatchList();
 
     final paginatedIds = _paginatedList(page, ids);
@@ -123,8 +162,20 @@ class MovieRepositoryImpl implements MovieRepository {
     });
 
     final results = await Future.wait(futures);
+
     // Filter out the nulls
-    return results.whereType<MovieSummary>().toList();
+    List<MovieSummary> filteredResults = results
+        .whereType<MovieSummary>()
+        .toList();
+
+    // Filter by genre if genreIds are provided
+    if (genreIds.isNotEmpty) {
+      filteredResults = filteredResults
+          .where((x) => x.genreIds.any((id) => genreIds.contains(id)))
+          .toList();
+    }
+
+    return filteredResults;
   }
 
   @override

@@ -50,5 +50,7 @@
     "release_date": "Release date",
     "native_reminders": "Native Reminders",
     "native_reminders_description": "The feature of setting reminders for movie releases is exclusive to the mobile application of CineScope.\nYou can see a demonstration of this feature in the project repository.",
-    "similar_movies": "Similar Movies"
+    "similar_movies": "Similar Movies",
+    "filter_by_genre": "Filter by genre",
+    "clear_filter": "Clear filter"
 }

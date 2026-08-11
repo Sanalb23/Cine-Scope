@@ -50,5 +50,7 @@
     "release_date": "Fecha de estreno",
     "native_reminders": "Recordatorios Nativos",
     "native_reminders_description": "La función de programar alarmas para estrenos es exclusiva de la aplicación móvil de CineScope. \nPuedes ver una demostración de esta función en el repositorio del proyecto.",
-    "similar_movies": "Películas similares"
+    "similar_movies": "Películas similares",
+    "filter_by_genre": "Filtrar por género",
+    "clear_filter": "Limpiar filtro"
 }

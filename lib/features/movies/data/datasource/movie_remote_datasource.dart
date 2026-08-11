@@ -2,9 +2,9 @@ import 'package:cine_scope/features/movies/data/models/movie_model.dart';
 import 'package:cine_scope/features/movies/data/models/movie_summary_model.dart';
 
 abstract class MovieRemoteDatasource {
-  Future<List<MovieSummaryModel>> fetchPopularMovies({int page = 1});
-  Future<List<MovieSummaryModel>> fetchTopRatedMovies({int page = 1});
-  Future<List<MovieSummaryModel>> fetchUpcomingMovies({int page = 1});
+  Future<List<MovieSummaryModel>> fetchPopularMovies({int page = 1, List<int> genreIds = const []});
+  Future<List<MovieSummaryModel>> fetchTopRatedMovies({int page = 1, List<int> genreIds = const []});
+  Future<List<MovieSummaryModel>> fetchUpcomingMovies({int page = 1, List<int> genreIds = const []});
   Future<List<MovieSummaryModel>> searchMovie({
     required String query,
     int page = 1,

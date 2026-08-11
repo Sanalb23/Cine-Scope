@@ -21,6 +21,7 @@ import 'package:cine_scope/features/movies/presentation/utils/movie_runtime.dart
 import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
+import 'package:cine_scope/features/movies/presentation/genre_movies_screen/genre_movies_screen.dart';
 import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,22 @@ class MovieDetailsScreen extends ConsumerWidget {
                   spacing: AppSpacing.md,
                   runSpacing: AppSpacing.md,
                   children: data.genres
-                      .map((e) => GenreTag(genre: e.name))
+                      .map(
+                        (e) => GenreTag(
+                          genre: e.name,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => GenreMoviesScreen(
+                                  genreId: e.id,
+                                  genreName: e.name,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
                       .toList(),
                 ),
 

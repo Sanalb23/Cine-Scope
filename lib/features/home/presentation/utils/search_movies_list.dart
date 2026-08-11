@@ -13,14 +13,8 @@ class SearchMoviesList extends ConsumerWidget {
     final query = ref.watch(searchQueryProvider);
     final results = ref.watch(searchMoviesProvider(query));
 
-    return results.items.isEmpty
-        ? Center(
-            child: Text(
-              query.isNotEmpty
-                  ? 'no_movies_found'.tr()
-                  : 'search_for_a_movie'.tr(),
-            ),
-          )
+    return query.isEmpty
+        ? Center(child: Text('search_for_a_movie'.tr()))
         : PaginatedMoviesList(
             fetchCallback: () =>
                 ref.read(searchMoviesProvider(query).notifier).fetchMore(),

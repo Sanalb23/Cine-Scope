@@ -4,15 +4,15 @@ import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 abstract class MovieRepository {
   Future<List<MovieSummary>> fetchPopularMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   });
   Future<List<MovieSummary>> fetchTopRatedMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   });
   Future<List<MovieSummary>> fetchUpcomingMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   });
   Future<List<MovieSummary>> searchMovie({required String query, int page = 1});
   Future<Movie> fetchMovieById({required int id});
@@ -26,7 +26,7 @@ abstract class MovieRepository {
   bool isFavorite(int id);
   Future<List<MovieSummary>> fetchFavoriteMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   });
 
   Future<void> addToWatchList(int id);
@@ -34,6 +34,6 @@ abstract class MovieRepository {
   bool isInWatchList(int id);
   Future<List<MovieSummary>> fetchWatchListMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   });
 }

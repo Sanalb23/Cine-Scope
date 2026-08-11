@@ -17,7 +17,7 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<List<MovieSummary>> fetchPopularMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     final movies = await _remoteDatasource.fetchPopularMovies(
       page: page,
@@ -29,7 +29,7 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<List<MovieSummary>> fetchTopRatedMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     final movies = await _remoteDatasource.fetchTopRatedMovies(
       page: page,
@@ -41,7 +41,7 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<List<MovieSummary>> fetchUpcomingMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     final movies = await _remoteDatasource.fetchUpcomingMovies(
       page: page,
@@ -94,7 +94,7 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<List<MovieSummary>> fetchFavoriteMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     final ids = _localDatasource.getFavorites();
 
@@ -118,7 +118,7 @@ class MovieRepositoryImpl implements MovieRepository {
         .toList();
 
     // Filter by genre if genreIds are provided
-    if (genreIds != null && genreIds.isNotEmpty) {
+    if (genreIds.isNotEmpty) {
       filteredResults = filteredResults
           .where((x) => x.genreIds.any((id) => genreIds.contains(id)))
           .toList();
@@ -145,7 +145,7 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<List<MovieSummary>> fetchWatchListMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     final ids = _localDatasource.getWatchList();
 
@@ -169,7 +169,7 @@ class MovieRepositoryImpl implements MovieRepository {
         .toList();
 
     // Filter by genre if genreIds are provided
-    if (genreIds != null && genreIds.isNotEmpty) {
+    if (genreIds.isNotEmpty) {
       filteredResults = filteredResults
           .where((x) => x.genreIds.any((id) => genreIds.contains(id)))
           .toList();

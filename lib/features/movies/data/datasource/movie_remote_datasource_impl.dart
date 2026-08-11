@@ -74,7 +74,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   @override
   Future<List<MovieSummaryModel>> fetchPopularMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     return await fetchMoviesList(
       endpoint: '/discover/movie?sort_by=popularity.desc',
@@ -86,7 +86,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   @override
   Future<List<MovieSummaryModel>> fetchTopRatedMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     const int minVoteCount = 300;
 
@@ -101,7 +101,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   @override
   Future<List<MovieSummaryModel>> fetchUpcomingMovies({
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     final DateTime now = DateTime.now();
 
@@ -160,7 +160,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
   Future<List<MovieSummaryModel>> fetchMoviesList({
     required String endpoint,
     int page = 1,
-    List<int>? genreIds,
+    List<int> genreIds = const [],
   }) async {
     MovieSummaryModel buildMovieSummaryModel(Map<String, dynamic> json) {
       final movie = MovieSummaryModel.fromJson(json);
@@ -172,7 +172,7 @@ class MovieRemoteDatasourceImpl implements MovieRemoteDatasource {
     }
 
     String genreQuery = '';
-    if (genreIds != null && genreIds.isNotEmpty) {
+    if (genreIds.isNotEmpty) {
       genreQuery = '&with_genres=${genreIds.join(',')}';
     }
 

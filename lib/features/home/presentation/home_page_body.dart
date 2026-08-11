@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_genre_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/local/selected_genres_provider.dart';
+import 'package:cine_scope/features/movies/presentation/utils/selected_genres_chips.dart';
 
 class HomePageBody extends ConsumerWidget {
   const HomePageBody({super.key});
@@ -29,6 +30,9 @@ class HomePageBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final listState = ref.watch(moviesByCategoryProvider);
 
+    final genres = ref.watch(movieGenreProvider);
+    final selectedGenres = ref.watch(selectedGenresProvider);
+
     final popupMenuButton = PopupMenuButton<MovieListCategory>(
       tooltip: 'explore_movies'.tr(),
       icon: const Icon(Icons.filter_list),
@@ -44,8 +48,6 @@ class HomePageBody extends ConsumerWidget {
       },
     );
 
-    final selectedGenres = ref.watch(selectedGenresProvider);
-
     final clearGenre = PopupMenuItem(
       child: Row(
         spacing: AppSpacing.lg,
@@ -54,38 +56,36 @@ class HomePageBody extends ConsumerWidget {
       onTap: () => ref.read(selectedGenresProvider.notifier).clearGenres(),
     );
 
-    final genrePopup = ref
-        .watch(movieGenreProvider)
-        .when(
-          data: (genres) {
-            return PopupMenuButton(
-              tooltip: 'filter_by_genre'.tr(),
-              icon: const Icon(Icons.label_outline),
-              itemBuilder: (context) {
-                return [
-                  if (selectedGenres.isNotEmpty) clearGenre,
-                  ...genres.entries.map((entry) {
-                    return CheckedPopupMenuItem<int>(
-                      value: entry.key,
-                      checked: selectedGenres.contains(entry.key),
-                      child: Text(entry.value),
-                    );
-                  }),
-                ];
-              },
-              onSelected: (value) {
-                final currentState = ref.read(selectedGenresProvider);
-                if (currentState.contains(value)) {
-                  ref.read(selectedGenresProvider.notifier).removeGenre(value);
-                } else {
-                  ref.read(selectedGenresProvider.notifier).addGenre(value);
-                }
-              },
-            );
+    final genrePopup = genres.when(
+      data: (genres) {
+        return PopupMenuButton(
+          tooltip: 'filter_by_genre'.tr(),
+          icon: const Icon(Icons.label_outline),
+          itemBuilder: (context) {
+            return [
+              if (selectedGenres.isNotEmpty) clearGenre,
+              ...genres.entries.map((entry) {
+                return CheckedPopupMenuItem<int>(
+                  value: entry.key,
+                  checked: selectedGenres.contains(entry.key),
+                  child: Text(entry.value),
+                );
+              }),
+            ];
           },
-          error: (error, stackTrace) => const SizedBox.shrink(),
-          loading: () => const SkeletonPlaceholder(isCircle: true),
+          onSelected: (value) {
+            final currentState = ref.read(selectedGenresProvider);
+            if (currentState.contains(value)) {
+              ref.read(selectedGenresProvider.notifier).removeGenre(value);
+            } else {
+              ref.read(selectedGenresProvider.notifier).addGenre(value);
+            }
+          },
         );
+      },
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const SkeletonPlaceholder(isCircle: true),
+    );
 
     return PaginatedMoviesList(
       fetchCallback: listState.fetchCallback,
@@ -93,6 +93,7 @@ class HomePageBody extends ConsumerWidget {
       state: listState.state,
       title: listState.category.title,
       actions: [genrePopup, popupMenuButton],
+      tags: const SelectedGenresChips(),
     );
   }
 }

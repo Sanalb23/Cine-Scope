@@ -3,6 +3,8 @@ import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_l
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cine_scope/features/movies/presentation/utils/genre_filter_button.dart';
+import 'package:cine_scope/features/movies/presentation/utils/selected_genres_chips.dart';
 
 class WatchListBody extends ConsumerWidget {
   const WatchListBody({super.key});
@@ -17,6 +19,8 @@ class WatchListBody extends ConsumerWidget {
       retryCallback: () => ref.read(watchListMoviesProvider.notifier).retry(),
       state: movies,
       title: 'watch_list'.tr(),
+      actions: const [GenreFilterButton()],
+      tags: const SelectedGenresChips(),
     );
   }
 }

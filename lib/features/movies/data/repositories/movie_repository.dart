@@ -16,15 +16,24 @@ abstract class MovieRepository {
   });
   Future<List<MovieSummary>> searchMovie({required String query, int page = 1});
   Future<Movie> fetchMovieById({required int id});
-  Future<List<MovieSummary>> fetchSimilarMovies({required int id, int page = 1});
+  Future<List<MovieSummary>> fetchSimilarMovies({
+    required int id,
+    int page = 1,
+  });
 
   Future<void> addFavorite(int id);
   Future<void> removeFavorite(int id);
   bool isFavorite(int id);
-  Future<List<MovieSummary>> fetchFavoriteMovies({int page = 1});
+  Future<List<MovieSummary>> fetchFavoriteMovies({
+    int page = 1,
+    List<int>? genreIds,
+  });
 
   Future<void> addToWatchList(int id);
   Future<void> removeFromWatchList(int id);
   bool isInWatchList(int id);
-  Future<List<MovieSummary>> fetchWatchListMovies({int page = 1});
+  Future<List<MovieSummary>> fetchWatchListMovies({
+    int page = 1,
+    List<int>? genreIds,
+  });
 }

@@ -74,7 +74,10 @@ class MovieRepositoryImpl implements MovieRepository {
     required int id,
     int page = 1,
   }) async {
-    final movies = await _remoteDatasource.fetchSimilarMovies(id: id, page: page);
+    final movies = await _remoteDatasource.fetchSimilarMovies(
+      id: id,
+      page: page,
+    );
     return movies.map((x) => x.toDomain()).toList();
   }
 
@@ -89,7 +92,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> fetchFavoriteMovies({int page = 1}) async {
+  Future<List<MovieSummary>> fetchFavoriteMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
     final ids = _localDatasource.getFavorites();
 
     final paginatedIds = _paginatedList(page, ids);
@@ -105,8 +111,20 @@ class MovieRepositoryImpl implements MovieRepository {
     });
 
     final results = await Future.wait(futures);
+
     // Filter out the nulls
-    return results.whereType<MovieSummary>().toList();
+    List<MovieSummary> filteredResults = results
+        .whereType<MovieSummary>()
+        .toList();
+
+    // Filter by genre if genreIds are provided
+    if (genreIds != null && genreIds.isNotEmpty) {
+      filteredResults = filteredResults
+          .where((x) => x.genreIds.any((id) => genreIds.contains(id)))
+          .toList();
+    }
+
+    return filteredResults;
   }
 
   @override
@@ -125,7 +143,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<List<MovieSummary>> fetchWatchListMovies({int page = 1}) async {
+  Future<List<MovieSummary>> fetchWatchListMovies({
+    int page = 1,
+    List<int>? genreIds,
+  }) async {
     final ids = _localDatasource.getWatchList();
 
     final paginatedIds = _paginatedList(page, ids);
@@ -141,8 +162,20 @@ class MovieRepositoryImpl implements MovieRepository {
     });
 
     final results = await Future.wait(futures);
+
     // Filter out the nulls
-    return results.whereType<MovieSummary>().toList();
+    List<MovieSummary> filteredResults = results
+        .whereType<MovieSummary>()
+        .toList();
+
+    // Filter by genre if genreIds are provided
+    if (genreIds != null && genreIds.isNotEmpty) {
+      filteredResults = filteredResults
+          .where((x) => x.genreIds.any((id) => genreIds.contains(id)))
+          .toList();
+    }
+
+    return filteredResults;
   }
 
   @override

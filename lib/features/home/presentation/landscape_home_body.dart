@@ -67,6 +67,7 @@ class LandscapeHomeBody extends ConsumerWidget {
 
       body: context.isWideScreen
           ? Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   width: (context.screenWidth * 0.15).clamp(180, 300),

@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/theme/utils/update_theme_web_color.dart';
 import 'package:cine_scope/features/settings/domain/providers/settings_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,7 @@ class AppThemeNotifier extends Notifier<ThemeMode> {
 
   Future<void> setTheme(ThemeMode theme) async {
     await ref.read(settingsRepositoryProvider).setTheme(theme);
+    updateWebThemeColor(theme);
     state = theme;
   }
 

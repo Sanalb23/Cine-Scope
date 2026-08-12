@@ -21,7 +21,11 @@ class LanguageDropdownMenu extends ConsumerWidget {
         }
       },
       items: context.supportedLocales.map((Locale locale) {
-        final label = locale.languageCode == 'es' ? 'Español' : 'English';
+        final label = switch (locale.languageCode) {
+          'es' => 'Español',
+          'en' => 'English',
+          _ => locale.languageCode,
+        };
         return DropdownMenuItem<Locale>(value: locale, child: Text(label));
       }).toList(),
     );

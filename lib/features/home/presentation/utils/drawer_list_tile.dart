@@ -4,20 +4,29 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WatchListListTile extends ConsumerWidget {
-  const WatchListListTile({super.key});
+class DrawerListTile extends ConsumerWidget {
+  final IconData icon;
+  final String title;
+  final HomeBody homeBody;
+
+  const DrawerListTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.homeBody,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedBody = ref.watch(homeBodyProvider);
-    final isSelected = selectedBody == HomeBody.watchList;
+    final isSelected = selectedBody == homeBody;
 
     return ListTile(
       selected: isSelected,
-      leading: const Icon(Icons.watch_later),
-      title: Text('watch_list'.tr()),
+      leading: Icon(icon),
+      title: Text(title.tr()),
       onTap: () {
-        ref.read(homeBodyProvider.notifier).switchHomeBody(HomeBody.watchList);
+        ref.read(homeBodyProvider.notifier).switchHomeBody(homeBody);
         if (!context.isWideScreen) {
           Navigator.of(context).pop();
         }

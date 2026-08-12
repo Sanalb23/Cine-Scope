@@ -2,14 +2,12 @@ import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
-import 'package:cine_scope/features/home/presentation/utils/favorites_list_tile.dart';
+import 'package:cine_scope/features/home/presentation/utils/drawer_list_tile.dart';
 import 'package:cine_scope/features/home/presentation/utils/home_drawer.dart';
-import 'package:cine_scope/features/home/presentation/utils/home_list_tile.dart';
 import 'package:cine_scope/features/home/presentation/utils/language_dropdown_menu.dart';
 import 'package:cine_scope/features/home/presentation/utils/movie_search_bar.dart';
 import 'package:cine_scope/features/home/presentation/utils/search_movies_list.dart';
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
-import 'package:cine_scope/features/home/presentation/utils/watch_list_list_tile.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
 import 'package:cine_scope/features/movies/presentation/favorites_body.dart';
 import 'package:cine_scope/features/movies/presentation/watch_list_body.dart';
@@ -73,9 +71,21 @@ class LandscapeHomeBody extends ConsumerWidget {
                   width: (context.screenWidth * 0.15).clamp(180, 300),
                   child: const NavigationDrawer(
                     children: [
-                      HomeListTile(),
-                      FavoritesListTile(),
-                      WatchListListTile(),
+                      DrawerListTile(
+                        icon: Icons.home,
+                        title: 'home',
+                        homeBody: HomeBody.home,
+                      ),
+                      DrawerListTile(
+                        icon: Icons.bookmark,
+                        title: 'favorites',
+                        homeBody: HomeBody.favorites,
+                      ),
+                      DrawerListTile(
+                        icon: Icons.watch_later,
+                        title: 'watch_list',
+                        homeBody: HomeBody.watchList,
+                      ),
                     ],
                   ),
                 ),

@@ -44,6 +44,8 @@ class LandscapeHomeBody extends ConsumerWidget {
       child: activeBody,
     );
 
+    final appbarSpacer = const SizedBox(width: AppSpacing.md);
+
     return Scaffold(
       appBar: AppBar(
         title: Container(
@@ -52,14 +54,18 @@ class LandscapeHomeBody extends ConsumerWidget {
           child: Image.asset('assets/images/logo/icon_logo.png'),
         ),
         centerTitle: false,
-        actionsPadding: const EdgeInsets.only(right: AppSpacing.xxxl),
+        actionsPadding: const EdgeInsets.only(
+          right: NavigationToolbar.kMiddleSpacing,
+        ),
         actions: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
             width: context.screenWidth * 0.25,
             child: const MovieSearchBar(),
           ),
+          appbarSpacer,
           const SwitchThemeButton(),
+          appbarSpacer,
           const LanguageDropdownMenu(),
         ],
       ),

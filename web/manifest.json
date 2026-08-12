@@ -3,7 +3,7 @@
     "short_name": "cine_scope",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#FFFFFF",
+    "background_color": "#365a8e",
     "theme_color": "#FFFFFF",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",

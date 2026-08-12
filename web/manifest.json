@@ -1,6 +1,6 @@
 {
-    "name": "cine_scope",
-    "short_name": "cine_scope",
+    "name": "CineScope",
+    "short_name": "CineScope",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#365a8e",

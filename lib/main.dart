@@ -51,6 +51,7 @@ class MainApp extends ConsumerWidget {
     });
 
     return MaterialApp(
+      title: 'CineScope',
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       theme: AppTheme.light,

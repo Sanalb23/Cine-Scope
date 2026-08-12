@@ -16,7 +16,7 @@ class SettingsRepository {
       case 'light':
         return ThemeMode.light;
       default:
-        return ThemeMode.dark;
+        return ThemeMode.system;
     }
   }
 

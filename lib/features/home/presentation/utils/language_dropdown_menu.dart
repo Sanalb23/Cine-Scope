@@ -14,9 +14,9 @@ class LanguageDropdownMenu extends ConsumerWidget {
       value: currentLocale,
       icon: const Icon(Icons.language),
       underline: const SizedBox(),
-      onChanged: (Locale? newLocale) {
+      onChanged: (Locale? newLocale) async {
         if (newLocale != null) {
-          context.setLocale(newLocale);
+          await context.setLocale(newLocale);
           ref.read(localeProvider.notifier).setLocale(newLocale);
         }
       },

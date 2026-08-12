@@ -11,7 +11,6 @@ import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
 import 'package:cine_scope/features/movies/presentation/favorites_body.dart';
 import 'package:cine_scope/features/movies/presentation/watch_list_body.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,7 +46,11 @@ class LandscapeHomeBody extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('app_name'.tr(), style: context.textTheme.displayMedium),
+        title: Container(
+          height: kToolbarHeight,
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          child: Image.asset('assets/images/logo/icon_logo.png'),
+        ),
         centerTitle: false,
         actionsPadding: const EdgeInsets.only(right: AppSpacing.xxxl),
         actions: [

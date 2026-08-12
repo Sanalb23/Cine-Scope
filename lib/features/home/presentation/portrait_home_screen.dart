@@ -1,4 +1,3 @@
-import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
 import 'package:cine_scope/features/home/presentation/home_body_content.dart';
@@ -56,7 +55,7 @@ class _PortraitHomeScreenState extends ConsumerState<PortraitHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('app_name'.tr(), style: context.textTheme.displaySmall),
+        title: Image.asset('assets/images/logo/logo.png'),
         centerTitle: true,
         actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
         actions: [const SwitchThemeButton()],

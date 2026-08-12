@@ -36,10 +36,7 @@ class HomeDrawer extends ConsumerWidget {
             homeBody: HomeBody.watchList,
           ),
           const Divider(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: LanguageDropdownMenu(),
-          ),
+          const LanguageDropdownMenu(),
         ],
       ),
     );

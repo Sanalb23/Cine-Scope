@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/providers/locale_provider.dart';
+import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,8 +13,12 @@ class LanguageDropdownMenu extends ConsumerWidget {
 
     return DropdownButton<Locale>(
       value: currentLocale,
-      icon: const Icon(Icons.language),
+      icon: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+        child: const Icon(Icons.language),
+      ),
       underline: const SizedBox(),
+      borderRadius: BorderRadius.circular(8),
       onChanged: (Locale? newLocale) async {
         if (newLocale != null) {
           await context.setLocale(newLocale);

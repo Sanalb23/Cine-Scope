@@ -1,4 +1,5 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
+import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class DrawerListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(localeProvider);
     final selectedBody = ref.watch(homeBodyProvider);
     final isSelected = selectedBody == homeBody;
 

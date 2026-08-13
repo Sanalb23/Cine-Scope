@@ -78,7 +78,7 @@ class CountDownBanner extends ConsumerWidget {
 
     final areRemindersActive = notificationState.value?.isScheduled ?? false;
 
-    final isEnabled = daysUntilRelease > 0 || notificationState.isLoading;
+    final isEnabled = daysUntilRelease > 0 && !notificationState.isLoading;
 
     final title = areRemindersActive
         ? 'notification_set'.tr()

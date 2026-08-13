@@ -9,6 +9,7 @@ class ScheduledNotificationModel {
   final String channelName;
   final String? localPosterPath;
   final String? localBackdropPath;
+  final String? payload;
 
   ScheduledNotificationModel({
     required this.id,
@@ -19,6 +20,7 @@ class ScheduledNotificationModel {
     required this.channelName,
     this.localPosterPath,
     this.localBackdropPath,
+    this.payload,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class ScheduledNotificationModel {
       'channelName': channelName,
       'posterPath': localPosterPath,
       'backdropPath': localBackdropPath,
+      'payload': payload,
     };
   }
 
@@ -44,6 +47,7 @@ class ScheduledNotificationModel {
       channelName: map['channelName'] ?? '',
       localPosterPath: map['posterPath'],
       localBackdropPath: map['backdropPath'],
+      payload: map['payload'],
     );
   }
 

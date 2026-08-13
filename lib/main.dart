@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:cine_scope/core/globals.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_details_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +51,7 @@ class MainApp extends ConsumerWidget {
     });
 
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'CineScope',
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -57,6 +60,19 @@ class MainApp extends ConsumerWidget {
       themeMode: themeMode,
       locale: context.locale,
       home: const HomeScreen(),
+      onGenerateRoute: (settings) {
+        if (settings.name != null &&
+            settings.name!.startsWith('/movie_details_screen/')) {
+          final movieIdStr = settings.name!.split('/').last;
+          final movieId = int.tryParse(movieIdStr);
+          if (movieId != null) {
+            return MaterialPageRoute(
+              builder: (context) => MovieDetailsScreen(id: movieId),
+            );
+          }
+        }
+        return null;
+      },
     );
   }
 }

@@ -19,10 +19,14 @@ class MovieNotificationUtils {
 
     await _scheduleReleaseReminder(
       releaseReminderId,
+
       movieTitle,
+
       releaseDate,
       posterPath,
       backdropPath,
+
+      movieId,
     );
 
     final daysUntilRelease = daysUntilReleaseDate(releaseDate);
@@ -36,6 +40,7 @@ class MovieNotificationUtils {
         releaseDate,
         posterPath,
         backdropPath,
+        movieId,
       );
     }
   }
@@ -67,6 +72,7 @@ class MovieNotificationUtils {
     DateTime releaseDate,
     String? posterPath,
     String? backdropPath,
+    int movieId,
   ) async {
     final reminderDate = releaseDate.subtract(const Duration(days: 3));
 
@@ -81,6 +87,7 @@ class MovieNotificationUtils {
       priority: Priority.defaultPriority,
       posterPath: posterPath,
       backdropPath: backdropPath,
+      payload: '/movie_details_screen/$movieId',
     );
   }
 
@@ -90,6 +97,7 @@ class MovieNotificationUtils {
     DateTime releaseDate,
     String? posterPath,
     String? backdropPath,
+    int movieId,
   ) async {
     await _notificationService.scheduleNotification(
       id: uniqueId,
@@ -102,6 +110,7 @@ class MovieNotificationUtils {
       priority: Priority.high,
       posterPath: posterPath,
       backdropPath: backdropPath,
+      payload: '/movie_details_screen/$movieId',
     );
   }
 

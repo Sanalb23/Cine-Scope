@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/utils/get_cached_image_path.dart';
 import 'package:cine_scope/features/notifications/models/scheduled_notification_model.dart';
 import 'package:cine_scope/features/notifications/services/notification_local_datasource.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -53,7 +54,19 @@ class NotificationService {
     Importance importance = Importance.max,
     Priority priority = Priority.high,
     bool saveToDataSource = true,
+    String? posterPath,
+    String? backdropPath,
   }) async {
+    String? localPosterPath;
+    String? localBackdropPath;
+
+    if (posterPath != null && posterPath.isNotEmpty) {
+      localPosterPath = await getCachedImagePath(posterPath);
+    }
+    if (backdropPath != null && backdropPath.isNotEmpty) {
+      localBackdropPath = await getCachedImagePath(backdropPath);
+    }
+
     if (saveToDataSource) {
       final model = ScheduledNotificationModel(
         id: id,
@@ -62,9 +75,20 @@ class NotificationService {
         scheduledTime: scheduledTime,
         channelId: channelId,
         channelName: channelName,
+        localPosterPath: localPosterPath,
+        localBackdropPath: localBackdropPath,
       );
       await _dataSource.saveNotification(model);
     }
+
+    final posterBitmap = localPosterPath != null && localPosterPath.isNotEmpty
+        ? FilePathAndroidBitmap(localPosterPath)
+        : null;
+
+    final backdropBitmap =
+        localBackdropPath != null && localBackdropPath.isNotEmpty
+        ? FilePathAndroidBitmap(localBackdropPath)
+        : null;
 
     await _notificationsPlugin.zonedSchedule(
       id: id,
@@ -77,6 +101,10 @@ class NotificationService {
           channelName,
           importance: importance,
           priority: priority,
+          largeIcon: posterBitmap,
+          styleInformation: backdropBitmap != null
+              ? BigPictureStyleInformation(backdropBitmap)
+              : null,
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,

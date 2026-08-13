@@ -7,6 +7,8 @@ class ScheduledNotificationModel {
   final DateTime scheduledTime;
   final String channelId;
   final String channelName;
+  final String? localPosterPath;
+  final String? localBackdropPath;
 
   ScheduledNotificationModel({
     required this.id,
@@ -15,6 +17,8 @@ class ScheduledNotificationModel {
     required this.scheduledTime,
     required this.channelId,
     required this.channelName,
+    this.localPosterPath,
+    this.localBackdropPath,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +29,8 @@ class ScheduledNotificationModel {
       'scheduledTime': scheduledTime.toIso8601String(),
       'channelId': channelId,
       'channelName': channelName,
+      'posterPath': localPosterPath,
+      'backdropPath': localBackdropPath,
     };
   }
 
@@ -36,10 +42,13 @@ class ScheduledNotificationModel {
       scheduledTime: DateTime.parse(map['scheduledTime']),
       channelId: map['channelId'] ?? '',
       channelName: map['channelName'] ?? '',
+      localPosterPath: map['posterPath'],
+      localBackdropPath: map['backdropPath'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ScheduledNotificationModel.fromJson(String source) => ScheduledNotificationModel.fromMap(json.decode(source));
+  factory ScheduledNotificationModel.fromJson(String source) =>
+      ScheduledNotificationModel.fromMap(json.decode(source));
 }

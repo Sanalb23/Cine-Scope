@@ -12,10 +12,18 @@ class MovieNotificationUtils {
     required int movieId,
     required String movieTitle,
     required DateTime releaseDate,
+    required String? posterPath,
+    required String? backdropPath,
   }) async {
     final releaseReminderId = _buildReleaseReminderId(movieId);
 
-    await _scheduleReleaseReminder(releaseReminderId, movieTitle, releaseDate);
+    await _scheduleReleaseReminder(
+      releaseReminderId,
+      movieTitle,
+      releaseDate,
+      posterPath,
+      backdropPath,
+    );
 
     final daysUntilRelease = daysUntilReleaseDate(releaseDate);
     if (daysUntilRelease == null) return;
@@ -26,6 +34,8 @@ class MovieNotificationUtils {
         countdownReminderId,
         movieTitle,
         releaseDate,
+        posterPath,
+        backdropPath,
       );
     }
   }
@@ -55,6 +65,8 @@ class MovieNotificationUtils {
     int uniqueId,
     String movieTitle,
     DateTime releaseDate,
+    String? posterPath,
+    String? backdropPath,
   ) async {
     final reminderDate = releaseDate.subtract(const Duration(days: 3));
 
@@ -67,6 +79,8 @@ class MovieNotificationUtils {
       channelName: 'movie_countdown'.tr(),
       importance: Importance.defaultImportance,
       priority: Priority.defaultPriority,
+      posterPath: posterPath,
+      backdropPath: backdropPath,
     );
   }
 
@@ -74,6 +88,8 @@ class MovieNotificationUtils {
     int uniqueId,
     String movieTitle,
     DateTime releaseDate,
+    String? posterPath,
+    String? backdropPath,
   ) async {
     await _notificationService.scheduleNotification(
       id: uniqueId,
@@ -84,6 +100,8 @@ class MovieNotificationUtils {
       channelName: 'movie_releases'.tr(),
       importance: Importance.max,
       priority: Priority.high,
+      posterPath: posterPath,
+      backdropPath: backdropPath,
     );
   }
 

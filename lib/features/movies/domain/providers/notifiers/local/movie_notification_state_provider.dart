@@ -21,7 +21,12 @@ class MovieNotificationStateNotifier
     return MovieNotificationState.success(isScheduled: isScheduled);
   }
 
-  Future<void> toggleState(String movieTitle, DateTime releaseDate) async {
+  Future<void> toggleState(
+    String movieTitle,
+    DateTime releaseDate,
+    String? posterPath,
+    String? backdropPath,
+  ) async {
     if (state.isLoading) return;
 
     final isCurrentlyScheduled = state.value?.isScheduled ?? false;
@@ -69,6 +74,8 @@ class MovieNotificationStateNotifier
           movieId: movieId,
           movieTitle: movieTitle,
           releaseDate: releaseDate,
+          posterPath: posterPath,
+          backdropPath: backdropPath,
         );
 
         final watchListState = ref.read(isInWatchListProvider(movieId));

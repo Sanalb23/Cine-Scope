@@ -13,11 +13,15 @@ class CountDownBanner extends ConsumerWidget {
     required this.movieTitle,
     required this.releaseDate,
     required this.daysUntilRelease,
+    required this.posterPath,
+    required this.backdropPath,
   });
   final int movieId;
   final String movieTitle;
   final DateTime releaseDate;
   final int daysUntilRelease;
+  final String? posterPath;
+  final String? backdropPath;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -108,7 +112,12 @@ class CountDownBanner extends ConsumerWidget {
       description: description,
       isActive: areRemindersActive,
       onClick: isEnabled
-          ? () => notificationStateNotifier.toggleState(movieTitle, releaseDate)
+          ? () => notificationStateNotifier.toggleState(
+              movieTitle,
+              releaseDate,
+              posterPath,
+              backdropPath,
+            )
           : null,
       icon: icon,
     );

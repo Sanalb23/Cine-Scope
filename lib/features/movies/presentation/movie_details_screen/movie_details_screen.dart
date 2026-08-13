@@ -62,6 +62,8 @@ class MovieDetailsScreen extends ConsumerWidget {
                           movieTitle: data.title,
                           releaseDate: data.releaseDate,
                           daysUntilRelease: daysUntilRelease,
+                          posterPath: data.posterPath,
+                          backdropPath: data.backdropPath,
                         )
                 : SizedBox.shrink();
 

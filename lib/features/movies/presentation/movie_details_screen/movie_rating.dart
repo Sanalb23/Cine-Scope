@@ -1,5 +1,6 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class MovieRating extends StatelessWidget {
@@ -31,7 +32,7 @@ class MovieRating extends StatelessWidget {
           style: context.textTheme.bodyLarge,
         ),
         Text(
-          '($formattedVoteCount votes)',
+          'votes'.tr(args: [formattedVoteCount]),
           style: context.textTheme.labelSmall,
         ),
       ],

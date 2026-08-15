@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:cine_scope/core/utils/get_cached_image_path.dart';
 import 'package:cine_scope/features/notifications/models/scheduled_notification_model.dart';
 import 'package:cine_scope/features/notifications/services/notification_local_datasource.dart';
@@ -15,7 +16,7 @@ class NotificationService {
 
   Future<void> initNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/launcher_icon');
+        AndroidInitializationSettings('ic_stat');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
@@ -129,6 +130,7 @@ class NotificationService {
           styleInformation: backdropBitmap != null
               ? BigPictureStyleInformation(backdropBitmap)
               : null,
+          color: const Color(0xFF00C6FF),
         ),
       ),
       payload: payload,

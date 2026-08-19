@@ -3,14 +3,20 @@ import 'dart:async';
 import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/movies/domain/entities/watch_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_watch_providers_repository_provider.dart';
+import 'package:cine_scope/features/settings/domain/providers/settings_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SelectedWatchProviderRegionNotifier extends Notifier<String?> {
   @override
-  String? build() => null;
+  String? build() {
+    return ref.watch(settingsRepositoryProvider).getWatchProviderRegion();
+  }
 
-  void setRegion(String? region) {
-    state = region;
+  Future<void> setRegion(String? region) async {
+    if (region != null && region != state) {
+      state = region;
+      await ref.read(settingsRepositoryProvider).setWatchProviderRegion(region);
+    }
   }
 }
 

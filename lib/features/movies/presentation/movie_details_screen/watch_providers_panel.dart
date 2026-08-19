@@ -67,11 +67,9 @@ class WatchProvidersContent extends ConsumerWidget {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  if (value != null && value != selectedRegion) {
-                    ref
-                        .read(selectedWatchProviderRegionProvider.notifier)
-                        .setRegion(value);
-                  }
+                  ref
+                      .read(selectedWatchProviderRegionProvider.notifier)
+                      .setRegion(value);
                 },
               );
             },

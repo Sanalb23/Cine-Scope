@@ -40,4 +40,12 @@ class SettingsRepository {
   Future<void> setHasSeenWatchlistTooltip(bool seen) async {
     await _settingsLocalDatasource.setHasSeenWatchlistTooltip(seen);
   }
+
+  String? getWatchProviderRegion() {
+    return _settingsLocalDatasource.getWatchProviderRegion();
+  }
+
+  Future<void> setWatchProviderRegion(String region) async {
+    await _settingsLocalDatasource.setWatchProviderRegion(region);
+  }
 }

@@ -1,26 +1,27 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:cine_scope/features/movies/domain/entities/watch_provider.dart';
-import 'package:cine_scope/features/movies/domain/entities/watch_provider_region.dart';
+import 'package:cine_scope/features/movies/data/models/watch_provider_model.dart';
+import 'package:cine_scope/features/movies/data/models/watch_provider_region_model.dart';
 
-abstract class MovieWatchProvidersDatasource {
-  Future<Map<WatchProviderType, List<WatchProvider>>> fetchWatchProviders({
+abstract class MovieWatchProvidersRemoteDatasource {
+  Future<Map<WatchProviderType, List<WatchProviderModel>>> fetchWatchProviders({
     required int movieId,
     required String locale,
     required String region,
   });
 
-  Future<List<WatchProviderRegion>> fetchWatchProviderRegions({
+  Future<List<WatchProviderRegionModel>> fetchWatchProviderRegions({
     required String locale,
   });
 }
 
-class MovieWatchProvidersDatasourceImpl
-    implements MovieWatchProvidersDatasource {
+class MovieWatchProvidersRemoteDatasourceImpl
+    implements MovieWatchProvidersRemoteDatasource {
   final http.Client _httpClient;
   final String _apiKey;
 
-  MovieWatchProvidersDatasourceImpl({
+  MovieWatchProvidersRemoteDatasourceImpl({
     required http.Client httpClient,
     required String apiKey,
   }) : _httpClient = httpClient,
@@ -31,7 +32,7 @@ class MovieWatchProvidersDatasourceImpl
   }
 
   @override
-  Future<Map<WatchProviderType, List<WatchProvider>>> fetchWatchProviders({
+  Future<Map<WatchProviderType, List<WatchProviderModel>>> fetchWatchProviders({
     required int movieId,
     required String locale,
     required String region,
@@ -48,21 +49,20 @@ class MovieWatchProvidersDatasourceImpl
 
       final countryData = results[region] as Map<String, dynamic>? ?? {};
 
-      final Map<WatchProviderType, List<WatchProvider>> providers = {};
+      final Map<WatchProviderType, List<WatchProviderModel>> providers = {};
 
       void parseProviders(String key, WatchProviderType type) {
         if (countryData.containsKey(key)) {
-          final list = (countryData[key] as List)
-              .map(
-                (e) => WatchProvider(
-                  id: e['provider_id'] as int,
-                  name: e['provider_name'] as String,
-                  logoPath: e['logo_path'] != null
-                      ? _buildLogoUrl(e['logo_path'] as String)
-                      : null,
-                ),
-              )
-              .toList();
+          final list = (countryData[key] as List).map((e) {
+            final model = WatchProviderModel.fromJson(
+              e as Map<String, dynamic>,
+            );
+            return model.copyWith(
+              logoPath: model.logoPath != null
+                  ? _buildLogoUrl(model.logoPath!)
+                  : null,
+            );
+          }).toList();
           providers[type] = list;
         }
       }
@@ -80,7 +80,7 @@ class MovieWatchProvidersDatasourceImpl
   }
 
   @override
-  Future<List<WatchProviderRegion>> fetchWatchProviderRegions({
+  Future<List<WatchProviderRegionModel>> fetchWatchProviderRegions({
     required String locale,
   }) async {
     final url = Uri.parse(
@@ -95,10 +95,7 @@ class MovieWatchProvidersDatasourceImpl
 
       return results
           .map(
-            (e) => WatchProviderRegion(
-              iso31661: e['iso_3166_1'] as String,
-              nativeName: e['native_name'] as String,
-            ),
+            (e) => WatchProviderRegionModel.fromJson(e as Map<String, dynamic>),
           )
           .toList();
     } else {

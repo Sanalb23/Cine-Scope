@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/movies/domain/entities/watch_provider.dart';
-import 'package:cine_scope/features/movies/domain/providers/movie_watch_providers_datasource_provider.dart';
+import 'package:cine_scope/features/movies/domain/providers/movie_watch_providers_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SelectedWatchProviderRegionNotifier extends Notifier<String?> {
@@ -32,14 +32,14 @@ final movieWatchProvidersProvider = FutureProvider.autoDispose
 
       ref.onDispose(() => timer.cancel());
 
-      final datasource = ref.watch(movieWatchProvidersDatasourceProvider);
+      final repository = ref.watch(movieWatchProvidersRepositoryProvider);
 
       final locale = ref.watch(localeProvider).toLanguageTag();
       final region = ref.watch(selectedWatchProviderRegionProvider);
 
       if (region == null) return {};
 
-      return datasource.fetchWatchProviders(
+      return repository.getWatchProviders(
         movieId: movieId,
         region: region,
         locale: locale,

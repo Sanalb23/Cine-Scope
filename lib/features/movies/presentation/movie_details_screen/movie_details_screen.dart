@@ -13,6 +13,7 @@ import 'package:cine_scope/features/movies/presentation/movie_details_screen/mov
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/movie_rating.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/trailer_button.dart';
 import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_list_button.dart';
+import 'package:cine_scope/features/movies/presentation/movie_details_screen/watch_providers_panel.dart';
 import 'package:cine_scope/features/movies/presentation/utils/days_until_release_date.dart';
 import 'package:cine_scope/features/movies/presentation/utils/genre_tag.dart';
 import 'package:cine_scope/features/movies/presentation/utils/movie_poster.dart';
@@ -53,6 +54,8 @@ class MovieDetailsScreen extends ConsumerWidget {
               height: 44,
               child: TrailerButton(trailerPath: data.trailerPath),
             );
+
+            final watchProvidersWidget = WatchProvidersPanel(movieId: id);
 
             final countdownWidget = daysUntilRelease != null
                 ? kIsWeb
@@ -249,12 +252,35 @@ class MovieDetailsScreen extends ConsumerWidget {
                               ] else ...[
                                 Expanded(child: primaryInfoColumn),
                               ],
+
+                              if (isLandscape)
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: AppSpacing.sm,
+                                      horizontal: AppSpacing.xxxl,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: .start,
+                                      spacing: AppSpacing.md,
+                                      children: [
+                                        Text(
+                                          'watch_providers'.tr(),
+                                          style: context.textTheme.titleLarge,
+                                        ),
+                                        const Divider(),
+                                        WatchProvidersContent(movieId: id),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
 
                           if (!isLandscape) ...[
                             countdownWidget,
                             trailerButtonWidget,
+                            watchProvidersWidget,
                             overviewWidget,
                           ],
 

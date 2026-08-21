@@ -53,5 +53,15 @@
     "filter_by_genre": "Filter by genre",
     "clear_filter": "Clear filter",
     "popularity": "POPULARITY: {}",
-    "votes": "({} votes)"
+    "votes": "({} votes)",
+    "watch_providers": "Watch Providers",
+    "region": "Region",
+    "error_loading_regions": "Error loading regions",
+    "no_watch_providers_found": "No watch providers found for this region.",
+    "stream": "Stream",
+    "rent": "Rent",
+    "buy": "Buy",
+    "ads": "Ads",
+    "free": "Free",
+    "error_loading_watch_providers": "Error loading watch providers"
 }

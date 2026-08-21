@@ -20,4 +20,12 @@ class SettingsLocalDatasource {
   Future<void> setHasSeenWatchlistTooltip(bool seen) async {
     await _prefs.setBool('has_seen_watchlist_tooltip', seen);
   }
+
+  String? getWatchProviderRegion() {
+    return _prefs.getString('watch_provider_region');
+  }
+
+  Future<void> setWatchProviderRegion(String region) async {
+    await _prefs.setString('watch_provider_region', region);
+  }
 }

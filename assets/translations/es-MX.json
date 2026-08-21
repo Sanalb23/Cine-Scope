@@ -53,5 +53,15 @@
     "filter_by_genre": "Filtrar por género",
     "clear_filter": "Limpiar filtro",
     "popularity": "POPULARIDAD: {}",
-    "votes": "({} votos)"
+    "votes": "({} votos)",
+    "watch_providers": "Proveedores de contenido",
+    "region": "Región",
+    "error_loading_regions": "Error al cargar las regiones",
+    "no_watch_providers_found": "No se encontraron proveedores de contenido para esta región.",
+    "stream": "Streaming",
+    "rent": "Rentar",
+    "buy": "Comprar",
+    "ads": "Anuncios",
+    "free": "Gratis",
+    "error_loading_watch_providers": "Error al cargar los proveedores de contenido"
 }

@@ -77,6 +77,7 @@ class MovieDetailsScreen extends ConsumerWidget {
               spacing: AppSpacing.md,
               children: [
                 Text(movieTitle, style: context.textTheme.headlineMedium),
+                MovieOriginalLanguage(originalLanguage: data.originalLanguage),
                 MovieReleaseDate(releaseDate: data.releaseDate),
                 MovieRuntime(runtime: data.runtime),
                 MoviePopularity(popularity: data.popularity),
@@ -315,6 +316,32 @@ class MovieDetailsScreen extends ConsumerWidget {
               onPressed: () => ref.invalidate(movieProvider(id)),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class MovieOriginalLanguage extends StatelessWidget {
+  const MovieOriginalLanguage({super.key, required this.originalLanguage});
+
+  final String originalLanguage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm / 2,
+      ),
+      decoration: BoxDecoration(
+        color: context.colors.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(AppSpacing.sm),
+      ),
+      child: Text(
+        originalLanguage.toUpperCase(),
+        style: context.textTheme.labelLarge?.copyWith(
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

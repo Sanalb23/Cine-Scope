@@ -47,8 +47,7 @@ class PaginatedMoviesList extends ConsumerWidget {
               ),
             ),
           ],
-
-          if (tags != null) tags!,
+          ?tags,
 
           MoviesList(state: state, retryCallback: retryCallback),
         ],

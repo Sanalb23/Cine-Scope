@@ -23,6 +23,7 @@ import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
 import 'package:cine_scope/features/movies/presentation/utils/no_image_avaliable.dart';
 import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
 import 'package:cine_scope/features/movies/presentation/genre_movies_screen/genre_movies_screen.dart';
+import 'package:cine_scope/core/utils/scroll_to_top_button.dart';
 import 'package:cine_scope/features/pagination/utils/paginated_scroll_handler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -170,144 +171,156 @@ class MovieDetailsScreen extends ConsumerWidget {
               ),
             );
 
-            return PaginatedScrollHandler(
-              fetchCallback: () =>
-                  ref.read(similarMoviesProvider(id).notifier).fetchMore(),
-              child: CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    expandedHeight: context.screenDiagonal * 0.175,
-                    pinned: true,
-                    leading: Center(
-                      child: AppBarButton(
-                        icon: Icons.arrow_back,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ),
-                    actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
-                    actions: [
-                      FavoriteButton(movieId: id, movieTitle: data.title),
-                      const SizedBox(width: AppSpacing.md),
-                      WatchListButton(movieId: id, movieTitle: data.title),
-                    ],
-                    flexibleSpace: LayoutBuilder(
-                      builder: (context, constraints) {
-                        double topPadding = MediaQuery.of(context).padding.top;
-
-                        final isCollapsed =
-                            constraints.maxHeight <=
-                            kToolbarHeight + topPadding;
-
-                        return FlexibleSpaceBar(
-                          title: isCollapsed ? Text(movieTitle) : null,
-                          background: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              data.backdropPath != null
-                                  ? CachedNetworkImage(
-                                      imageUrl: data.backdropPath!,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          const SkeletonPlaceholder(),
-                                      errorWidget: (context, url, error) =>
-                                          const _BackdropErrorWidget(),
-                                    )
-                                  : const _BackdropErrorWidget(),
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Colors.transparent,
-                                      context.theme.scaffoldBackgroundColor,
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+            return ScrollToTopButton(
+              builder: (context, controller) {
+                return PaginatedScrollHandler(
+                  fetchCallback: () =>
+                      ref.read(similarMoviesProvider(id).notifier).fetchMore(),
+                  child: CustomScrollView(
+                    controller: controller,
+                    slivers: [
+                      SliverAppBar(
+                        expandedHeight: context.screenDiagonal * 0.175,
+                        pinned: true,
+                        leading: Center(
+                          child: AppBarButton(
+                            icon: Icons.arrow_back,
+                            onPressed: () => Navigator.pop(context),
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        ),
+                        actionsPadding: const EdgeInsets.only(
+                          right: AppSpacing.md,
+                        ),
+                        actions: [
+                          FavoriteButton(movieId: id, movieTitle: data.title),
+                          const SizedBox(width: AppSpacing.md),
+                          WatchListButton(movieId: id, movieTitle: data.title),
+                        ],
+                        flexibleSpace: LayoutBuilder(
+                          builder: (context, constraints) {
+                            double topPadding = MediaQuery.of(
+                              context,
+                            ).padding.top;
 
-                  SliverPadding(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    sliver: SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: .start,
-                        spacing: AppSpacing.xxl,
-                        children: [
-                          Row(
+                            final isCollapsed =
+                                constraints.maxHeight <=
+                                kToolbarHeight + topPadding;
+
+                            return FlexibleSpaceBar(
+                              title: isCollapsed ? Text(movieTitle) : null,
+                              background: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  data.backdropPath != null
+                                      ? CachedNetworkImage(
+                                          imageUrl: data.backdropPath!,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              const SkeletonPlaceholder(),
+                                          errorWidget: (context, url, error) =>
+                                              const _BackdropErrorWidget(),
+                                        )
+                                      : const _BackdropErrorWidget(),
+                                  DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.transparent,
+                                          context.theme.scaffoldBackgroundColor,
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+                      SliverPadding(
+                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        sliver: SliverToBoxAdapter(
+                          child: Column(
                             crossAxisAlignment: .start,
-                            spacing: AppSpacing.xl,
+                            spacing: AppSpacing.xxl,
                             children: [
-                              moviePoster,
+                              Row(
+                                crossAxisAlignment: .start,
+                                spacing: AppSpacing.xl,
+                                children: [
+                                  moviePoster,
 
-                              if (context.screenWidth >= 1200) ...[
-                                SizedBox(
-                                  width: context.screenWidth * 0.3,
-                                  child: primaryInfoColumn,
-                                ),
-                              ] else ...[
-                                Expanded(child: primaryInfoColumn),
+                                  if (context.screenWidth >= 1200) ...[
+                                    SizedBox(
+                                      width: context.screenWidth * 0.3,
+                                      child: primaryInfoColumn,
+                                    ),
+                                  ] else ...[
+                                    Expanded(child: primaryInfoColumn),
+                                  ],
+
+                                  if (isLandscape)
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: AppSpacing.sm,
+                                          horizontal: AppSpacing.xxxl,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: .start,
+                                          spacing: AppSpacing.md,
+                                          children: [
+                                            Text(
+                                              'watch_providers'.tr(),
+                                              style:
+                                                  context.textTheme.titleLarge,
+                                            ),
+                                            const Divider(),
+                                            WatchProvidersContent(movieId: id),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+
+                              if (!isLandscape) ...[
+                                countdownWidget,
+                                trailerButtonWidget,
+                                watchProvidersWidget,
+                                overviewWidget,
                               ],
 
-                              if (isLandscape)
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: AppSpacing.sm,
-                                      horizontal: AppSpacing.xxxl,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: .start,
-                                      spacing: AppSpacing.md,
-                                      children: [
-                                        Text(
-                                          'watch_providers'.tr(),
-                                          style: context.textTheme.titleLarge,
-                                        ),
-                                        const Divider(),
-                                        WatchProvidersContent(movieId: id),
-                                      ],
-                                    ),
+                              const Divider(),
+                              Column(
+                                crossAxisAlignment: .start,
+                                spacing: AppSpacing.lg,
+                                children: [
+                                  Text(
+                                    'similar_movies'.tr(),
+                                    style: context.textTheme.headlineSmall,
                                   ),
-                                ),
-                            ],
-                          ),
-
-                          if (!isLandscape) ...[
-                            countdownWidget,
-                            trailerButtonWidget,
-                            watchProvidersWidget,
-                            overviewWidget,
-                          ],
-
-                          const Divider(),
-                          Column(
-                            crossAxisAlignment: .start,
-                            spacing: AppSpacing.lg,
-                            children: [
-                              Text(
-                                'similar_movies'.tr(),
-                                style: context.textTheme.headlineSmall,
-                              ),
-                              MoviesList(
-                                state: similarMovies,
-                                retryCallback: () => ref
-                                    .read(similarMoviesProvider(id).notifier)
-                                    .retry(),
+                                  MoviesList(
+                                    state: similarMovies,
+                                    retryCallback: () => ref
+                                        .read(
+                                          similarMoviesProvider(id).notifier,
+                                        )
+                                        .retry(),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
           loading: () => const MovieDetailsSkeleton(),

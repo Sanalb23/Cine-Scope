@@ -74,7 +74,7 @@ class LandscapeHomeBody extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: (context.screenWidth * 0.15).clamp(180, 300),
+                  width: (context.screenWidth * 0.25).clamp(180, 300),
                   child: const NavigationDrawer(
                     children: [
                       DrawerListTile(

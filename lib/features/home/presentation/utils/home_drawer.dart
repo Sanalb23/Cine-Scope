@@ -35,6 +35,11 @@ class HomeDrawer extends ConsumerWidget {
             title: 'watch_list',
             homeBody: HomeBody.watchList,
           ),
+          const DrawerListTile(
+            icon: Icons.info_outline,
+            title: 'about',
+            homeBody: HomeBody.about,
+          ),
           const Divider(),
           const LanguageDropdownMenu(),
         ],

@@ -4,6 +4,7 @@ enum HomeBody {
   home,
   favorites,
   watchList,
+  about,
 }
 
 final homeBodyProvider = NotifierProvider<HomeBodyNotifier, HomeBody>(

@@ -20,10 +20,7 @@ class _PortraitHomeScreenState extends ConsumerState<PortraitHomeScreen> {
   int _selectedPage = 0;
 
   final _pages = [
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: const HomeBodyContent(),
-    ),
+    const HomeBodyContent(),
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: const SearchPageBody(),

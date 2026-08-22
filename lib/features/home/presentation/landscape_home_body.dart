@@ -39,10 +39,7 @@ class LandscapeHomeBody extends ConsumerWidget {
       }
     }
 
-    var body = Padding(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      child: activeBody,
-    );
+    var body = activeBody;
 
     final appbarSpacer = const SizedBox(width: AppSpacing.md);
 

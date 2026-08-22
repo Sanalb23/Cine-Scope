@@ -30,26 +30,34 @@ class PaginatedMoviesList extends ConsumerWidget {
 
     return PaginatedScrollHandler(
       fetchCallback: fetchCallback,
-      child: ListView(
-        padding: const EdgeInsets.only(bottom: listSpacing),
+      child: CustomScrollView(
         shrinkWrap: true,
-        children: [
-          if (title.isNotEmpty) ...[
-            SizedBox(
-              height: kToolbarHeight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(title, style: context.textTheme.headlineSmall),
-                  const Spacer(),
-                  ...actions,
-                ],
-              ),
+        slivers: [
+          if (title.isNotEmpty)
+            SliverAppBar(
+              leadingWidth: 0,
+              leading: SizedBox.shrink(),
+              backgroundColor: context.theme.scaffoldBackgroundColor,
+              floating: true,
+              snap: true,
+              title: Text(title, style: context.textTheme.headlineSmall),
+              actions: actions,
             ),
-          ],
-          ?tags,
-
-          MoviesList(state: state, retryCallback: retryCallback),
+          if (tags != null)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              sliver: SliverToBoxAdapter(child: tags),
+            ),
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              bottom: listSpacing,
+              right: AppSpacing.lg,
+              left: AppSpacing.lg,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: MoviesList(state: state, retryCallback: retryCallback),
+            ),
+          ),
         ],
       ),
     );

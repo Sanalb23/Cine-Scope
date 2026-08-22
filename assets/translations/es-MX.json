@@ -63,5 +63,7 @@
     "buy": "Comprar",
     "ads": "Anuncios",
     "free": "Gratis",
-    "error_loading_watch_providers": "Error al cargar los proveedores de contenido"
+    "error_loading_watch_providers": "Error al cargar los proveedores de contenido",
+    "about": "Acerca de",
+    "tmdb_attribution": "Este producto utiliza la API de TMDB pero no está avalado ni certificado por TMDB."
 }

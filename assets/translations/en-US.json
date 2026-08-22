@@ -63,5 +63,7 @@
     "buy": "Buy",
     "ads": "Ads",
     "free": "Free",
-    "error_loading_watch_providers": "Error loading watch providers"
+    "error_loading_watch_providers": "Error loading watch providers",
+    "about": "About",
+    "tmdb_attribution": "This product uses the TMDB API but is not endorsed or certified by TMDB."
 }

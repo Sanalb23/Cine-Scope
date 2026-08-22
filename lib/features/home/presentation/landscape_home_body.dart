@@ -1,6 +1,7 @@
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
+import 'package:cine_scope/features/home/presentation/about_body.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
 import 'package:cine_scope/features/home/presentation/utils/drawer_list_tile.dart';
 import 'package:cine_scope/features/home/presentation/utils/home_drawer.dart';
@@ -35,6 +36,9 @@ class LandscapeHomeBody extends ConsumerWidget {
           break;
         case HomeBody.watchList:
           activeBody = const WatchListBody();
+          break;
+        case HomeBody.about:
+          activeBody = const AboutBody();
           break;
       }
     }
@@ -91,6 +95,11 @@ class LandscapeHomeBody extends ConsumerWidget {
                         icon: Icons.watch_later,
                         title: 'watch_list',
                         homeBody: HomeBody.watchList,
+                      ),
+                      DrawerListTile(
+                        icon: Icons.info_outline,
+                        title: 'about',
+                        homeBody: HomeBody.about,
                       ),
                     ],
                   ),

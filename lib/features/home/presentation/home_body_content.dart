@@ -1,4 +1,5 @@
 import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
+import 'package:cine_scope/features/home/presentation/about_body.dart';
 import 'package:cine_scope/features/home/presentation/home_page_body.dart';
 import 'package:cine_scope/features/movies/presentation/favorites_body.dart';
 import 'package:cine_scope/features/movies/presentation/watch_list_body.dart';
@@ -18,6 +19,8 @@ class HomeBodyContent extends ConsumerWidget {
         return const FavoritesBody();
       case HomeBody.watchList:
         return const WatchListBody();
+      case HomeBody.about:
+        return const AboutBody();
     }
   }
 }

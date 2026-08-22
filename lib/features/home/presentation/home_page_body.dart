@@ -1,8 +1,10 @@
 import 'package:cine_scope/features/movies/data/enum/movie_list_category_enum.dart';
 import 'package:cine_scope/features/movies/data/enum/movie_list_category_enum_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:cine_scope/core/utils/custom_sliver_app_bar.dart';
 import 'package:cine_scope/features/movies/domain/providers/movies_by_category_provider.dart';
-import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:cine_scope/features/pagination/utils/paginated_custom_scroll_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,13 +45,31 @@ class HomePageBody extends ConsumerWidget {
       },
     );
 
-    return PaginatedMoviesList(
+    return PaginatedCustomScrollView(
       fetchCallback: listState.fetchCallback,
-      retryCallback: listState.retryCallback,
-      state: listState.state,
-      title: listState.category.title,
-      actions: [const GenreFilterButton(), popupMenuButton],
-      tags: const SelectedGenresChips(),
+      slivers: [
+        CustomSliverAppBar(
+          titleText: listState.category.title,
+          actions: [const GenreFilterButton(), popupMenuButton],
+        ),
+        const SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          sliver: SliverToBoxAdapter(child: SelectedGenresChips()),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.only(
+            bottom: AppSpacing.xl,
+            right: AppSpacing.lg,
+            left: AppSpacing.lg,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: MoviesList(
+              state: listState.state,
+              retryCallback: listState.retryCallback,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

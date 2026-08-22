@@ -1,7 +1,7 @@
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/features/home/domain/providers/home_body_provider.dart';
 import 'package:cine_scope/features/home/presentation/home_body_content.dart';
-import 'package:cine_scope/features/home/presentation/search_page_body.dart';
+import 'package:cine_scope/features/home/presentation/utils/search_movies_list.dart';
 import 'package:cine_scope/features/home/presentation/utils/home_drawer.dart';
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,10 +21,7 @@ class _PortraitHomeScreenState extends ConsumerState<PortraitHomeScreen> {
 
   final _pages = [
     const HomeBodyContent(),
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: const SearchPageBody(),
-    ),
+    const SearchMoviesList(),
   ];
 
   @override

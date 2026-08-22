@@ -13,15 +13,17 @@ class MoviesList extends StatelessWidget {
     super.key,
     required this.state,
     required this.retryCallback,
+    this.emptyText,
   });
 
   final PaginatedState<MovieSummary> state;
   final VoidCallback retryCallback;
+  final String? emptyText;
 
   @override
   Widget build(BuildContext context) {
     if (state.items.isEmpty && !state.isLoading && !state.hasError) {
-      return Center(child: Text('no_movies_found'.tr()));
+      return Center(child: Text(emptyText ?? 'no_movies_found'.tr()));
     }
 
     return Column(

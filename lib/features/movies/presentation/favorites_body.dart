@@ -1,5 +1,8 @@
+import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:cine_scope/core/utils/custom_sliver_app_bar.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/favorite_movies_provider.dart';
-import 'package:cine_scope/features/movies/presentation/utils/paginated_movies_list.dart';
+import 'package:cine_scope/features/movies/presentation/utils/movies_list.dart';
+import 'package:cine_scope/features/pagination/utils/paginated_custom_scroll_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,14 +16,33 @@ class FavoritesBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final movies = ref.watch(favoriteMoviesProvider);
 
-    return PaginatedMoviesList(
+    return PaginatedCustomScrollView(
       fetchCallback: () =>
           ref.read(favoriteMoviesProvider.notifier).fetchMore(),
-      retryCallback: () => ref.read(favoriteMoviesProvider.notifier).retry(),
-      state: movies,
-      title: 'favorites'.tr(),
-      actions: const [GenreFilterButton()],
-      tags: const SelectedGenresChips(),
+      slivers: [
+        CustomSliverAppBar(
+          titleText: 'favorites'.tr(),
+          actions: const [GenreFilterButton()],
+        ),
+        const SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          sliver: SliverToBoxAdapter(child: SelectedGenresChips()),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.only(
+            bottom: AppSpacing.xl,
+            right: AppSpacing.lg,
+            left: AppSpacing.lg,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: MoviesList(
+              state: movies,
+              retryCallback: () =>
+                  ref.read(favoriteMoviesProvider.notifier).retry(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

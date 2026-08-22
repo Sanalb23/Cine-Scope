@@ -30,35 +30,43 @@ class PaginatedMoviesList extends ConsumerWidget {
 
     return PaginatedScrollHandler(
       fetchCallback: fetchCallback,
-      child: CustomScrollView(
-        shrinkWrap: true,
-        slivers: [
-          if (title.isNotEmpty)
-            SliverAppBar(
-              leadingWidth: 0,
-              leading: SizedBox.shrink(),
-              backgroundColor: context.theme.scaffoldBackgroundColor,
-              floating: true,
-              snap: true,
-              title: Text(title, style: context.textTheme.headlineSmall),
-              actions: actions,
-            ),
-          if (tags != null)
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          padding: MediaQuery.of(context).padding.copyWith(left: 0, right: 0),
+          viewPadding: MediaQuery.of(
+            context,
+          ).viewPadding.copyWith(left: 0, right: 0),
+        ),
+        child: CustomScrollView(
+          shrinkWrap: true,
+          slivers: [
+            if (title.isNotEmpty)
+              SliverAppBar(
+                leadingWidth: 0,
+                automaticallyImplyLeading: false,
+                backgroundColor: context.theme.scaffoldBackgroundColor,
+                floating: true,
+                snap: true,
+                title: Text(title, style: context.textTheme.headlineSmall),
+                actions: actions,
+              ),
+            if (tags != null)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                sliver: SliverToBoxAdapter(child: tags),
+              ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              sliver: SliverToBoxAdapter(child: tags),
+              padding: const EdgeInsets.only(
+                bottom: listSpacing,
+                right: AppSpacing.lg,
+                left: AppSpacing.lg,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: MoviesList(state: state, retryCallback: retryCallback),
+              ),
             ),
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              bottom: listSpacing,
-              right: AppSpacing.lg,
-              left: AppSpacing.lg,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: MoviesList(state: state, retryCallback: retryCallback),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

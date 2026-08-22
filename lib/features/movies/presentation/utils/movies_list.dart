@@ -24,11 +24,14 @@ class MoviesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.items.isEmpty && !state.isLoading && !state.hasError) {
-      return Center(
-        child: Text(
-          emptyText ?? 'no_movies_found'.tr(),
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: context.colors.onSurfaceVariant.withValues(alpha: 0.8),
+      return ConstrainedBox(
+        constraints: BoxConstraints(minHeight: context.screenHeight * 0.6),
+        child: Center(
+          child: Text(
+            emptyText ?? 'no_movies_found'.tr(),
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colors.onSurfaceVariant.withValues(alpha: 0.8),
+            ),
           ),
         ),
       );

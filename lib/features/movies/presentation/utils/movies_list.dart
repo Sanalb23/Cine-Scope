@@ -1,3 +1,4 @@
+import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:cine_scope/core/utils/try_again_later.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
@@ -23,7 +24,14 @@ class MoviesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state.items.isEmpty && !state.isLoading && !state.hasError) {
-      return Center(child: Text(emptyText ?? 'no_movies_found'.tr()));
+      return Center(
+        child: Text(
+          emptyText ?? 'no_movies_found'.tr(),
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: context.colors.onSurfaceVariant.withValues(alpha: 0.8),
+          ),
+        ),
+      );
     }
 
     return Column(

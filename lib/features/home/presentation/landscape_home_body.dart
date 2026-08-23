@@ -39,9 +39,7 @@ class LandscapeHomeBody extends ConsumerWidget {
               left: AppSpacing.lg,
               top: AppSpacing.md,
             ),
-            sliver: SliverToBoxAdapter(
-              child: SearchMoviesList(),
-            ),
+            sliver: SliverToBoxAdapter(child: SearchMoviesList()),
           ),
         ],
       );
@@ -68,10 +66,21 @@ class LandscapeHomeBody extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          height: kToolbarHeight,
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          child: Image.asset('assets/images/logo/icon_logo.png'),
+        title: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () {
+              ref
+                  .read(homeBodyProvider.notifier)
+                  .switchHomeBody(HomeBody.home);
+              ref.read(searchQueryProvider.notifier).clearSearchQuery();
+            },
+            child: Container(
+              height: kToolbarHeight,
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+              child: Image.asset('assets/images/logo/icon_logo.png'),
+            ),
+          ),
         ),
         centerTitle: false,
         actionsPadding: const EdgeInsets.only(

@@ -27,4 +27,9 @@ class SearchQueryNotifier extends Notifier<String> {
       () => state = query,
     );
   }
+
+  void clearSearchQuery() {
+    _debounceTimer?.cancel();
+    state = '';
+  }
 }

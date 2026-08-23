@@ -100,7 +100,12 @@ class _WatchProvidersList extends ConsumerWidget {
         if (providersMap.isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(AppSpacing.md),
-            child: Text('no_watch_providers_found'.tr()),
+            child: Text(
+              'no_watch_providers_found'.tr(),
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colors.onSurfaceVariant.withValues(alpha: 0.8),
+              ),
+            ),
           );
         }
 

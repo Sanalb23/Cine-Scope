@@ -19,10 +19,7 @@ class _PortraitHomeScreenState extends ConsumerState<PortraitHomeScreen> {
   late final PageController _pageController;
   int _selectedPage = 0;
 
-  final _pages = [
-    const HomeBodyContent(),
-    const SearchMoviesBody(),
-  ];
+  final _pages = [const HomeBodyContent(), const SearchMoviesBody()];
 
   @override
   void initState() {
@@ -49,7 +46,10 @@ class _PortraitHomeScreenState extends ConsumerState<PortraitHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('assets/images/logo/logo.png'),
+        title: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 320),
+          child: Image.asset('assets/images/logo/logo.png'),
+        ),
         centerTitle: true,
         actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
         actions: [const SwitchThemeButton()],

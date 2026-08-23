@@ -50,7 +50,11 @@ class HomePageBody extends ConsumerWidget {
       slivers: [
         CustomSliverAppBar(
           titleText: listState.category.title,
-          actions: [const GenreFilterButton(), popupMenuButton],
+          actions: [
+            const GenreFilterButton(),
+            const SizedBox(width: AppSpacing.md),
+            popupMenuButton,
+          ],
         ),
         const SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),

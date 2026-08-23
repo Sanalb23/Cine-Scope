@@ -17,6 +17,11 @@ class MovieDetailsSkeleton extends StatelessWidget {
       width: double.infinity,
     );
 
+    final watchProvidersWidget = const SkeletonPlaceholder(
+      height: 50,
+      width: double.infinity,
+    );
+
     final overviewWidget = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: AppSpacing.sm,
@@ -132,10 +137,39 @@ class MovieDetailsSkeleton extends StatelessWidget {
                     ] else ...[
                       Expanded(child: primaryInfoColumn),
                     ],
+
+                    if (isLandscape)
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppSpacing.sm,
+                            horizontal: AppSpacing.xxxl,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: AppSpacing.md,
+                            children: [
+                              const SkeletonPlaceholder(
+                                height: 28,
+                                width: 150,
+                              ),
+                              const Divider(),
+                              const SkeletonPlaceholder(
+                                height: 50,
+                                width: double.infinity,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                   ],
                 ),
 
-                if (!isLandscape) ...[trailerButtonWidget, overviewWidget],
+                if (!isLandscape) ...[
+                  trailerButtonWidget,
+                  watchProvidersWidget,
+                  overviewWidget,
+                ],
 
                 // Similar movies title
                 const SkeletonPlaceholder(height: 28, width: 150),

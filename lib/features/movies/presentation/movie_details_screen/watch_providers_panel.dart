@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_scope/core/extensions/context_extensions.dart';
 import 'package:cine_scope/core/theme/data/app_theme.dart';
+import 'package:cine_scope/core/utils/skeleton_placeholder.dart';
 import 'package:cine_scope/features/movies/domain/entities/watch_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_watch_provider_regions_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_watch_providers_provider.dart';
@@ -73,7 +74,8 @@ class WatchProvidersContent extends ConsumerWidget {
                 },
               );
             },
-            loading: () => const SizedBox.shrink(),
+            loading: () =>
+                const SkeletonPlaceholder(height: 50, width: double.infinity),
             error: (_, _) => Text('error_loading_regions'.tr()),
           ),
         ),

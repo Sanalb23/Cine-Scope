@@ -3,15 +3,21 @@ import 'package:cine_scope/core/theme/data/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
-  const CustomSliverAppBar({super.key, required this.titleText, this.actions});
+  const CustomSliverAppBar({
+    super.key,
+    this.leading,
+    required this.titleText,
+    this.actions,
+  });
 
+  final Widget? leading;
   final String titleText;
   final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      leadingWidth: 0,
+      leading: leading,
       automaticallyImplyLeading: false,
       backgroundColor: context.theme.scaffoldBackgroundColor,
       surfaceTintColor: Colors.transparent,

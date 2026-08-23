@@ -9,9 +9,11 @@ import 'package:cine_scope/features/home/presentation/utils/language_dropdown_me
 import 'package:cine_scope/features/home/presentation/utils/movie_search_bar.dart';
 import 'package:cine_scope/features/home/presentation/utils/search_movies_list.dart';
 import 'package:cine_scope/features/home/presentation/utils/switch_theme_button.dart';
+import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_movies_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/notifiers/remote/search_movies/search_query_provider.dart';
 import 'package:cine_scope/features/movies/presentation/favorites_body.dart';
 import 'package:cine_scope/features/movies/presentation/watch_list_body.dart';
+import 'package:cine_scope/features/pagination/utils/paginated_custom_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,11 +23,28 @@ class LandscapeHomeBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedBody = ref.watch(homeBodyProvider);
-    final isSearching = ref.watch(searchQueryProvider).isNotEmpty;
+    final query = ref.watch(searchQueryProvider);
+    final isSearching = query.isNotEmpty;
 
     Widget activeBody;
     if (isSearching) {
-      activeBody = const SearchMoviesList();
+      activeBody = PaginatedCustomScrollView(
+        fetchCallback: () =>
+            ref.read(searchMoviesProvider(query).notifier).fetchMore(),
+        slivers: [
+          const SliverPadding(
+            padding: EdgeInsets.only(
+              bottom: AppSpacing.xl,
+              right: AppSpacing.lg,
+              left: AppSpacing.lg,
+              top: AppSpacing.md,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: SearchMoviesList(),
+            ),
+          ),
+        ],
+      );
     } else {
       switch (selectedBody) {
         case HomeBody.home:

@@ -81,6 +81,8 @@ class NotificationService {
     String? backdropPath,
     String? payload,
   }) async {
+    if (!scheduledTime.isAfter(DateTime.now())) return;
+
     String? localPosterPath;
     String? localBackdropPath;
 

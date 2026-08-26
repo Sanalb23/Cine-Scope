@@ -25,7 +25,7 @@ class AboutBody extends StatelessWidget {
                     Image.asset('assets/images/logo/icon_logo.png', height: 75),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      'v1.0.0',
+                      'v1.0.1',
                       style: context.textTheme.bodyMedium?.copyWith(
                         color: context.colors.outline,
                       ),

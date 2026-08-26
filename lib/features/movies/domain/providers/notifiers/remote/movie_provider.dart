@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'package:cine_scope/core/extensions/ref_extensions.dart';
 import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/movies/data/utils/preload_backdrop.dart';
 import 'package:cine_scope/features/movies/domain/entities/movie.dart';
@@ -10,14 +10,7 @@ final movieProvider = FutureProvider.autoDispose.family<Movie, int>((
   id,
 ) async {
   ref.watch(localeProvider);
-
-  final link = ref.keepAlive();
-
-  final timer = Timer(const Duration(minutes: 3), () {
-    link.close();
-  });
-
-  ref.onDispose(() => timer.cancel());
+  ref.cache();
 
   final movie = await ref.read(movieRepositoryProvider).fetchMovieById(id: id);
 

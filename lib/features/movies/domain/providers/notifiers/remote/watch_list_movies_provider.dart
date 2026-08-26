@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cine_scope/features/movies/domain/entities/movie_summary.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_repository_provider.dart';
 import 'package:cine_scope/features/pagination/models/paginated_state.dart';
@@ -14,19 +12,7 @@ final watchListMoviesProvider =
 
 class WatchListMoviesNotifier extends BasePaginatedGenreMoviesNotifier {
   @override
-  PaginatedState<MovieSummary> build() {
-    final link = ref.keepAlive();
-
-    final timer = Timer(const Duration(minutes: 3), () {
-      link.close();
-    });
-
-    ref.onDispose(() {
-      timer.cancel();
-    });
-
-    return super.build();
-  }
+  Duration get cacheDuration => const Duration(minutes: 1);
 
   @override
   Future<List<MovieSummary>> fetchItems(int page) async {

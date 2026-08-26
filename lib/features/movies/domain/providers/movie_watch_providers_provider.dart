@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:cine_scope/core/extensions/ref_extensions.dart';
 import 'package:cine_scope/core/providers/locale_provider.dart';
 import 'package:cine_scope/features/movies/domain/entities/watch_provider.dart';
 import 'package:cine_scope/features/movies/domain/providers/movie_watch_providers_repository_provider.dart';
@@ -30,13 +29,7 @@ final movieWatchProvidersProvider = FutureProvider.autoDispose
       ref,
       movieId,
     ) async {
-      final link = ref.keepAlive();
-
-      final timer = Timer(const Duration(minutes: 3), () {
-        link.close();
-      });
-
-      ref.onDispose(() => timer.cancel());
+      ref.cache(const Duration(minutes: 1));
 
       final repository = ref.watch(movieWatchProvidersRepositoryProvider);
 
